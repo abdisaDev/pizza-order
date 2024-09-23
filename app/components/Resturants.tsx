@@ -46,7 +46,7 @@ function Resturants() {
             Top Resturants
           </Typography>
         </Box>
-        <Slider arrows={false} centerPadding="500px" centerMode={true}>
+        <Slider arrows={false} centerMode={true} centerPadding="400px">
           {resturantData.map((data, index) => (
             <Resturant
               key={index}
