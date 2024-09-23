@@ -2,12 +2,16 @@ import { Box, Typography } from "@mui/material";
 import Me from "@/app/assets/me.jpg";
 import Image from "next/image";
 import Charge from "@/app/assets/charge.svg";
-function Resturants() {
+
+function Resturant(props: {
+  description: string;
+  name: string;
+  amount: string;
+}) {
   return (
     <>
       <Box
         sx={{
-          // height: "150px",
           width: "fit-content",
           display: "flex",
           alignItems: "center",
@@ -35,14 +39,11 @@ function Resturants() {
               }}
             />
             <Typography variant="h5" fontWeight="bolder">
-              Abdisa Dev
+              {props.name}
             </Typography>
           </Box>
           <Box>
-            <Typography>
-              In publishing and graphic design, Lorem ipsum is a placeholder
-              text commonly used to...
-            </Typography>
+            <Typography>{props.description}</Typography>
           </Box>
         </Box>
         <Box
@@ -61,7 +62,7 @@ function Resturants() {
           <Box>
             <Typography>Number of order</Typography>
             <Typography variant="h2" fontWeight="bolder" color="warning">
-              2K
+              {props.amount}
             </Typography>
           </Box>
         </Box>
@@ -70,4 +71,4 @@ function Resturants() {
   );
 }
 
-export default Resturants;
+export default Resturant;

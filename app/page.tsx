@@ -1,7 +1,7 @@
 import HeroPage from "./components/HeroPage";
 import NavigationBar from "./components/NavigationBar";
 import FeaturedPizza from "./components/FeaturedPizza";
-import Resturant from "./components/Resturant";
+import Resturants from "./components/Resturants";
 
 export default function Home() {
   return (
@@ -9,7 +9,7 @@ export default function Home() {
       <NavigationBar />
       <HeroPage />
       <FeaturedPizza />
-      <Resturant />
+      <Resturants />
     </>
   );
 }
