@@ -4,67 +4,67 @@ import {
   InputAdornment,
   TextField,
   Typography,
-} from '@mui/material';
-import HeroImage from '@/app/assets/hero-image.svg';
-import Image from 'next/image';
-import { Search as SearchIcon } from '@mui/icons-material';
+} from "@mui/material";
+import HeroImage from "@/app/assets/hero-image.svg";
+import Image from "next/image";
+import { Search as SearchIcon } from "@mui/icons-material";
 
 function HeroPage() {
   return (
     <>
       <Box
         sx={{
-          height: '80vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
+          height: "80vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
           background:
-            'linear-gradient(0deg, rgba(255,248,241,1) 0%, rgba(253,209,163,1) 60%, rgba(255,248,241,1) 100%)',
+            "linear-gradient(0deg, rgba(255,248,241,1) 0%, rgba(253,209,163,1) 60%, rgba(255,248,241,1) 100%)",
         }}
       >
-        <Box sx={{ width: '50%', height: '80%', mx: '5%' }}>
+        <Box sx={{ width: "50%", height: "80%", mx: "7%" }}>
           <Typography
-            variant='h1'
-            fontWeight='bolder'
+            variant="h1"
+            fontWeight="bolder"
             sx={{
-              color: '#FA8C16',
+              color: "#FA8C16",
               backgroundImage:
-                'linear-gradient(to right, #FA8C16 42%, #FCBE71 75%)',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              textFillColor: 'transparent',
-              WebkitTextFillColor: 'transparent',
-              fontSize: '200px',
+                "linear-gradient(to right, #FA8C16 42%, #FCBE71 75%)",
+              backgroundClip: "text",
+              WebkitBackgroundClip: "text",
+              textFillColor: "transparent",
+              WebkitTextFillColor: "transparent",
+              fontSize: "200px",
             }}
           >
             Order us
           </Typography>
-          <Typography variant='h4' ml={2}>
+          <Typography variant="h5" ml={4}>
             In publishing and graphic design, Lorem ipsum is a placeholder text
             commonly used to demonstrate the visual form of a document or a
             typeface without.
           </Typography>
           <Box>
             <TextField
-              placeholder='Search'
+              placeholder="Search"
               fullWidth
               slotProps={{
                 input: {
                   sx: {
-                    borderRadius: '50px',
-                    background: '#fff',
-                    border: 'none',
-                    p: '10px 30px',
-                    my: '20px',
+                    borderRadius: "50px",
+                    background: "#fff",
+                    border: "none",
+                    p: "10px 30px",
+                    my: "20px",
                   },
                   endAdornment: (
-                    <InputAdornment position='end'>
+                    <InputAdornment position="end">
                       <IconButton
-                        edge='start'
+                        edge="end"
                         sx={{
-                          background: '#FA8910',
-                          color: '#fff',
-                          p: 'fit-content',
+                          background: "#FA8910",
+                          color: "#fff",
+                          p: "fit-content",
                         }}
                       >
                         <SearchIcon />
@@ -77,7 +77,7 @@ function HeroPage() {
           </Box>
         </Box>
         <Box>
-          <Image src={HeroImage} alt='hero-image' />
+          <Image src={HeroImage} alt="hero-image" />
         </Box>
       </Box>
     </>

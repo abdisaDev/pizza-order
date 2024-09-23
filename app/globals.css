@@ -1,4 +1,4 @@
-@import url('https://fonts.cdnfonts.com/css/google-sans');
+@import url("https://fonts.cdnfonts.com/css/google-sans");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,7 +9,7 @@
 }
 
 * {
-  font-family: 'Product Sans' !important;
+  font-family: "Product Sans" !important;
 }
 
 body {
@@ -21,4 +21,29 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+.slick-dots {
+  position: relative;
+  top: 85%;
+}
+
+.slick-dots li button:before {
+  font-size: 12px;
+  color: lightgray;
+}
+
+.slick-dots li button:before {
+  content: "";
+  display: block;
+  background-color: grey;
+  border-radius: 50%;
+}
+
+.slick-dots li.slick-active button:before {
+  background-color: #ed6c02;
+}
+
+.slick-dots li {
+  width: 50px !important;
 }
