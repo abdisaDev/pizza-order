@@ -1,4 +1,16 @@
-import { Box, Button, Input } from '@mui/material';
+'use client';
+import { Box, Button, Input, TextField, Typography } from '@mui/material';
+import { Form, Formik } from 'formik';
+import Link from 'next/link';
+import { z } from 'zod';
+import { toFormikValidationSchema } from 'zod-formik-adapter';
+
+const registrationFormSchema = z.object({
+  email: z.string({ message: 'Required' }).email(),
+  password: z
+    .string({ message: 'Required' })
+    .min(8, 'Password must be at least 8 characters long'),
+});
 
 function AuthLogin() {
   return (
@@ -6,12 +18,8 @@ function AuthLogin() {
       <Box width='70%'>
         <Formik
           initialValues={{
-            name: '',
             email: '',
             password: '',
-            confirm_password: '',
-            location: '',
-            phone_number: '',
           }}
           onSubmit={() => {}}
           validationSchema={toFormikValidationSchema(registrationFormSchema)}
@@ -34,16 +42,6 @@ function AuthLogin() {
                 }}
               >
                 <TextField
-                  name='name'
-                  label='Name'
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.name}
-                  error={Boolean(errors.name && touched.name)}
-                  helperText={<span>{touched.name && errors.name}</span>}
-                  fullWidth
-                />
-                <TextField
                   name='email'
                   label='Email address'
                   onChange={handleChange}
@@ -61,42 +59,6 @@ function AuthLogin() {
                   value={values.name}
                   error={Boolean(errors.name && touched.name)}
                   helperText={<span>{touched.name && errors.name}</span>}
-                  fullWidth
-                />
-                <TextField
-                  name='confirm_password'
-                  label='Confirm Password'
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.password}
-                  error={Boolean(errors.password && touched.password)}
-                  helperText={
-                    <span>{touched.password && errors.password}</span>
-                  }
-                  fullWidth
-                />
-                <TextField
-                  name='location'
-                  label='Location'
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.location}
-                  error={Boolean(errors.location && touched.location)}
-                  helperText={
-                    <span>{touched.location && errors.location}</span>
-                  }
-                  fullWidth
-                />
-                <TextField
-                  name='phone_number'
-                  label='Phone Numer'
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.phone_number}
-                  error={Boolean(errors.phone_number && touched.phone_number)}
-                  helperText={
-                    <span>{touched.phone_number && errors.phone_number}</span>
-                  }
                   fullWidth
                 />
               </Box>
@@ -120,6 +82,14 @@ function AuthLogin() {
                 >
                   Login
                 </Button>
+              </Box>
+              <Box sx={{ textAlign: 'center', my: 2 }}>
+                <Typography>
+                  Have not an account?&ensp;
+                  <Link href='/auth/regiser' style={{ color: '#FB9922' }}>
+                    Sign up
+                  </Link>
+                </Typography>
               </Box>
             </Form>
           )}

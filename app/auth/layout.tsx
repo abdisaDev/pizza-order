@@ -18,8 +18,22 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
         >
           <Image src={Pizza} alt='pizza-image' style={{ width: '300px' }} />
         </Box>
-        <Box sx={{ width: '50%', m: '7% 0 0 15%' }}>
-          <Box>
+        <Box
+          sx={{
+            width: '50%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              alignSelf: 'start',
+              ml: 15,
+            }}
+          >
             <Image src={Logo} alt='logo' style={{ width: '150px' }} />
           </Box>
           {children}
