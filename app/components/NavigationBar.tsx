@@ -33,9 +33,11 @@ function NavigationBar() {
           <Link href='#'>Who are we</Link>
         </Box>
         <Box sx={{ width: '30%', display: 'flex', justifyContent: 'right' }}>
-          <Button variant='contained' color='warning' disableElevation>
-            Register
-          </Button>
+          <Link href='/auth/register'>
+            <Button variant='contained' color='warning' disableElevation>
+              Register
+            </Button>
+          </Link>
         </Box>
       </Box>
     </>

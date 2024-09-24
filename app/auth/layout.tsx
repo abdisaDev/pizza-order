@@ -9,7 +9,7 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
       <Box sx={{ width: '100vw', height: '100vh', display: 'flex' }}>
         <Box
           sx={{
-            width: '45%',
+            width: '50%',
             background: '#FB9922',
             display: 'flex',
             alignItems: 'center',
@@ -18,7 +18,7 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
         >
           <Image src={Pizza} alt='pizza-image' style={{ width: '300px' }} />
         </Box>
-        <Box sx={{ width: '55%', m: '5% 0 0 5%' }}>
+        <Box sx={{ width: '50%', m: '7% 0 0 15%' }}>
           <Box>
             <Image src={Logo} alt='logo' style={{ width: '150px' }} />
           </Box>
