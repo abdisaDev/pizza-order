@@ -44,7 +44,7 @@ function Banner(props: {
             </Button>
           </Box>
           <Box>
-            <Image src={props.image} alt='pizza-image' />
+            <Image src={props.image} alt='pizza-image' priority={true} />
           </Box>
         </Box>
       </Box>

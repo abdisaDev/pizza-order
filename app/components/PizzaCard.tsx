@@ -24,6 +24,7 @@ function PizzaCard(props: {
           <Image
             src={props.image}
             alt='pizza-image'
+            priority={true}
             style={{
               width: '250px',
               borderRadius: '50%',
@@ -70,6 +71,7 @@ function PizzaCard(props: {
                   src={Me}
                   alt='charge'
                   style={{ width: '70px', borderRadius: '50%' }}
+                  priority={true}
                 />
               </Box>
               <Box>

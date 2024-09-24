@@ -32,6 +32,7 @@ function Resturant(props: {
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <Image
               src={Me}
+              priority={true}
               alt='user'
               style={{
                 width: '70px',
@@ -57,7 +58,7 @@ function Resturant(props: {
           }}
         >
           <Box>
-            <Image src={Charge} alt='charge' />
+            <Image src={Charge} alt='charge' priority={true} />
           </Box>
           <Box>
             <Typography>Number of order</Typography>

@@ -51,7 +51,7 @@ function Footer() {
               mr: '50px',
             }}
           >
-            <Image src={Logo} alt='logo' />
+            <Image src={Logo} priority={true} alt='logo' />
             <TextField
               placeholder='Your Feedback'
               fullWidth

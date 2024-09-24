@@ -16,7 +16,12 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
             justifyContent: 'center',
           }}
         >
-          <Image src={Pizza} alt='pizza-image' style={{ width: '300px' }} />
+          <Image
+            src={Pizza}
+            alt='pizza-image'
+            style={{ width: '300px' }}
+            priority={true}
+          />
         </Box>
         <Box
           sx={{
@@ -34,7 +39,12 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
               ml: 15,
             }}
           >
-            <Image src={Logo} alt='logo' style={{ width: '150px' }} />
+            <Image
+              src={Logo}
+              alt='logo'
+              priority={true}
+              style={{ width: '150px' }}
+            />
           </Box>
           {children}
         </Box>
