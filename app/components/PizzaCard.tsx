@@ -1,6 +1,6 @@
 import { Box, Button, Divider, Typography } from '@mui/material';
 import Image from 'next/image';
-import Me from '@/app/assets/me.jpg';
+import Me from '@/app/assets/me.webp';
 
 function PizzaCard(props: {
   name: string;
