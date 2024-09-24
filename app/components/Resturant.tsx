@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import Me from '@/app/assets/me.webp';
+import Me from '@/app/assets/me.jpg';
 import Image from 'next/image';
 import Charge from '@/app/assets/charge.svg';
 

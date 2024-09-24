@@ -55,7 +55,12 @@ function HeroPage() {
                     background: '#fff',
                     border: 'none',
                     p: '10px 30px',
-                    my: '20px',
+                    m: '30px',
+
+                    '& ::placeholder': {
+                      fontSize: '20px',
+                      fontWeight: 'bolder',
+                    },
                   },
                   endAdornment: (
                     <InputAdornment position='end'>
