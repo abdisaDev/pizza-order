@@ -56,9 +56,11 @@ function AuthLogin() {
                   label='Password'
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.name}
-                  error={Boolean(errors.name && touched.name)}
-                  helperText={<span>{touched.name && errors.name}</span>}
+                  value={values.password}
+                  error={Boolean(errors.password && touched.password)}
+                  helperText={
+                    <span>{touched.password && errors.password}</span>
+                  }
                   fullWidth
                 />
               </Box>
