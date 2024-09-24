@@ -1,8 +1,10 @@
-import HeroPage from "./components/HeroPage";
-import NavigationBar from "./components/NavigationBar";
-import FeaturedPizza from "./components/FeaturedPizza";
-import Resturants from "./components/Resturants";
-import PizzaCard from "./components/PizzaCard";
+import HeroPage from './components/HeroPage';
+import NavigationBar from './components/NavigationBar';
+import FeaturedPizza from './components/FeaturedPizza';
+import Resturants from './components/Resturants';
+import PopularPizzas from './components/PopularPizzas';
+import FastingPizzas from './components/FastingPizzas';
+import Footer from './components/Footer';
 
 export default function Home() {
   return (
@@ -11,7 +13,9 @@ export default function Home() {
       <HeroPage />
       <FeaturedPizza />
       <Resturants />
-      <PizzaCard />
+      <PopularPizzas />
+      <FastingPizzas />
+      <Footer />
     </>
   );
 }

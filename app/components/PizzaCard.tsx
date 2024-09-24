@@ -1,41 +1,55 @@
-import { Box, Button, Divider, Typography } from "@mui/material";
-import Image from "next/image";
-import PizzaOne from "@/app/assets/pizza-one.svg";
-import Me from "@/app/assets/me.jpg";
+import { Box, Button, Divider, Typography } from '@mui/material';
+import Image from 'next/image';
+import Me from '@/app/assets/me.jpg';
 
-function PizzaCard() {
+function PizzaCard(props: {
+  name: string;
+  toppings: string[];
+  image: string;
+  price: string;
+}) {
   return (
     <>
       <Box
         sx={{
-          background: "#fff",
-          width: "fit-content",
-          borderRadius: "10px",
-          justifyContent: "center",
-          p: "30px 20px 0 20px",
+          background: '#fff',
+          width: 'fit-content',
+          height: 'fit-content',
+          borderRadius: '20px',
+          justifyContent: 'center',
+          p: '40px 40px 5px',
         }}
       >
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
           <Image
-            src={PizzaOne}
-            alt="pizza-image"
+            src={props.image}
+            alt='pizza-image'
             style={{
-              width: "250px",
+              width: '250px',
+              borderRadius: '50%',
+              background: '#FBE6CC',
+              padding: '20px',
             }}
           />
         </Box>
         <Box sx={{ my: 2 }}>
-          <Typography variant="h4" fontWeight="bolder">
-            Margherita
+          <Typography variant='h4' fontWeight='bolder'>
+            {props.name}
           </Typography>
-          <Typography>
-            Tomato, Mozzarella, Bell Peppers, Onions, Olives
-          </Typography>
-          <Box sx={{ display: "flex", justifyContent: "space-around", my: 2 }}>
-            <Typography variant="h5" color="success">
-              150 <sup>Birr</sup>
+          <Typography>{props.toppings?.join(', ')}</Typography>
+          <Box sx={{ display: 'flex', justifyContent: 'space-around', my: 4 }}>
+            <Typography variant='h4' color='success' fontWeight='bolder'>
+              {props.price} <sup>Birr</sup>
             </Typography>
-            <Button variant="contained" color="warning" disableElevation>
+            <Button
+              variant='contained'
+              color='warning'
+              disableElevation
+              sx={{
+                p: '15px 40px',
+                borderRadius: '10px',
+              }}
+            >
               Order
             </Button>
           </Box>
@@ -45,21 +59,21 @@ function PizzaCard() {
           <Box>
             <Box
               sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-around",
-                my: 2,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                m: 2,
               }}
             >
               <Box>
                 <Image
                   src={Me}
-                  alt="charge"
-                  style={{ width: "70px", borderRadius: "50%" }}
+                  alt='charge'
+                  style={{ width: '70px', borderRadius: '50%' }}
                 />
               </Box>
               <Box>
-                <Typography variant="h5" fontWeight="bolder">
+                <Typography variant='h5' fontWeight='bolder'>
                   Abdisa Dev
                 </Typography>
               </Box>
