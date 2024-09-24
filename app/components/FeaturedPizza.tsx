@@ -10,21 +10,21 @@ import 'slick-carousel/slick/slick-theme.css';
 
 const bannerData = [
   {
-    title: 'Make Your First Order and Get 50% off',
+    title: 'Make Your First Order and Get ',
     description:
       'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without.',
     image: PizzaOne,
     backgroundColor: '#2F2F2F',
   },
   {
-    title: 'Make Your First Order and Get 50% off',
+    title: 'Make Your First Order and Get ',
     description:
       'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without.',
     image: PizzaTwo,
     backgroundColor: '#50482B',
   },
   {
-    title: 'Make Your First Order and Get 50% off',
+    title: 'Make Your First Order and Get ',
     description:
       'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without.',
     image: PizzaThreeOne,
@@ -55,7 +55,7 @@ function FeaturedPizza() {
               image={banner.image}
               backgroundColor={banner.backgroundColor}
               description={banner.description}
-              discount='50%'
+              discount='50% off'
             />
           ))}
         </Slider>

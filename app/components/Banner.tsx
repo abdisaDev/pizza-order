@@ -27,6 +27,9 @@ function Banner(props: {
           <Box sx={{ width: '50%', p: '50px' }}>
             <Typography variant='h3' fontWeight='bolder' mb={3}>
               {props.title}
+              <Box component='span' color='#FA9922'>
+                {props.discount}
+              </Box>
             </Typography>
             <Typography variant='h6' mb={5}>
               {props.description}
