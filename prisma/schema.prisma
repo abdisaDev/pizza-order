@@ -66,4 +66,15 @@ model Role {
   id String @id @default(uuid())
   name String
   users User[]
+  permissions Permission[]   @relation("RolePermissions")
+
+  @@map("roles")
+}
+
+model Permission {
+  id String @id @default(uuid())
+  name String
+  roles Role[] @relation("RolePermissions")
+
+  @@map("permission")
 }
