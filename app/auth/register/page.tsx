@@ -1,4 +1,5 @@
 "use client";
+import { FileUpload } from "@mui/icons-material";
 import { Box, Button, Input, TextField, Typography } from "@mui/material";
 import { Formik, Form } from "formik";
 import Link from "next/link";
@@ -27,6 +28,10 @@ const registrationFormSchema = z
     message: "Passwords do not match",
   });
 
+const registerUser = async (user) => {
+  await fetch("/auth/register", { method: "POST", body: JSON.stringify(user) });
+};
+
 function AuthRegister() {
   return (
     <>
@@ -40,6 +45,8 @@ function AuthRegister() {
             location: "",
             phone_number: "",
             aggrement: false,
+            resturant: false,
+            resturant_name: "",
           }}
           onSubmit={(values) => {
             console.log(values);
@@ -66,7 +73,7 @@ function AuthRegister() {
               >
                 <TextField
                   name="name"
-                  label="Name"
+                  label={values.resturant ? "Admin Name" : "Name"}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.name}
@@ -138,26 +145,70 @@ function AuthRegister() {
                   }
                   fullWidth
                 />
+                {values.resturant && (
+                  <>
+                    <TextField
+                      name="resturant_name"
+                      label="Resturant Name"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.resturant_name}
+                      error={Boolean(
+                        errors.resturant_name && touched.resturant_name
+                      )}
+                      helperText={
+                        <span>
+                          {touched.resturant_name && errors.resturant_name}
+                        </span>
+                      }
+                      fullWidth
+                    />
+                    <Button variant="outlined" color="warning" sx={{ py: 2 }}>
+                      <FileUpload />
+                      Upload Logo
+                    </Button>
+                  </>
+                )}
               </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  columnGap: 2,
-                  my: 2,
-                }}
-              >
-                <Input
-                  type="checkbox"
-                  id="aggrement"
-                  name="aggrement"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.aggrement}
-                />
-                <label htmlFor="aggrement">
-                  I accept the term and conditions.
-                </label>
+              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    columnGap: 2,
+                    my: 2,
+                  }}
+                >
+                  <Input
+                    type="checkbox"
+                    id="aggrement"
+                    name="aggrement"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.aggrement}
+                  />
+                  <label htmlFor="aggrement">
+                    I accept the term and conditions.
+                  </label>
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    columnGap: 1,
+                    my: 2,
+                  }}
+                >
+                  <Input
+                    type="checkbox"
+                    id="resturant"
+                    name="resturant"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.resturant}
+                  />
+                  <label htmlFor="resturant">As Resturant</label>
+                </Box>
               </Box>
               <Box>
                 <Button
@@ -172,7 +223,7 @@ function AuthRegister() {
               </Box>
               <Box sx={{ textAlign: "center", my: 2 }}>
                 <Typography>
-                  Already have an account{" "}
+                  Already have an account?&ensp;
                   <Link href="/auth/login" style={{ color: "#FB9922" }}>
                     Login
                   </Link>

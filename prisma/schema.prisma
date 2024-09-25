@@ -11,11 +11,12 @@ model User {
   id String @id @default(uuid())
   name String
   email String @unique
-  role String
   status Boolean
   password String
   location String
   phone_number String
+  role_id String
+  role Role @relation(fields: [role_id], references: [id])
   resturant Restaurant?
   orders Order[]
 
@@ -59,4 +60,10 @@ model Order {
   user User @relation(fields: [user_id], references: [id])
 
   @@map("orders")
+}
+
+model Role {
+  id String @id @default(uuid())
+  name String
+  users User[]
 }
