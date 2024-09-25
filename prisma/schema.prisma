@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(uuid())
+  name String
+  email String @unique
+  role String
+  status Boolean
+  password String
+  location String
+  phone_number String
+  resturant Restaurant?
+  orders Order[]
+
+  @@map("users")
+}
+
+model Restaurant {
+  id String @id @default(uuid())
+  name String
+  admin_id String @unique
+  admin User @relation(fields: [admin_id], references: [id])
+  pizzas Pizza[]
+
+  @@map("resturants")
+}
+
+model Pizza {
+  id String @id @default(uuid())
+  name String
+  resturant_id String @unique
+  resturant Restaurant @relation(fields: [resturant_id], references: [id])
+  toppings Topping[] @relation("PizzaToppings")
+
+  @@map("pizzas")
+}
+
+model Topping {
+  id String @id @default(uuid())
+  name String
+  pizzas Pizza[] @relation("PizzaToppings")
+
+  @@map("toppings")
+}
+
+model Order {
+  id String @id @default(uuid())
+  total_amount Int
+  status String
+  created_at DateTime @default(now())
+  user_id String @unique
+  user User @relation(fields: [user_id], references: [id])
+
+  @@map("orders")
+}

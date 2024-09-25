@@ -40,7 +40,9 @@ function AuthRegister() {
             location: '',
             phone_number: '',
           }}
-          onSubmit={() => {}}
+          onSubmit={(values) => {
+            console.log(values);
+          }}
           validationSchema={toFormikValidationSchema(registrationFormSchema)}
         >
           {({
@@ -83,22 +85,30 @@ function AuthRegister() {
                 <TextField
                   name='password'
                   label='Password'
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.name}
-                  error={Boolean(errors.name && touched.name)}
-                  helperText={<span>{touched.name && errors.name}</span>}
-                  fullWidth
-                />
-                <TextField
-                  name='confirm_password'
-                  label='Confirm Password'
+                  type='password'
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.password}
                   error={Boolean(errors.password && touched.password)}
                   helperText={
                     <span>{touched.password && errors.password}</span>
+                  }
+                  fullWidth
+                />
+                <TextField
+                  name='confirm_password'
+                  label='Confirm Password'
+                  type='password'
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.confirm_password}
+                  error={Boolean(
+                    errors.confirm_password && touched.confirm_password
+                  )}
+                  helperText={
+                    <span>
+                      {touched.confirm_password && errors.confirm_password}
+                    </span>
                   }
                   fullWidth
                 />
@@ -146,6 +156,7 @@ function AuthRegister() {
                   disableElevation
                   fullWidth
                   color='warning'
+                  type='submit'
                 >
                   Sign Up
                 </Button>
