@@ -52,13 +52,13 @@ const popularPizzasData = [
   },
 ];
 
-function FastingPizzas() {
+function FastingPizzas(props: { title: string; ml?: string }) {
   return (
     <>
-      <Box ml="150px">
+      <Box ml={props.ml ? props.ml : "150px"}>
         <Box sx={{ my: "70px " }}>
           <Typography variant="h3" fontWeight="bolder">
-            Fasting Pizza
+            {props.title}
           </Typography>
         </Box>
         <Slider variableWidth={true} arrows={false}>

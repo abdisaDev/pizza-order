@@ -16,7 +16,7 @@ function LandingPage() {
         <FeaturedPizza />
         <Resturants />
         <Pizzas title="Poppular Pizzas" action="button" />
-        <FastingPizzas />
+        <FastingPizzas title="Fasting Pizza" />
         <Footer />
       </Box>
     </>
