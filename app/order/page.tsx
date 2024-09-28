@@ -89,7 +89,6 @@ function Order() {
                   display: "flex",
                   alignItems: "center",
                   columnGap: 1,
-                  fontSize: "30px",
                 },
               }}
             >
