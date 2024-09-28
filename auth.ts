@@ -4,24 +4,25 @@ import prisma from "./app/util/prisma";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: { signIn: "/" },
-  session: { strategy: "jwt" },
+  session: { strategy: "jwt", maxAge: 5 },
   providers: [
     Credentials({
       credentials: { email: {}, password: {} },
       authorize: async (credentials) => {
+        console.log(credentials);
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
         });
 
         if (!user) {
-          throw new Error("User Not Found");
+          return null;
         }
 
         if (user.password === credentials.password) {
           console.log(user);
           return user;
         }
-        throw new Error("Invalid credentials");
+        return null;
       },
     }),
   ],

@@ -1,11 +1,11 @@
-import { Box } from '@mui/material';
-import HeroPage from '../components/HeroPage';
-import NavigationBar from '../components/NavigationBar';
-import FeaturedPizza from '../components/FeaturedPizza';
-import Resturants from '../components/Resturants';
-import PopularPizzas from '../components/PopularPizzas';
-import FastingPizzas from '../components/FastingPizzas';
-import Footer from '../components/Footer';
+import { Box } from "@mui/material";
+import HeroPage from "../components/HeroPage";
+import NavigationBar from "../components/NavigationBar";
+import FeaturedPizza from "../components/FeaturedPizza";
+import Resturants from "../components/Resturants";
+import Pizzas from "../components/Pizzas";
+import FastingPizzas from "../components/FastingPizzas";
+import Footer from "../components/Footer";
 
 function LandingPage() {
   return (
@@ -15,7 +15,7 @@ function LandingPage() {
         <HeroPage />
         <FeaturedPizza />
         <Resturants />
-        <PopularPizzas />
+        <Pizzas title="Poppular Pizzas" action="button" />
         <FastingPizzas />
         <Footer />
       </Box>

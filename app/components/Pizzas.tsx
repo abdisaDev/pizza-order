@@ -1,12 +1,8 @@
-"use client";
 import { Box, Typography } from "@mui/material";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import PizzaCard from "./PizzaCard";
 import PizzaOne from "@/app/assets/pizza-one.svg";
 import PizzaTwo from "@/app/assets/pizza-two.svg";
 import PizzaThree from "@/app/assets/pizza-three.svg";
+import PizzaCard from "./PizzaCard";
 
 const popularPizzasData = [
   {
@@ -51,32 +47,45 @@ const popularPizzasData = [
     price: "350",
   },
 ];
-
-function FastingPizzas() {
+function Pizzas(props: {
+  title: string;
+  action: "button" | "status";
+  actionValue?: string;
+}) {
   return (
     <>
-      <Box ml="150px">
-        <Box sx={{ my: "70px " }}>
-          <Typography variant="h3" fontWeight="bolder">
-            Fasting Pizza
-          </Typography>
-        </Box>
-        <Slider variableWidth={true} arrows={false}>
+      <Box sx={{ m: "70px 150px" }}>
+        <Typography variant="h3" fontWeight="bolder">
+          {props.title}
+        </Typography>
+      </Box>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Box
+          sx={{
+            display: "grid",
+            justifyContent: "center",
+            rowGap: "40px",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gridTemplateRows: "repeat(2, 1fr)",
+            width: "80%",
+            justifySelf: "",
+          }}
+        >
           {popularPizzasData.map((pizzaData, index) => (
-            <Box key={index} sx={{ mx: "20px" }}>
-              <PizzaCard
-                name={pizzaData.name}
-                image={pizzaData.image}
-                toppings={pizzaData.toppings}
-                price={pizzaData.price}
-                action="button"
-              />
-            </Box>
+            <PizzaCard
+              key={index}
+              name={pizzaData.name}
+              image={pizzaData.image}
+              toppings={pizzaData.toppings}
+              price={pizzaData.price}
+              action={props.action}
+              actionValue={props.actionValue}
+            />
           ))}
-        </Slider>
+        </Box>
       </Box>
     </>
   );
 }
 
-export default FastingPizzas;
+export default Pizzas;
