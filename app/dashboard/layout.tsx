@@ -1,9 +1,11 @@
-import { Box } from '@mui/material';
+import { Box } from "@mui/material";
 
-function DashBoardLayout() {
+function DashBoardLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <Box></Box>
+      <Box sx={{ background: "#eee", width: "100vw", height: "100vh" }}>
+        {children}
+      </Box>
     </>
   );
 }
