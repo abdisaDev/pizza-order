@@ -1,6 +1,7 @@
 "use client";
 import { Box, Button, Input, TextField, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
@@ -13,6 +14,7 @@ const registrationFormSchema = z.object({
 });
 
 function AuthLogin() {
+  const session = useSession();
   return (
     <>
       <Box width="70%">
@@ -21,8 +23,14 @@ function AuthLogin() {
             email: "",
             password: "",
           }}
-          onSubmit={(values) => {
-            console.log(values);
+          onSubmit={async (values) => {
+            await signIn("credentials", {
+              email: values.email,
+              password: values.password,
+              redirect: false,
+            });
+
+            console.log(session);
           }}
           validationSchema={toFormikValidationSchema(registrationFormSchema)}
         >
@@ -56,6 +64,7 @@ function AuthLogin() {
                 <TextField
                   name="password"
                   label="Password"
+                  type="password"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.password}

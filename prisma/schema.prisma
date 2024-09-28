@@ -11,19 +11,20 @@ model User {
   id String @id @default(uuid())
   name String
   email String @unique
-  status Boolean
+  status Boolean? @default(false)
   password String
   location String
   phone_number String
-  role_id String
-  role Role @relation(fields: [role_id], references: [id])
-  resturant Restaurant?
+  role_id String?
+  role Role? @relation(fields: [role_id], references: [id])
+  resturant Resturant?
   orders Order[]
+  aggrement Boolean
 
   @@map("users")
 }
 
-model Restaurant {
+model Resturant {
   id String @id @default(uuid())
   name String
   admin_id String @unique
@@ -37,7 +38,7 @@ model Pizza {
   id String @id @default(uuid())
   name String
   resturant_id String @unique
-  resturant Restaurant @relation(fields: [resturant_id], references: [id])
+  resturant Resturant @relation(fields: [resturant_id], references: [id])
   toppings Topping[] @relation("PizzaToppings")
 
   @@map("pizzas")

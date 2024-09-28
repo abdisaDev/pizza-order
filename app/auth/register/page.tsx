@@ -45,11 +45,27 @@ function AuthRegister() {
             location: "",
             phone_number: "",
             aggrement: false,
-            resturant: false,
+            as_resturant: false,
             resturant_name: "",
           }}
-          onSubmit={(values) => {
-            console.log(values);
+          onSubmit={async (values) => {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { confirm_password, as_resturant, resturant_name, ...user } =
+              values;
+
+            const res = await fetch("/api/register", {
+              method: "POST",
+              body: values.as_resturant
+                ? JSON.stringify({
+                    ...user,
+                    resturant: {
+                      create: { name: resturant_name, pizzas: { create: [] } },
+                    },
+                  })
+                : JSON.stringify(user),
+            });
+
+            console.log(res);
           }}
           validate={toFormikValidate(registrationFormSchema)}
           validationSchema={toFormikValidationSchema(registrationFormSchema)}
@@ -73,7 +89,7 @@ function AuthRegister() {
               >
                 <TextField
                   name="name"
-                  label={values.resturant ? "Admin Name" : "Name"}
+                  label={values.as_resturant ? "Admin Name" : "Name"}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.name}
@@ -145,7 +161,7 @@ function AuthRegister() {
                   }
                   fullWidth
                 />
-                {values.resturant && (
+                {values.as_resturant && (
                   <>
                     <TextField
                       name="resturant_name"
@@ -165,7 +181,7 @@ function AuthRegister() {
                     />
                     <Button variant="outlined" color="warning" sx={{ py: 2 }}>
                       <FileUpload />
-                      Upload Logo
+                      &ensp; Upload Logo
                     </Button>
                   </>
                 )}
@@ -201,13 +217,13 @@ function AuthRegister() {
                 >
                   <Input
                     type="checkbox"
-                    id="resturant"
-                    name="resturant"
+                    id="as_resturant"
+                    name="as_resturant"
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.resturant}
+                    value={values.as_resturant}
                   />
-                  <label htmlFor="resturant">As Resturant</label>
+                  <label htmlFor="as_resturant">As Resturant</label>
                 </Box>
               </Box>
               <Box>
