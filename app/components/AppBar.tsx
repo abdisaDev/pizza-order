@@ -9,7 +9,6 @@ function AppBar() {
       <Paper
         elevation={1}
         sx={{
-          width: "80%",
           height: "80px",
           borderRadius: 0,
           display: "flex",

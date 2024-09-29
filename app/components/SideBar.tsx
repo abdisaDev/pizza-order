@@ -25,7 +25,7 @@ function SideBar() {
     <>
       <Box
         sx={{
-          width: "20%",
+          width: "20vw",
           height: "100vh",
         }}
       >
@@ -61,17 +61,18 @@ function SideBar() {
             <MenuList
               sx={{
                 "& > *": {
-                  p: "20px 80px",
+                  p: "15px 80px",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
                   color: "#FF8100",
-                  backgroundColor: "#FFCC99",
+                  borderRadius: "20px",
+                  m: 1,
                 },
               }}
             >
               <MenuItem>
-                <ListItemText color="warning">
+                <ListItemText>
                   <ShoppingCartIcon />
                   &emsp; Orders
                 </ListItemText>
