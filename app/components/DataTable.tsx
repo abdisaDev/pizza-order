@@ -50,8 +50,8 @@ const data = [
     status: "pending",
   },
 ];
-
-function DataTable(props: { data: any[]; columns: any[] }) {
+/
+function DataTable(props: { data?: any[]; columns?: any[] }) {
   const columns = useMemo(
     () => [
       {
