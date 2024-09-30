@@ -1,6 +1,7 @@
 "use client";
 
 import DataTable from "@/app/components/DataTable";
+import { Delete } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -9,6 +10,7 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
@@ -67,19 +69,26 @@ function OrderListPage() {
         header: "Actions",
 
         Cell: ({ renderedCellValue }) => (
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              columnGap: 2,
-              background: "#E6F3E7",
-              width: "fit-content",
-              p: "7px 40px",
-              borderRadius: "20px",
-            }}
-          >
-            <Typography color="success">Active</Typography>
-            <Switch color="success" size="small" />
+          <Box sx={{ display: "flex", columnGap: 2 }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                columnGap: 2,
+                background: "#E6F3E7",
+                width: "fit-content",
+                p: "7px 40px",
+                borderRadius: "20px",
+              }}
+            >
+              <Typography color="success">Active</Typography>
+              <Switch color="success" size="small" />
+            </Box>
+            <Box>
+              <IconButton color="error" size="large">
+                <Delete />
+              </IconButton>
+            </Box>
           </Box>
         ),
       },
