@@ -1,61 +1,70 @@
-"use client";
-import { FileUpload } from "@mui/icons-material";
-import { Box, Button, Input, TextField, Typography } from "@mui/material";
-import { Formik, Form } from "formik";
-import Link from "next/link";
-import { z } from "zod";
-import { toFormikValidate, toFormikValidationSchema } from "zod-formik-adapter";
+'use client';
+import { FileUpload } from '@mui/icons-material';
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Input,
+  TextField,
+  Typography,
+} from '@mui/material';
+import { Formik, Form } from 'formik';
+import Link from 'next/link';
+import { z } from 'zod';
+import { toFormikValidate, toFormikValidationSchema } from 'zod-formik-adapter';
 
 const registrationFormSchema = z
   .object({
-    name: z.string({ message: "Required" }),
-    email: z.string({ message: "Required" }).email(),
+    name: z.string({ message: 'Required' }),
+    email: z.string({ message: 'Required' }).email(),
     phone_number: z
-      .string({ message: "Required" })
+      .string({ message: 'Required' })
       .regex(/^(0|\+251|251)(9|7)[0-9]{8}$/, {
         message:
-          "Invalid Phone Number, The phone number has to be either safari or ethio telecom",
+          'Invalid Phone Number, The phone number has to be either safari or ethio telecom',
       }),
     password: z
-      .string({ message: "Required" })
-      .min(8, "Password must be at least 8 characters long"),
-    confirm_password: z.string({ message: "Required" }),
-    location: z.string({ message: "Required" }),
-    aggrement: z.boolean({ message: "Please Accept the Terms and Conditions" }),
+      .string({ message: 'Required' })
+      .min(8, 'Password must be at least 8 characters long'),
+    confirm_password: z.string({ message: 'Required' }),
+    location: z.string({ message: 'Required' }),
+    aggrement: z.boolean({ message: 'Please Accept the Terms and Conditions' }),
+    is_resturant: z.boolean().optional(),
   })
   .refine((schema) => schema.password === schema.confirm_password, {
-    path: ["confirm_password"],
-    message: "Passwords do not match",
+    path: ['confirm_password'],
+    message: 'Passwords do not match',
   });
 
 const registerUser = async (user) => {
-  await fetch("/auth/register", { method: "POST", body: JSON.stringify(user) });
+  await fetch('/auth/register', { method: 'POST', body: JSON.stringify(user) });
 };
 
 function AuthRegister() {
   return (
     <>
-      <Box width="70%">
+      <Box width='70%'>
         <Formik
           initialValues={{
-            name: "",
-            email: "",
-            password: "",
-            confirm_password: "",
-            location: "",
-            phone_number: "",
+            name: '',
+            email: '',
+            password: '',
+            confirm_password: '',
+            location: '',
+            phone_number: '',
             aggrement: false,
-            as_resturant: false,
-            resturant_name: "",
+            is_resturant: false,
+            resturant_name: '',
           }}
           onSubmit={async (values) => {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            const { confirm_password, as_resturant, resturant_name, ...user } =
+            const { confirm_password, is_resturant, resturant_name, ...user } =
               values;
 
-            const res = await fetch("/api/register", {
-              method: "POST",
-              body: values.as_resturant
+            const res = await fetch('/api/register', {
+              method: 'POST',
+              body: values.is_resturant
                 ? JSON.stringify({
                     ...user,
                     resturant: {
@@ -82,14 +91,14 @@ function AuthRegister() {
               <Box
                 sx={{
                   mt: 5,
-                  display: "flex",
-                  flexDirection: "column",
+                  display: 'flex',
+                  flexDirection: 'column',
                   rowGap: 2,
                 }}
               >
                 <TextField
-                  name="name"
-                  label={values.as_resturant ? "Admin Name" : "Name"}
+                  name='name'
+                  label={values.is_resturant ? 'Admin Name' : 'Name'}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.name}
@@ -98,8 +107,8 @@ function AuthRegister() {
                   fullWidth
                 />
                 <TextField
-                  name="email"
-                  label="Email address"
+                  name='email'
+                  label='Email address'
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.email}
@@ -108,9 +117,9 @@ function AuthRegister() {
                   fullWidth
                 />
                 <TextField
-                  name="password"
-                  label="Password"
-                  type="password"
+                  name='password'
+                  label='Password'
+                  type='password'
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.password}
@@ -121,9 +130,9 @@ function AuthRegister() {
                   fullWidth
                 />
                 <TextField
-                  name="confirm_password"
-                  label="Confirm Password"
-                  type="password"
+                  name='confirm_password'
+                  label='Confirm Password'
+                  type='password'
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.confirm_password}
@@ -138,8 +147,8 @@ function AuthRegister() {
                   fullWidth
                 />
                 <TextField
-                  name="location"
-                  label="Location"
+                  name='location'
+                  label='Location'
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.location}
@@ -150,8 +159,8 @@ function AuthRegister() {
                   fullWidth
                 />
                 <TextField
-                  name="phone_number"
-                  label="Phone Numer"
+                  name='phone_number'
+                  label='Phone Numer'
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.phone_number}
@@ -161,11 +170,11 @@ function AuthRegister() {
                   }
                   fullWidth
                 />
-                {values.as_resturant && (
+                {values.is_resturant && (
                   <>
                     <TextField
-                      name="resturant_name"
-                      label="Resturant Name"
+                      name='resturant_name'
+                      label='Resturant Name'
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.resturant_name}
@@ -179,68 +188,66 @@ function AuthRegister() {
                       }
                       fullWidth
                     />
-                    <Button variant="outlined" color="warning" sx={{ py: 2 }}>
+                    <Button variant='outlined' color='warning' sx={{ py: 2 }}>
                       <FileUpload />
                       &ensp; Upload Logo
                     </Button>
                   </>
                 )}
               </Box>
-              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Box
                   sx={{
-                    display: "flex",
-                    alignItems: "center",
+                    display: 'flex',
+                    alignItems: 'center',
                     columnGap: 2,
                     my: 2,
                   }}
                 >
-                  <Input
-                    type="checkbox"
-                    id="aggrement"
-                    name="aggrement"
+                  <FormControlLabel
+                    id='aggrement'
+                    name='aggrement'
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.aggrement}
+                    control={<Checkbox />}
+                    label='I accept the term and conditions.'
                   />
-                  <label htmlFor="aggrement">
-                    I accept the term and conditions.
-                  </label>
                 </Box>
                 <Box
                   sx={{
-                    display: "flex",
-                    alignItems: "center",
+                    display: 'flex',
+                    alignItems: 'center',
                     columnGap: 1,
                     my: 2,
                   }}
                 >
-                  <Input
-                    type="checkbox"
-                    id="as_resturant"
-                    name="as_resturant"
+                  <FormControlLabel
+                    name='is_resturant'
+                    id='is_resturant'
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.as_resturant}
+                    value={values.is_resturant}
+                    control={<Checkbox />}
+                    label='As Resturant'
                   />
-                  <label htmlFor="as_resturant">As Resturant</label>
                 </Box>
               </Box>
               <Box>
                 <Button
-                  variant="contained"
+                  variant='contained'
                   disableElevation
                   fullWidth
-                  color="warning"
-                  type="submit"
+                  color='warning'
+                  type='submit'
                 >
                   Sign Up
                 </Button>
               </Box>
-              <Box sx={{ textAlign: "center", my: 2 }}>
+              <Box sx={{ textAlign: 'center', my: 2 }}>
                 <Typography>
                   Already have an account?&ensp;
-                  <Link href="/auth/login" style={{ color: "#FB9922" }}>
+                  <Link href='/auth/login' style={{ color: '#FB9922' }}>
                     Login
                   </Link>
                 </Typography>
