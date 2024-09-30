@@ -1,13 +1,11 @@
-import AddMenu from "@/app/components/AddMenu";
-import { Box } from "@mui/material";
+import AddMenu from '@/app/components/AddMenu';
+import { Box } from '@mui/material';
 
 function AddMenuPage() {
   return (
-    <>
-      <Box>
-        <AddMenu />
-      </Box>
-    </>
+    <Box>
+      <AddMenu />
+    </Box>
   );
 }
 

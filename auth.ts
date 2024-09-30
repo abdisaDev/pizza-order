@@ -1,10 +1,10 @@
-import NextAuth from "next-auth";
-import Credentials from "next-auth/providers/credentials";
-import prisma from "./app/util/prisma";
+import NextAuth from 'next-auth';
+import Credentials from 'next-auth/providers/credentials';
+import prisma from './app/util/prisma';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  pages: { signIn: "/" },
-  session: { strategy: "jwt", maxAge: 5 },
+  pages: { signIn: '/' },
+  session: { strategy: 'jwt', maxAge: 5 },
   providers: [
     Credentials({
       credentials: { email: {}, password: {} },

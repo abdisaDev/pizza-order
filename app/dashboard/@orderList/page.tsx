@@ -1,13 +1,11 @@
-import DataTable from "@/app/components/DataTable";
-import { Box } from "@mui/material";
+import DataTable from '@/app/components/DataTable';
+import { Box } from '@mui/material';
 
 function OrderListPage() {
   return (
-    <>
-      <Box>
-        <DataTable />
-      </Box>
-    </>
+    <Box>
+      <DataTable />
+    </Box>
   );
 }
 

@@ -7,6 +7,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserType {
+  CUSTOMER
+  RESTURANT
+}
 model User {
   id String @id @default(uuid())
   name String
@@ -15,7 +19,7 @@ model User {
   password String
   location String
   phone_number String
-  type String
+  type UserType @default(CUSTOMER)
   role_id String?
   role Role? @relation(fields: [role_id], references: [id])
   resturant Resturant?
@@ -28,7 +32,7 @@ model User {
 model Resturant {
   id String @id @default(uuid())
   name String
-  total_orders String
+  total_orders Int
   admin_id String @unique
   admin User @relation(fields: [admin_id], references: [id])
   pizzas Pizza[]

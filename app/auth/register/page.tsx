@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import { Formik, Form } from 'formik';
 import Link from 'next/link';
+import React from 'react';
 import { z } from 'zod';
 import { toFormikValidate, toFormikValidationSchema } from 'zod-formik-adapter';
 
@@ -43,220 +44,206 @@ const registerUser = async (user) => {
 
 function AuthRegister() {
   return (
-    <>
-      <Box width='70%'>
-        <Formik
-          initialValues={{
-            name: '',
-            email: '',
-            password: '',
-            confirm_password: '',
-            location: '',
-            phone_number: '',
-            aggrement: false,
-            is_resturant: false,
-            resturant_name: '',
-          }}
-          onSubmit={async (values) => {
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            const { confirm_password, is_resturant, resturant_name, ...user } =
-              values;
+    <Box width='70%'>
+      <Formik
+        initialValues={{
+          name: '',
+          email: '',
+          password: '',
+          confirm_password: '',
+          location: '',
+          phone_number: '',
+          aggrement: false,
+          is_resturant: false,
+          resturant_name: '',
+        }}
+        onSubmit={async (values) => {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { confirm_password, ...user } = values;
+          console.log(JSON.stringify(user));
+          const res = await fetch('/api/register', {
+            method: 'POST',
+            body: JSON.stringify(user),
+          });
 
-            const res = await fetch('/api/register', {
-              method: 'POST',
-              body: values.is_resturant
-                ? JSON.stringify({
-                    ...user,
-                    resturant: {
-                      create: { name: resturant_name, pizzas: { create: [] } },
-                    },
-                  })
-                : JSON.stringify(user),
-            });
-
-            console.log(res);
-          }}
-          validate={toFormikValidate(registrationFormSchema)}
-          validationSchema={toFormikValidationSchema(registrationFormSchema)}
-        >
-          {({
-            handleSubmit,
-            handleChange,
-            handleBlur,
-            touched,
-            errors,
-            values,
-          }) => (
-            <Form onSubmit={handleSubmit}>
+          console.log(res);
+        }}
+        validate={toFormikValidate(registrationFormSchema)}
+        validationSchema={toFormikValidationSchema(registrationFormSchema)}
+      >
+        {({
+          handleSubmit,
+          handleChange,
+          handleBlur,
+          touched,
+          errors,
+          values,
+        }) => (
+          <Form onSubmit={handleSubmit}>
+            <Box
+              sx={{
+                mt: 5,
+                display: 'flex',
+                flexDirection: 'column',
+                rowGap: 2,
+              }}
+            >
+              <TextField
+                name='name'
+                label={values.is_resturant ? 'Admin Name' : 'Name'}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.name}
+                error={Boolean(errors.name && touched.name)}
+                helperText={<span>{touched.name && errors.name}</span>}
+                fullWidth
+              />
+              <TextField
+                name='email'
+                label='Email address'
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.email}
+                error={Boolean(errors.email && touched.email)}
+                helperText={<span>{touched.email && errors.email}</span>}
+                fullWidth
+              />
+              <TextField
+                name='password'
+                label='Password'
+                type='password'
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.password}
+                error={Boolean(errors.password && touched.password)}
+                helperText={<span>{touched.password && errors.password}</span>}
+                fullWidth
+              />
+              <TextField
+                name='confirm_password'
+                label='Confirm Password'
+                type='password'
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.confirm_password}
+                error={Boolean(
+                  errors.confirm_password && touched.confirm_password
+                )}
+                helperText={
+                  <span>
+                    {touched.confirm_password && errors.confirm_password}
+                  </span>
+                }
+                fullWidth
+              />
+              <TextField
+                name='location'
+                label='Location'
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.location}
+                error={Boolean(errors.location && touched.location)}
+                helperText={<span>{touched.location && errors.location}</span>}
+                fullWidth
+              />
+              <TextField
+                name='phone_number'
+                label='Phone Numer'
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.phone_number}
+                error={Boolean(errors.phone_number && touched.phone_number)}
+                helperText={
+                  <span>{touched.phone_number && errors.phone_number}</span>
+                }
+                fullWidth
+              />
+              {values.is_resturant && (
+                <>
+                  <TextField
+                    name='resturant_name'
+                    label='Resturant Name'
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.resturant_name}
+                    error={Boolean(
+                      errors.resturant_name && touched.resturant_name
+                    )}
+                    helperText={
+                      <span>
+                        {touched.resturant_name && errors.resturant_name}
+                      </span>
+                    }
+                    fullWidth
+                  />
+                  <Button variant='outlined' color='warning' sx={{ py: 2 }}>
+                    <FileUpload />
+                    &ensp; Upload Logo
+                  </Button>
+                </>
+              )}
+            </Box>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
               <Box
                 sx={{
-                  mt: 5,
                   display: 'flex',
-                  flexDirection: 'column',
-                  rowGap: 2,
+                  alignItems: 'center',
+                  columnGap: 2,
+                  my: 2,
                 }}
               >
-                <TextField
-                  name='name'
-                  label={values.is_resturant ? 'Admin Name' : 'Name'}
+                <FormControlLabel
+                  id='aggrement'
+                  name='aggrement'
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.name}
-                  error={Boolean(errors.name && touched.name)}
-                  helperText={<span>{touched.name && errors.name}</span>}
-                  fullWidth
+                  value={values.aggrement}
+                  control={<Checkbox />}
+                  label='I accept the term and conditions.'
                 />
-                <TextField
-                  name='email'
-                  label='Email address'
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.email}
-                  error={Boolean(errors.email && touched.email)}
-                  helperText={<span>{touched.email && errors.email}</span>}
-                  fullWidth
-                />
-                <TextField
-                  name='password'
-                  label='Password'
-                  type='password'
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.password}
-                  error={Boolean(errors.password && touched.password)}
-                  helperText={
-                    <span>{touched.password && errors.password}</span>
-                  }
-                  fullWidth
-                />
-                <TextField
-                  name='confirm_password'
-                  label='Confirm Password'
-                  type='password'
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.confirm_password}
-                  error={Boolean(
-                    errors.confirm_password && touched.confirm_password
-                  )}
-                  helperText={
-                    <span>
-                      {touched.confirm_password && errors.confirm_password}
-                    </span>
-                  }
-                  fullWidth
-                />
-                <TextField
-                  name='location'
-                  label='Location'
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.location}
-                  error={Boolean(errors.location && touched.location)}
-                  helperText={
-                    <span>{touched.location && errors.location}</span>
-                  }
-                  fullWidth
-                />
-                <TextField
-                  name='phone_number'
-                  label='Phone Numer'
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.phone_number}
-                  error={Boolean(errors.phone_number && touched.phone_number)}
-                  helperText={
-                    <span>{touched.phone_number && errors.phone_number}</span>
-                  }
-                  fullWidth
-                />
-                {values.is_resturant && (
-                  <>
-                    <TextField
-                      name='resturant_name'
-                      label='Resturant Name'
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.resturant_name}
-                      error={Boolean(
-                        errors.resturant_name && touched.resturant_name
-                      )}
-                      helperText={
-                        <span>
-                          {touched.resturant_name && errors.resturant_name}
-                        </span>
-                      }
-                      fullWidth
-                    />
-                    <Button variant='outlined' color='warning' sx={{ py: 2 }}>
-                      <FileUpload />
-                      &ensp; Upload Logo
-                    </Button>
-                  </>
-                )}
               </Box>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    columnGap: 2,
-                    my: 2,
-                  }}
-                >
-                  <FormControlLabel
-                    id='aggrement'
-                    name='aggrement'
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.aggrement}
-                    control={<Checkbox />}
-                    label='I accept the term and conditions.'
-                  />
-                </Box>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    columnGap: 1,
-                    my: 2,
-                  }}
-                >
-                  <FormControlLabel
-                    name='is_resturant'
-                    id='is_resturant'
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.is_resturant}
-                    control={<Checkbox />}
-                    label='As Resturant'
-                  />
-                </Box>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  columnGap: 1,
+                  my: 2,
+                }}
+              >
+                <FormControlLabel
+                  name='is_resturant'
+                  id='is_resturant'
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.is_resturant}
+                  control={<Checkbox />}
+                  label='As Resturant'
+                />
               </Box>
-              <Box>
-                <Button
-                  variant='contained'
-                  disableElevation
-                  fullWidth
-                  color='warning'
-                  type='submit'
-                >
-                  Sign Up
-                </Button>
-              </Box>
-              <Box sx={{ textAlign: 'center', my: 2 }}>
-                <Typography>
-                  Already have an account?&ensp;
-                  <Link href='/auth/login' style={{ color: '#FB9922' }}>
-                    Login
-                  </Link>
-                </Typography>
-              </Box>
-            </Form>
-          )}
-        </Formik>
-      </Box>
-    </>
+            </Box>
+            <Box>
+              <Button
+                variant='contained'
+                disableElevation
+                fullWidth
+                color='warning'
+                type='submit'
+              >
+                Sign Up
+              </Button>
+            </Box>
+            <Box sx={{ textAlign: 'center', my: 2 }}>
+              <Typography>
+                Already have an account?&ensp;
+                <Link href='/auth/login' style={{ color: '#FB9922' }}>
+                  Login
+                </Link>
+              </Typography>
+            </Box>
+          </Form>
+        )}
+      </Formik>
+    </Box>
   );
 }
 

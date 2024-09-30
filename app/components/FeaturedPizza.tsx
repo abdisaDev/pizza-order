@@ -34,33 +34,31 @@ const bannerData = [
 
 function FeaturedPizza() {
   return (
-    <>
-      <Box>
-        <Box sx={{ ml: 20 }}>
-          <Typography variant='h3' fontWeight='bolder'>
-            Featured Pizza
-          </Typography>
-        </Box>
-        <Slider
-          autoplaySpeed={2000}
-          autoplay={true}
-          dots={true}
-          adaptiveHeight={true}
-          arrows={false}
-        >
-          {bannerData.map((banner, index) => (
-            <Banner
-              key={index}
-              title={banner.title}
-              image={banner.image}
-              backgroundColor={banner.backgroundColor}
-              description={banner.description}
-              discount='50% off'
-            />
-          ))}
-        </Slider>
+    <Box>
+      <Box sx={{ ml: 20 }}>
+        <Typography variant='h3' fontWeight='bolder'>
+          Featured Pizza
+        </Typography>
       </Box>
-    </>
+      <Slider
+        autoplaySpeed={2000}
+        autoplay={true}
+        dots={true}
+        adaptiveHeight={true}
+        arrows={false}
+      >
+        {bannerData.map((banner, index) => (
+          <Banner
+            key={index}
+            title={banner.title}
+            image={banner.image}
+            backgroundColor={banner.backgroundColor}
+            description={banner.description}
+            discount='50% off'
+          />
+        ))}
+      </Slider>
+    </Box>
   );
 }
 

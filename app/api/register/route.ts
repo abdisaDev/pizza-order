@@ -1,13 +1,36 @@
-import prisma from "@/app/util/prisma";
+import prisma from '@/app/util/prisma';
 
 export async function POST(request: Request) {
-  const user = await request.json();
   try {
-    const newUser = await prisma.user.create({
-      data: user,
-    });
+    const { is_resturant, resturant_name, ...payload } = await request.json();
+
+    if (is_resturant) {
+      await prisma.user.create({
+        data: {
+          ...payload,
+          type: 'RESTURANT',
+          resturant: {
+            create: {
+              name: resturant_name,
+              total_orders: 0,
+              pizzas: { create: [] },
+            },
+          },
+          role: {
+            create: {
+              name: 'admin',
+              permissions: {
+                create: [{ name: 'read' }, { name: 'write' }],
+              },
+            },
+          },
+        },
+      });
+    } else {
+      await prisma.user.create({ data: payload });
+    }
   } catch (error) {
     throw new Error(error.message);
   }
-  return new Response("User Succesfuly Created", { status: 201 });
+  return new Response('User Succesfuly Created', { status: 201 });
 }
