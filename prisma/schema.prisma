@@ -36,6 +36,7 @@ model Resturant {
   admin_id String @unique
   admin User @relation(fields: [admin_id], references: [id])
   pizzas Pizza[]
+  orders Order[]
 
   @@map("resturants")
 }
@@ -65,6 +66,8 @@ model Order {
   created_at DateTime @default(now())
   user_id String @unique
   user User @relation(fields: [user_id], references: [id])
+  resturant_id String @unique
+  resturant Resturant @relation(fields: [resturant_id], references: [id])
 
   @@map("orders")
 }

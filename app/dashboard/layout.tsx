@@ -22,8 +22,8 @@ function DashBoardLayout({
         }}
       >
         <AppBar />
-        {/* <Box>{orderList}</Box> */}
-        <Box
+        <Box>{orderList}</Box>
+        {/* <Box
           sx={{
             display: 'flex',
             alignItems: 'center',
@@ -32,7 +32,7 @@ function DashBoardLayout({
           }}
         >
           {addMenu}
-        </Box>
+        </Box> */}
       </Box>
     </Box>
   );
