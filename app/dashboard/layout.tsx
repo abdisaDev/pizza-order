@@ -2,13 +2,7 @@ import { Box } from '@mui/material';
 import SideBar from '../components/SideBar';
 import AppBar from '../components/AppBar';
 
-function DashBoardLayout({
-  addMenu,
-  orderList,
-}: {
-  addMenu: React.ReactNode;
-  orderList: React.ReactNode;
-}) {
+function DashBoardLayout({ children }: { children: React.ReactNode }) {
   return (
     <Box sx={{ display: 'flex' }}>
       <Box>
@@ -22,7 +16,7 @@ function DashBoardLayout({
         }}
       >
         <AppBar />
-        <Box>{orderList}</Box>
+        <Box>{children}</Box>
         {/* <Box
           sx={{
             display: 'flex',

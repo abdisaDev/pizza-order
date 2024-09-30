@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Box,
   Button,
@@ -19,8 +21,12 @@ import {
 } from '@mui/icons-material';
 import Image from 'next/image';
 import CompanyLogo from '@/app/assets/logo.svg';
+import { usePathname, useRouter } from 'next/navigation';
 
 function SideBar() {
+  const pathname = usePathname().split('/')[2];
+  const router = useRouter();
+
   return (
     <Box
       sx={{
@@ -57,38 +63,94 @@ function SideBar() {
         </Box>
         <Divider />
         <Box>
-          <MenuList
-            sx={{
-              '& > *': {
-                p: '15px 80px',
+          <MenuList>
+            <MenuItem
+              sx={{
+                p: '12px 80px',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                color: '#FF8100',
-                borderRadius: '20px',
+                color: pathname === 'orders' ? '#FF8100' : null,
+                background: pathname === 'orders' ? '#FCCC99' : null,
+                borderRadius: '5px ',
                 m: 1,
-              },
-            }}
-          >
-            <MenuItem>
+                ':hover': {
+                  background: '#F5D7B8',
+                },
+              }}
+              onClick={() => {
+                router.replace('/dashboard/orders');
+              }}
+            >
               <ListItemText>
                 <ShoppingCartIcon />
                 &emsp; Orders
               </ListItemText>
             </MenuItem>
-            <MenuItem>
+            <MenuItem
+              sx={{
+                p: '12px 80px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                color: pathname === 'add-menu' ? '#FF8100' : null,
+                background: pathname === 'add-menu' ? '#FCCC99' : null,
+                borderRadius: '5px ',
+                m: 1,
+                ':hover': {
+                  background: '#F5D7B8',
+                },
+              }}
+              onClick={() => {
+                router.replace('/dashboard/add-menu');
+              }}
+            >
               <ListItemText>
                 <LocalPizzaIcon />
                 &emsp;Add Menu
               </ListItemText>
             </MenuItem>
-            <MenuItem>
+            <MenuItem
+              sx={{
+                p: '12px 80px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                color: pathname === 'roles' ? '#FF8100' : null,
+                background: pathname === 'roles' ? '#FCCC99' : null,
+                borderRadius: '5px ',
+                m: 1,
+                ':hover': {
+                  background: '#F5D7B8',
+                },
+              }}
+              onClick={() => {
+                router.replace('/dashboard/roles');
+              }}
+            >
               <ListItemText>
                 <PersonIcon />
                 &emsp;Role
               </ListItemText>
             </MenuItem>
-            <MenuItem>
+            <MenuItem
+              sx={{
+                p: '12px 80px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                color: pathname === 'users' ? '#FF8100' : null,
+                background: pathname === 'users' ? '#FCCC99' : null,
+                borderRadius: '5px ',
+                m: 1,
+                ':hover': {
+                  background: '#F5D7B8',
+                },
+              }}
+              onClick={() => {
+                router.replace('/dashboard/users');
+              }}
+            >
               <ListItemText>
                 <AccountCircleOutlinedIcon />
                 &emsp;User

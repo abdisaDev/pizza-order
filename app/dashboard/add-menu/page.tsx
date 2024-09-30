@@ -3,7 +3,13 @@ import { Box } from '@mui/material';
 
 function AddMenuPage() {
   return (
-    <Box>
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
       <AddMenu />
     </Box>
   );
