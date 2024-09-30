@@ -1,111 +1,57 @@
 'use client';
-import DataTable from '@/app/components/DataTable';
-import { RemoveRedEye } from '@mui/icons-material';
-import {
-  Box,
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-} from '@mui/material';
-import { useMemo } from 'react';
 
-const data = [
-  {
-    name: 'Pizza',
-    topping: 'Toppings',
-    quantity: 4,
-    customer_number: '+251988242371',
-    created_at: new Date().toLocaleDateString(),
-    status: 'pending',
-  },
-  {
-    name: 'Pizza',
-    topping: 'Toppings',
-    quantity: 4,
-    customer_number: '+251988242371',
-    created_at: new Date().toLocaleDateString(),
-    status: 'pending',
-  },
-  {
-    name: 'Pizza',
-    topping: 'Toppings',
-    quantity: 4,
-    customer_number: '+251988242371',
-    created_at: new Date().toLocaleDateString(),
-    status: 'pending',
-  },
-  {
-    name: 'Pizza',
-    topping: 'Toppings',
-    quantity: 4,
-    customer_number: '+251988242371',
-    created_at: new Date().toLocaleDateString(),
-    status: 'pending',
-  },
-];
+import DataTable from '@/app/components/DataTable';
+import { Box, Button, Switch, Typography } from '@mui/material';
+import { useEffect, useMemo, useState } from 'react';
 
 function OrderListPage() {
+  const [users, setUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      const users = await fetch('/api/users');
+      setUsers(await users.json());
+      setIsLoading(false);
+    })();
+  }, []);
+
   const columns = useMemo(
     () => [
       {
         accessorKey: 'name',
         header: 'Name',
-        Cell: ({ renderedCellValue }) => <strong>{renderedCellValue}</strong>,
+        Cell: ({ renderedCellValue }) => <span>{renderedCellValue}</span>,
       },
       {
-        accessorKey: 'topping',
-        header: 'Topping',
-        Cell: () => (
-          <span>
-            <Button variant='text' color='warning'>
-              <RemoveRedEye /> &ensp; Topping
-            </Button>
-          </span>
-        ),
+        accessorKey: 'phone_number',
+        header: 'Phone No.',
+        Cell: ({ renderedCellValue }) => <span>{renderedCellValue}</span>,
       },
       {
-        accessorKey: 'quantity',
-        header: 'Quantity',
-        Cell: ({ renderedCellValue }) => <strong>{renderedCellValue}</strong>,
+        accessorKey: 'email',
+        header: 'Email',
+        Cell: ({ renderedCellValue }) => <span>{renderedCellValue}</span>,
       },
       {
-        accessorKey: 'customer_number',
-        header: 'Customer No.',
-        Cell: ({ renderedCellValue }) => <strong>{renderedCellValue}</strong>,
-      },
-      {
-        accessorKey: 'created_at',
-        header: 'Created At.',
-        Cell: ({ renderedCellValue }) => <strong>{renderedCellValue}</strong>,
-      },
-      {
-        accessorKey: 'status',
-        header: 'Status',
+        accessorKey: 'actions',
+        header: 'Actions',
 
         Cell: ({ renderedCellValue }) => (
-          <FormControl fullWidth>
-            <InputLabel id='demo-simple-select-label'>Status</InputLabel>
-            <Select
-              labelId='demo-simple-select-label'
-              id='demo-simple-select'
-              value={10}
-              label='Status'
-              //   onChange={handleChange}
-              size='small'
-            >
-              <MenuItem value={10} sx={{ color: '#FFA500' }}>
-                Preparing
-              </MenuItem>
-              <MenuItem value={20} sx={{ color: 'green' }}>
-                Ready
-              </MenuItem>
-              <MenuItem value={30} sx={{ color: 'green' }}>
-                Delivered
-              </MenuItem>
-            </Select>
-          </FormControl>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              columnGap: 2,
+              background: '#E6F3E7',
+              width: 'fit-content',
+              p: '7px 40px',
+              borderRadius: '20px',
+            }}
+          >
+            <Typography color='success'>Active</Typography>
+            <Switch color='success' size='small' />
+          </Box>
         ),
       },
     ],
@@ -114,7 +60,21 @@ function OrderListPage() {
 
   return (
     <Box>
-      <DataTable data={data} columns={columns} />
+      <DataTable
+        data={users}
+        columns={columns}
+        isLoading={isLoading}
+        topToolbarAction={
+          <Button
+            variant='contained'
+            color='warning'
+            disableElevation
+            sx={{ p: '10px 50px' }}
+          >
+            Add User
+          </Button>
+        }
+      />
     </Box>
   );
 }

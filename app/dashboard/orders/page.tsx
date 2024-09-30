@@ -9,6 +9,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Typography,
 } from '@mui/material';
 import { useMemo } from 'react';
 
@@ -115,7 +116,15 @@ function OrderListPage() {
 
   return (
     <Box>
-      <DataTable data={data} columns={columns} />
+      <DataTable
+        data={data}
+        columns={columns}
+        topToolbarAction={
+          <Typography variant='h6' sx={{ m: '10px' }}>
+            Packages
+          </Typography>
+        }
+      />
     </Box>
   );
 }
