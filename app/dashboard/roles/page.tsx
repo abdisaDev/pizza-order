@@ -8,7 +8,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   FormControlLabel,
   IconButton,
@@ -37,6 +36,7 @@ function OrderListPage() {
   const [roles, setRoles] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [openDialog, setOpenDialog] = useState(false);
+
   useEffect(() => {
     (async () => {
       const users = await fetch("/api/roles");

@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import DataTable from '@/app/components/DataTable';
-import { RemoveRedEye } from '@mui/icons-material';
+import DataTable from "@/app/components/DataTable";
+import { RemoveRedEye } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -10,41 +10,41 @@ import {
   MenuItem,
   Select,
   Typography,
-} from '@mui/material';
-import { useMemo } from 'react';
+} from "@mui/material";
+import { useMemo } from "react";
 
 const data = [
   {
-    name: 'Pizza',
-    topping: 'Toppings',
+    name: "Pizza",
+    topping: "Toppings",
     quantity: 4,
-    customer_number: '+251988242371',
+    customer_number: "+251988242371",
     created_at: new Date().toLocaleDateString(),
-    status: 'pending',
+    status: "pending",
   },
   {
-    name: 'Pizza',
-    topping: 'Toppings',
+    name: "Pizza",
+    topping: "Toppings",
     quantity: 4,
-    customer_number: '+251988242371',
+    customer_number: "+251988242371",
     created_at: new Date().toLocaleDateString(),
-    status: 'pending',
+    status: "pending",
   },
   {
-    name: 'Pizza',
-    topping: 'Toppings',
+    name: "Pizza",
+    topping: "Toppings",
     quantity: 4,
-    customer_number: '+251988242371',
+    customer_number: "+251988242371",
     created_at: new Date().toLocaleDateString(),
-    status: 'pending',
+    status: "pending",
   },
   {
-    name: 'Pizza',
-    topping: 'Toppings',
+    name: "Pizza",
+    topping: "Toppings",
     quantity: 4,
-    customer_number: '+251988242371',
+    customer_number: "+251988242371",
     created_at: new Date().toLocaleDateString(),
-    status: 'pending',
+    status: "pending",
   },
 ];
 
@@ -52,58 +52,58 @@ function OrderListPage() {
   const columns = useMemo(
     () => [
       {
-        accessorKey: 'name',
-        header: 'Name',
+        accessorKey: "name",
+        header: "Name",
         Cell: ({ renderedCellValue }) => <strong>{renderedCellValue}</strong>,
       },
       {
-        accessorKey: 'topping',
-        header: 'Topping',
+        accessorKey: "topping",
+        header: "Topping",
         Cell: () => (
           <span>
-            <Button variant='text' color='warning'>
+            <Button variant="text" color="warning">
               <RemoveRedEye /> &ensp; Topping
             </Button>
           </span>
         ),
       },
       {
-        accessorKey: 'quantity',
-        header: 'Quantity',
+        accessorKey: "quantity",
+        header: "Quantity",
         Cell: ({ renderedCellValue }) => <strong>{renderedCellValue}</strong>,
       },
       {
-        accessorKey: 'customer_number',
-        header: 'Customer No.',
+        accessorKey: "customer_number",
+        header: "Customer No.",
         Cell: ({ renderedCellValue }) => <strong>{renderedCellValue}</strong>,
       },
       {
-        accessorKey: 'created_at',
-        header: 'Created At.',
+        accessorKey: "created_at",
+        header: "Created At.",
         Cell: ({ renderedCellValue }) => <strong>{renderedCellValue}</strong>,
       },
       {
-        accessorKey: 'status',
-        header: 'Status',
+        accessorKey: "status",
+        header: "Status",
 
         Cell: ({ renderedCellValue }) => (
           <FormControl fullWidth>
-            <InputLabel id='demo-simple-select-label'>Status</InputLabel>
+            <InputLabel id="status">Status</InputLabel>
             <Select
-              labelId='demo-simple-select-label'
-              id='demo-simple-select'
+              labelId="status"
+              id="status"
               value={10}
-              label='Status'
+              label="Status"
               //   onChange={handleChange}
-              size='small'
+              size="small"
             >
-              <MenuItem value={10} sx={{ color: '#FFA500' }}>
+              <MenuItem value={10} sx={{ color: "#FFA500" }}>
                 Preparing
               </MenuItem>
-              <MenuItem value={20} sx={{ color: 'green' }}>
+              <MenuItem value={20} sx={{ color: "green" }}>
                 Ready
               </MenuItem>
-              <MenuItem value={30} sx={{ color: 'green' }}>
+              <MenuItem value={30} sx={{ color: "green" }}>
                 Delivered
               </MenuItem>
             </Select>
@@ -120,7 +120,7 @@ function OrderListPage() {
         data={data}
         columns={columns}
         topToolbarAction={
-          <Typography variant='h6' sx={{ m: '10px' }}>
+          <Typography variant="h6" sx={{ m: "10px" }}>
             Packages
           </Typography>
         }
