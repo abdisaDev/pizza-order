@@ -1,5 +1,5 @@
 "use client";
-import { Box, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -8,6 +8,7 @@ import PizzaOne from "@/app/assets/pizza-one.svg";
 import PizzaTwo from "@/app/assets/pizza-two.svg";
 import PizzaThree from "@/app/assets/pizza-three.svg";
 import { useEffect, useState } from "react";
+import _ from "lodash";
 
 const pizzaImages = [PizzaOne, PizzaTwo, PizzaThree];
 
@@ -38,20 +39,26 @@ function FastingPizzas(props: { title: string; ml?: string }) {
           {props.title}
         </Typography>
       </Box>
-      <Slider variableWidth={true} arrows={false}>
-        {pizzas.map((pizzaData, index) => (
-          <Box key={index} sx={{ mx: "20px" }}>
-            <PizzaCard
-              name={pizzaData.name}
-              image={_.sample(pizzaImages)}
-              toppings={pizzaData.toppings}
-              price={pizzaData.price}
-              resturant={pizzaData.resturant}
-              action="button"
-            />
-          </Box>
-        ))}
-      </Slider>
+      {pizzas.length ? (
+        <Slider variableWidth={true} arrows={false}>
+          {pizzas.map((pizzaData, index) => (
+            <Box key={index} sx={{ mx: "20px" }}>
+              <PizzaCard
+                name={pizzaData.name}
+                image={_.sample(pizzaImages)}
+                toppings={pizzaData.toppings}
+                price={pizzaData.price}
+                resturant={pizzaData.resturant}
+                action="button"
+              />
+            </Box>
+          ))}
+        </Slider>
+      ) : (
+        <Box sx={{ textAlign: "center" }}>
+          <CircularProgress color="warning" />
+        </Box>
+      )}
     </Box>
   );
 }

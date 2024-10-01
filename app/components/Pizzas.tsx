@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import PizzaOne from "@/app/assets/pizza-one.svg";
 import PizzaTwo from "@/app/assets/pizza-two.svg";
 import PizzaThree from "@/app/assets/pizza-three.svg";
@@ -41,32 +41,38 @@ function Pizzas(props: {
           {props.title}
         </Typography>
       </Box>
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <Box
-          sx={{
-            display: "grid",
-            justifyContent: "center",
-            rowGap: "40px",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gridTemplateRows: "repeat(2, 1fr)",
-            width: "80%",
-            justifySelf: "",
-          }}
-        >
-          {pizzas.map((pizzaData, index) => (
-            <PizzaCard
-              key={index}
-              name={pizzaData.name}
-              image={_.sample(pizzaImages)}
-              toppings={pizzaData.toppings}
-              price={pizzaData.price}
-              resturant={pizzaData.resturant}
-              action={props.action}
-              actionValue={props.actionValue}
-            />
-          ))}
+      {pizzas.length ? (
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <Box
+            sx={{
+              display: "grid",
+              justifyContent: "center",
+              rowGap: "40px",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gridTemplateRows: "repeat(2, 1fr)",
+              width: "80%",
+              justifySelf: "",
+            }}
+          >
+            {pizzas.map((pizzaData, index) => (
+              <PizzaCard
+                key={index}
+                name={pizzaData.name}
+                image={_.sample(pizzaImages)}
+                toppings={pizzaData.toppings}
+                price={pizzaData.price}
+                resturant={pizzaData.resturant}
+                action={props.action}
+                actionValue={props.actionValue}
+              />
+            ))}
+          </Box>
         </Box>
-      </Box>
+      ) : (
+        <Box sx={{ textAlign: "center" }}>
+          <CircularProgress color="warning" />
+        </Box>
+      )}
     </>
   );
 }

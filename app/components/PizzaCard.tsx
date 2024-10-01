@@ -1,6 +1,9 @@
+"use client";
+
 import { Box, Button, Divider, Typography } from "@mui/material";
 import Image from "next/image";
-import Me from "@/app/assets/me.jpg";
+import ResturantLogo from "@/app/assets/pizza.svg";
+import { useRouter } from "next/navigation";
 
 function PizzaCard(props: {
   name: string;
@@ -11,6 +14,7 @@ function PizzaCard(props: {
   action: "button" | "status";
   actionValue?: string;
 }) {
+  const router = useRouter();
   return (
     <Box
       sx={{
@@ -53,6 +57,11 @@ function PizzaCard(props: {
                 p: "15px 40px",
                 borderRadius: "10px",
               }}
+              onClick={() => {
+                sessionStorage.setItem("order", JSON.stringify(props));
+                router.push("/order");
+                router.refresh();
+              }}
             >
               Order
             </Button>
@@ -84,10 +93,14 @@ function PizzaCard(props: {
           >
             <Box>
               <Image
-                src={Me}
+                src={ResturantLogo}
                 alt="charge"
-                style={{ width: "70px", borderRadius: "50%" }}
                 priority={true}
+                style={{
+                  width: "50px",
+                  // borderRadius: "50%",
+                  transform: `rotate(${Math.floor(Math.random() * 180)}deg)`,
+                }}
               />
             </Box>
             <Box>

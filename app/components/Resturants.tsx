@@ -1,5 +1,5 @@
 "use client";
-import { Box, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import Resturant from "./Resturant";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -42,22 +42,28 @@ function Resturants() {
           Top Resturants
         </Typography>
       </Box>
-      <Slider arrows={false} variableWidth={true}>
-        {resturats.map(
-          (
-            resturant: { name: string; amount: string; description: string },
-            index
-          ) => (
-            <Box key={index} sx={{ mx: "20px" }}>
-              <Resturant
-                name={resturant.name}
-                amount={resturant.amount}
-                description={resturant.description}
-              />
-            </Box>
-          )
-        )}
-      </Slider>
+      {resturats.length ? (
+        <Slider arrows={false} variableWidth={true}>
+          {resturats.map(
+            (
+              resturant: { name: string; amount: string; description: string },
+              index
+            ) => (
+              <Box key={index} sx={{ mx: "20px" }}>
+                <Resturant
+                  name={resturant.name}
+                  amount={resturant.amount}
+                  description={resturant.description}
+                />
+              </Box>
+            )
+          )}
+        </Slider>
+      ) : (
+        <Box sx={{ textAlign: "center" }}>
+          <CircularProgress color="warning" />
+        </Box>
+      )}
     </Box>
   );
 }
