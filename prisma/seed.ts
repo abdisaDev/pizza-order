@@ -10,7 +10,7 @@ async function main() {
       location: "addis ababa",
       phone_number: "0988242371",
       type: "RESTURANT",
-      orders: {connect: },
+      // orders: {connect: },
     },
   });
 
@@ -46,22 +46,21 @@ async function main() {
     data: {
       name: "Abdisa Resturant",
       total_orders: 0,
-      admin_id: "unique-admin-id", // Make sure this admin_id exists in your User model
-    },
+      admin_id: "unique-admin-id", 
   });
 
   const pizza1 = await prisma.pizza.create({
     data: {
       name: "Margherita",
-      price: "270", // Added price field
-      resturant_id: restaurant.id, // Connect to the created restaurant
+      price: "270",
+      resturant_id: restaurant.id, 
       toppings: {
         connect: [
           { id: topping6.id },
           { id: topping3.id },
           { id: topping5.id },
           { id: topping7.id },
-        ], // Connect to cheese and mushrooms
+        ],
       },
       order_id: "",
     },
@@ -70,15 +69,15 @@ async function main() {
   const pizza2 = await prisma.pizza.create({
     data: {
       name: "Pepperoni",
-      price: "350", // Added price field
-      resturant_id: restaurant.id, // Connect to the created restaurant
+      price: "350", 
+      resturant_id: restaurant.id, 
       toppings: {
         connect: [
           { id: topping1.id },
           { id: topping2.id },
           { id: topping4.id },
           { id: topping7.id },
-        ], // Connect to cheese and pepperoni
+        ],
       },
     },
   });

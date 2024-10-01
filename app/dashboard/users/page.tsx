@@ -21,6 +21,7 @@ import {
 import { TransitionProps } from "@mui/material/transitions";
 import { Form, Formik } from "formik";
 import { forwardRef, useEffect, useMemo, useState } from "react";
+import { Can } from "../layout";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -72,25 +73,45 @@ function OrderListPage() {
 
         Cell: ({ renderedCellValue }) => (
           <Box sx={{ display: "flex", columnGap: 2 }}>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                columnGap: 2,
-                background: "#E6F3E7",
-                width: "fit-content",
-                p: "7px 40px",
-                borderRadius: "20px",
-              }}
-            >
-              <Typography color="success">Active</Typography>
-              <Switch color="success" size="small" />
-            </Box>
-            <Box>
-              <IconButton color="error" size="large">
-                <Delete />
-              </IconButton>
-            </Box>
+            <Can I="update" a="User">
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  columnGap: 2,
+                  background: "#E6F3E7",
+                  width: "fit-content",
+                  p: "7px 40px",
+                  borderRadius: "20px",
+                }}
+              >
+                <Typography color="success">Active</Typography>
+                <Switch color="success" size="small" />
+              </Box>
+            </Can>
+            <Can not I="update" a="User">
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  columnGap: 2,
+                  background: "#E6F3E7",
+                  width: "fit-content",
+                  p: "7px 40px",
+                  borderRadius: "20px",
+                }}
+              >
+                <Typography color="success">Active</Typography>
+                <Switch color="success" size="small" disabled />
+              </Box>
+            </Can>
+            <Can I="delete" a="User">
+              <Box>
+                <IconButton color="error" size="large">
+                  <Delete />
+                </IconButton>
+              </Box>
+            </Can>
           </Box>
         ),
       },
@@ -217,17 +238,35 @@ function OrderListPage() {
         columns={columns}
         isLoading={isLoading}
         topToolbarAction={
-          <Button
-            variant="contained"
-            color="warning"
-            disableElevation
-            sx={{ p: "10px 50px" }}
-            onClick={() => {
-              setOpenDialog(true);
-            }}
-          >
-            Add User
-          </Button>
+          <Box>
+            <Can I="create" a="User">
+              <Button
+                variant="contained"
+                color="warning"
+                disableElevation
+                sx={{ p: "10px 50px" }}
+                onClick={() => {
+                  setOpenDialog(true);
+                }}
+              >
+                Add User
+              </Button>
+            </Can>
+            <Can not I="create" a="User">
+              <Button
+                variant="contained"
+                color="warning"
+                disableElevation
+                sx={{ p: "10px 50px" }}
+                onClick={() => {
+                  setOpenDialog(true);
+                }}
+                disabled={true}
+              >
+                Add User
+              </Button>
+            </Can>
+          </Box>
         }
       />
     </Box>

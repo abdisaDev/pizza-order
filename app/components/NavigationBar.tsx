@@ -19,7 +19,9 @@ function NavigationBar() {
       }}
     >
       <Box sx={{ width: "25%" }}>
-        <Image src={Logo} alt="pizza-logo" priority={true} />
+        <Link href="/">
+          <Image src={Logo} alt="pizza-logo" priority={true} />
+        </Link>
       </Box>
       <Box
         sx={{

@@ -12,7 +12,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       authorize: async (credentials) => {
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
-          include: { resturant: true },
+          include: { resturant: true, role: true },
         });
 
         if (!user) {
