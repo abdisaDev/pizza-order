@@ -1,14 +1,20 @@
-import prisma from '@/app/util/prisma';
+import prisma from "@/app/util/prisma";
+import bcrypt from "bcryptjs";
+
+const SALT_ROUND = 7;
 
 export async function POST(request: Request) {
   try {
-    const { is_resturant, resturant_name, ...payload } = await request.json();
+    const { is_resturant, resturant_name, password, ...payload } =
+      await request.json();
 
+    const hashedPassword = await bcrypt.hash(password, SALT_ROUND);
     if (is_resturant) {
       await prisma.user.create({
         data: {
           ...payload,
-          type: 'RESTURANT',
+          password: hashedPassword,
+          type: "RESTURANT",
           resturant: {
             create: {
               name: resturant_name,
@@ -18,9 +24,9 @@ export async function POST(request: Request) {
           },
           role: {
             create: {
-              name: 'admin',
+              name: "superadmin",
               permissions: {
-                create: [{ name: 'read' }, { name: 'write' }],
+                create: [{ name: "read" }, { name: "write" }],
               },
             },
           },
@@ -32,5 +38,5 @@ export async function POST(request: Request) {
   } catch (error) {
     throw new Error(error.message);
   }
-  return new Response('User Succesfuly Created', { status: 201 });
+  return new Response("User Succesfuly Created", { status: 201 });
 }

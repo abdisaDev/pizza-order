@@ -44,9 +44,12 @@ model Resturant {
 model Pizza {
   id String @id @default(uuid())
   name String
+  price String
   resturant_id String @unique
   resturant Resturant @relation(fields: [resturant_id], references: [id])
   toppings Topping[] @relation("PizzaToppings")
+  order_id String
+  order Order? @relation(fields: [order_id], references: [id])
 
   @@map("pizzas")
 }
@@ -68,6 +71,7 @@ model Order {
   user User @relation(fields: [user_id], references: [id])
   resturant_id String @unique
   resturant Resturant @relation(fields: [resturant_id], references: [id])
+  pizza Pizza[]
 
   @@map("orders")
 }

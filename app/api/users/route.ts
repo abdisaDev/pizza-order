@@ -1,7 +1,7 @@
-import prisma from '@/app/util/prisma';
+import prisma from "@/app/util/prisma";
 
 export async function GET() {
-  const user = await prisma.user.findMany({
+  const users = await prisma.user.findMany({
     include: {
       resturant: true,
       role: {
@@ -11,5 +11,10 @@ export async function GET() {
     },
   });
 
-  return Response.json(user);
+  const filtredUsers = users.map((user) => {
+    const { password, ...filteredUser } = user;
+    return filteredUser;
+  });
+
+  return Response.json(filtredUsers);
 }

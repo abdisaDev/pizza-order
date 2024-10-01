@@ -6,7 +6,6 @@ import {
   Box,
   Button,
   Dialog,
-  DialogActions,
   DialogContent,
   DialogTitle,
   FormControl,
@@ -40,9 +39,12 @@ function OrderListPage() {
 
   useEffect(() => {
     (async () => {
-      const users = await fetch("/api/users");
-      console.log(users);
-      if (users) setUsers(await users.json());
+      const data = await fetch("/api/users");
+
+      if (users) {
+        const users = await data.json();
+        setUsers(users);
+      }
       setIsLoading(false);
     })();
   }, []);
