@@ -1,74 +1,53 @@
-'use client';
-import { Box, Typography } from '@mui/material';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import PizzaCard from './PizzaCard';
-import PizzaOne from '@/app/assets/pizza-one.svg';
-import PizzaTwo from '@/app/assets/pizza-two.svg';
-import PizzaThree from '@/app/assets/pizza-three.svg';
+"use client";
+import { Box, Typography } from "@mui/material";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import PizzaCard from "./PizzaCard";
+import PizzaOne from "@/app/assets/pizza-one.svg";
+import PizzaTwo from "@/app/assets/pizza-two.svg";
+import PizzaThree from "@/app/assets/pizza-three.svg";
+import { useEffect, useState } from "react";
 
-const popularPizzasData = [
-  {
-    name: 'Margherita',
-    image: PizzaOne,
-    toppings: ['Tomato', 'Mozzarella', 'Bell Peppers', 'Onions', 'Olives'],
-
-    price: '250',
-  },
-  {
-    name: 'Margherita',
-    image: PizzaTwo,
-    toppings: ['Tomato', 'Mozzarella', 'Bell Peppers', 'Onions', 'Olives'],
-
-    price: '150',
-  },
-  {
-    name: 'Margherita',
-    image: PizzaThree,
-    toppings: ['Tomato', 'Mozzarella', 'Bell Peppers', 'Onions', 'Olives'],
-
-    price: '350',
-  },
-  {
-    name: 'Margherita',
-    image: PizzaOne,
-    toppings: ['Tomato', 'Mozzarella', 'Bell Peppers', 'Onions', 'Olives'],
-
-    price: '250',
-  },
-  {
-    name: 'Margherita',
-    image: PizzaTwo,
-    toppings: ['Tomato', 'Mozzarella', 'Bell Peppers', 'Onions', 'Olives'],
-
-    price: '150',
-  },
-  {
-    name: 'Margherita',
-    image: PizzaThree,
-    toppings: ['Tomato', 'Mozzarella', 'Bell Peppers', 'Onions', 'Olives'],
-    price: '350',
-  },
-];
+const pizzaImages = [PizzaOne, PizzaTwo, PizzaThree];
 
 function FastingPizzas(props: { title: string; ml?: string }) {
+  const [pizzas, setPizzas] = useState([]);
+  useEffect(() => {
+    (async () => {
+      const data = await fetch("/api/pizzas");
+      const pizzaData = await data.json();
+      console.log(pizzaData);
+
+      const pizzas = pizzaData.map((pizza) => {
+        const toppings = pizza.toppings.map((topping) => topping.name);
+        return {
+          name: pizza.name,
+          price: pizza.price,
+          toppings: toppings.join(", "),
+          resturant: pizza.resturant.name,
+        };
+      });
+      setPizzas(pizzas);
+    })();
+  }, []);
   return (
-    <Box ml={props.ml ? props.ml : '150px'}>
-      <Box sx={{ my: '70px ' }}>
-        <Typography variant='h3' fontWeight='bolder'>
+    <Box ml={props.ml ? props.ml : "150px"}>
+      <Box sx={{ my: "70px " }}>
+        <Typography variant="h3" fontWeight="bolder">
           {props.title}
         </Typography>
       </Box>
       <Slider variableWidth={true} arrows={false}>
-        {popularPizzasData.map((pizzaData, index) => (
-          <Box key={index} sx={{ mx: '20px' }}>
+        {pizzas.map((pizzaData, index) => (
+          <Box key={index} sx={{ mx: "20px" }}>
             <PizzaCard
               name={pizzaData.name}
-              image={pizzaData.image}
+              image={_.sample(pizzaImages)}
               toppings={pizzaData.toppings}
               price={pizzaData.price}
-              action='button'
+              resturant={pizzaData.resturant}
+              action="button"
             />
           </Box>
         ))}

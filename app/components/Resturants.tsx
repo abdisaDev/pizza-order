@@ -6,27 +6,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useEffect, useState } from "react";
 
-const resturantData = [
-  {
-    name: "Abdisa Dev",
-    description:
-      "We serve fresh, handcrafted pizzas with classic and unique flavors for dine-in.",
-    amount: "2k",
-  },
-  {
-    name: "Abdisa Dev",
-    description:
-      "We serve fresh, handcrafted pizzas with classic and unique flavors for dine-in.",
-    amount: "1k",
-  },
-  {
-    name: "Abdisa Dev",
-    description:
-      "We serve fresh, handcrafted pizzas with classic and unique flavors for dine-in.",
-    amount: "4k",
-  },
-];
-
 function Resturants() {
   const [resturats, setResturants] = useState([]);
   useEffect(() => {
