@@ -1,7 +1,7 @@
-import { Box, Typography } from '@mui/material';
-import Me from '@/app/assets/me.jpg';
-import Image from 'next/image';
-import Charge from '@/app/assets/charge.svg';
+import { Box, Typography } from "@mui/material";
+import ResturantLogo from "@/app/assets/pizza.svg";
+import Image from "next/image";
+import Charge from "@/app/assets/charge.svg";
 
 function Resturant(props: {
   description: string;
@@ -11,34 +11,35 @@ function Resturant(props: {
   return (
     <Box
       sx={{
-        width: 'fit-content',
-        display: 'flex',
-        alignItems: 'center',
+        width: "fit-content",
+        display: "flex",
+        alignItems: "center",
         gap: 5,
-        background: '#fff',
-        borderRadius: '15px',
-        p: '15px 20px',
+        background: "#fff",
+        borderRadius: "15px",
+        p: "15px 20px",
       }}
     >
       <Box
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          width: '400px',
+          display: "flex",
+          flexDirection: "column",
+          width: "400px",
           gap: 2,
         }}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <Image
-            src={Me}
+            src={ResturantLogo}
             priority={true}
-            alt='user'
+            alt="user"
             style={{
-              width: '70px',
-              borderRadius: '50%',
+              width: "50px",
+              // borderRadius: "50%",
+              transform: `rotate(${Math.floor(Math.random() * 180)}deg)`,
             }}
           />
-          <Typography variant='h5' fontWeight='bolder'>
+          <Typography variant="h5" fontWeight="bolder">
             {props.name}
           </Typography>
         </Box>
@@ -48,20 +49,20 @@ function Resturant(props: {
       </Box>
       <Box
         sx={{
-          display: 'flex',
-          alignItems: 'center',
+          display: "flex",
+          alignItems: "center",
           gap: 5,
-          background: '#F2F9F2',
-          p: '20px 40px',
-          borderRadius: '10px',
+          background: "#F2F9F2",
+          p: "20px 40px",
+          borderRadius: "10px",
         }}
       >
         <Box>
-          <Image src={Charge} alt='charge' priority={true} />
+          <Image src={Charge} alt="charge" priority={true} />
         </Box>
         <Box>
           <Typography>Number of order</Typography>
-          <Typography variant='h2' fontWeight='bolder' color='warning'>
+          <Typography variant="h2" fontWeight="bolder" color="warning">
             {props.amount}
           </Typography>
         </Box>
