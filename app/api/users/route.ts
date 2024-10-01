@@ -1,7 +1,18 @@
 import prisma from "@/app/util/prisma";
+import { NextApiRequest, NextApiResponse } from "next";
 
-export async function GET() {
+export async function GET(request: NextApiRequest, response: NextApiResponse) {
+  const queryParams = request.url?.split("?")[1];
+  const search = queryParams?.split("=")[1];
+  console.log(search);
   const users = await prisma.user.findMany({
+    where: {
+      OR: [
+        { name: { contains: search as string, mode: "insensitive" } },
+        { email: { contains: search as string, mode: "insensitive" } },
+        { phone_number: { contains: search as string, mode: "insensitive" } },
+      ],
+    },
     include: {
       resturant: true,
       role: {
@@ -16,5 +27,5 @@ export async function GET() {
     return filteredUser;
   });
 
-  return Response.json(filtredUsers);
+  return Response.json(filtredUsers, { status: 200 });
 }

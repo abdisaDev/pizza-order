@@ -20,7 +20,7 @@ export function defineAbilityFor(user): AppAbility {
   >(PureAbility);
 
   if (user?.role === "superadmin") {
-    cannot("manage", "all");
+    can("manage", "all");
   } else if (user?.role === "manager") {
     can("manage", "all");
     cannot("delete", "all");
