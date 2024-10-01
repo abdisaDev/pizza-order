@@ -21,15 +21,15 @@ function AddMenu() {
   const [menuDetail, setMenuDetail] = useState({
     name: "",
     price: "",
-    topping: newTopping.names,
+    toppings: newTopping.names,
   });
   const session = useSession();
-  console.log(session);
 
   useEffect(() => {
     setMenuDetail((prev) => {
-      return { ...prev, topping: newTopping.names };
+      return { ...prev, toppings: newTopping.names };
     });
+    console.log(menuDetail);
   }, [newTopping]);
 
   return (
@@ -75,9 +75,9 @@ function AddMenu() {
             my: 2,
           }}
         >
-          {newTopping.names.map((name, index) => (
+          {newTopping.names.map((topping, index) => (
             <Box key={index}>
-              <FormControlLabel control={<Checkbox />} label={name} />
+              <FormControlLabel control={<Checkbox />} label={topping.name} />
             </Box>
           ))}
           <Box>
@@ -109,7 +109,10 @@ function AddMenu() {
                               return {
                                 ...prev,
                                 show: false,
-                                names: [...prev.names, event.target.value],
+                                names: [
+                                  ...prev.names,
+                                  { name: event.target.value },
+                                ],
                               };
                             });
                           }}
@@ -157,7 +160,16 @@ function AddMenu() {
           color="warning"
           sx={{ py: 2 }}
           onClick={async () => {
-            // const response = await fetch("/api/")
+            console.log(menuDetail.toppings);
+            const response = await fetch("/api/add-menu", {
+              method: "POST",
+              body: JSON.stringify({
+                ...menuDetail,
+                resturant_id: session.data?.user.resturant.id,
+              }),
+            });
+
+            console.log(response);
           }}
         >
           Submit

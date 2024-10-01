@@ -45,10 +45,10 @@ model Pizza {
   id String @id @default(uuid())
   name String
   price String
-  resturant_id String @unique
+  resturant_id String
   resturant Resturant @relation(fields: [resturant_id], references: [id])
   toppings Topping[] @relation("PizzaToppings")
-  order_id String
+  order_id String?
   order Order? @relation(fields: [order_id], references: [id])
 
   @@map("pizzas")
