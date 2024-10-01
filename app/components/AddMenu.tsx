@@ -9,16 +9,31 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 
 function AddMenu() {
   const [newTopping, setNewTopping] = useState({
     show: false,
     element: <></>,
-    name: "",
+    names: [],
   });
+  const [menuDetail, setMenuDetail] = useState({
+    name: "",
+    price: "",
+    topping: newTopping.names,
+  });
+  const session = useSession();
+  console.log(session);
+
+  useEffect(() => {
+    setMenuDetail((prev) => {
+      return { ...prev, topping: newTopping.names };
+    });
+  }, [newTopping]);
+
   return (
-    <Box>
+    <Box sx={{ width: "50%" }}>
       <Box>
         <Typography
           variant="h3"
@@ -30,7 +45,16 @@ function AddMenu() {
         >
           Add Menu
         </Typography>
-        <TextField fullWidth placeholder="Menu Name" label="Name" />
+        <TextField
+          fullWidth
+          placeholder="Menu Name"
+          label="Name"
+          onChange={(event) => {
+            setMenuDetail((prev) => {
+              return { ...prev, name: event.target.value };
+            });
+          }}
+        />
       </Box>
       <Box>
         <Typography
@@ -51,40 +75,12 @@ function AddMenu() {
             my: 2,
           }}
         >
+          {newTopping.names.map((name, index) => (
+            <Box key={index}>
+              <FormControlLabel control={<Checkbox />} label={name} />
+            </Box>
+          ))}
           <Box>
-            <FormControlLabel control={<Checkbox />} label="Onion" />
-          </Box>
-          <Box>
-            <FormControlLabel control={<Checkbox />} label="Onion" />
-          </Box>
-          <Box>
-            <FormControlLabel control={<Checkbox />} label="Onion" />
-          </Box>
-          <Box>
-            <FormControlLabel control={<Checkbox />} label="Onion" />
-          </Box>
-          <Box>
-            <FormControlLabel control={<Checkbox />} label="Onion" />
-          </Box>
-          <Box>
-            <FormControlLabel control={<Checkbox />} label="Onion" />
-          </Box>
-          <Box>
-            <FormControlLabel control={<Checkbox />} label="Onion" />
-          </Box>
-          <Box>
-            <FormControlLabel control={<Checkbox />} label="Onion" />
-          </Box>
-          <Box>
-            {newTopping.show ||
-              (newTopping.name && (
-                <Box>
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label={newTopping.name}
-                  />
-                </Box>
-              ))}
             {newTopping.show && (
               <Box sx={{ display: "flex", alignItems: "center", px: 2 }}>
                 <Box>{newTopping.element}</Box>
@@ -98,26 +94,29 @@ function AddMenu() {
               variant="contained"
               disableElevation
               onClick={() => {
-                setNewTopping({
-                  show: true,
-                  element: (
-                    <TextField
-                      size="small"
-                      label="Topping Name"
-                      placeholder="Topping Name"
-                      onBlur={(event) => {
-                        console.log(event);
-                        setNewTopping((prev) => {
-                          return {
-                            ...prev,
-                            show: false,
-                            name: event.target.value,
-                          };
-                        });
-                      }}
-                    />
-                  ),
-                  name: "",
+                setNewTopping((prev) => {
+                  return {
+                    names: [...prev.names],
+                    show: true,
+                    element: (
+                      <Box>
+                        <TextField
+                          size="small"
+                          label="Topping Name"
+                          placeholder="Topping Name"
+                          onBlur={(event) => {
+                            setNewTopping((prev) => {
+                              return {
+                                ...prev,
+                                show: false,
+                                names: [...prev.names, event.target.value],
+                              };
+                            });
+                          }}
+                        />
+                      </Box>
+                    ),
+                  };
                 });
               }}
             >
@@ -127,7 +126,16 @@ function AddMenu() {
         </Box>
       </Box>
       <Box my={2}>
-        <TextField fullWidth placeholder="Price" label="Price" />
+        <TextField
+          fullWidth
+          placeholder="Price"
+          label="Price"
+          onChange={(event) => {
+            setMenuDetail((prev) => {
+              return { ...prev, price: event.target.value };
+            });
+          }}
+        />
       </Box>
       <Box
         sx={{
@@ -148,6 +156,9 @@ function AddMenu() {
           disableElevation
           color="warning"
           sx={{ py: 2 }}
+          onClick={async () => {
+            // const response = await fetch("/api/")
+          }}
         >
           Submit
         </Button>

@@ -7,10 +7,9 @@ import { useSession } from "next-auth/react";
 
 function AddMenuPage() {
   const { data: session } = useSession();
-  console.log(session);
 
   const ability = defineAbilityFor(session?.user);
-  console.log(ability);
+
   return (
     <Box
       sx={{

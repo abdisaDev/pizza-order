@@ -3,9 +3,9 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    const { restaurantId, name } = await request.json();
+    const payload = await request.json();
 
-    if (!restaurantId || !name) {
+    if (!payload) {
       return NextResponse.json(
         { error: "restaurantId and name are required." },
         { status: 400 }
@@ -14,12 +14,12 @@ export async function POST(request: Request) {
 
     const pizza = await prisma.pizza.create({
       data: {
-        name,
+        name: payload.name,
         resturant: {
-          connect: { id: restaurantId },
+          connect: { id: payload.restaurantId },
         },
         toppings: {
-          create: {},
+          create: payload.toppings,
         },
       },
     });
