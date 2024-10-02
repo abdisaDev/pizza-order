@@ -237,6 +237,7 @@ function OrderListPage() {
         data={users}
         columns={columns}
         isLoading={isLoading}
+        path='users'
         topToolbarAction={
           <Box>
             <Can I='create' a='User'>

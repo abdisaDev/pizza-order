@@ -1,6 +1,7 @@
 'use client';
 
 import { Box } from '@mui/material';
+import { format } from 'date-fns';
 import {
   MaterialReactTable,
   useMaterialReactTable,
@@ -12,28 +13,43 @@ function DataTable(props: {
   data: any[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   columns: any[];
+  path: string;
   isLoading: boolean;
   topToolbarAction: React.ReactNode;
 }) {
   const [isGlobalFilterLoading, setIsGlobalFilterLoading] = useState(false);
   const [globalFilter, setGlobalFilter] = useState('');
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [data, setData] = useState<any[]>([]);
-
+  const [filteredOrders, setFilteredOrders] = useState<any[]>(props.data);
   useEffect(() => {
-    setData(props.data);
     const fetchData = async () => {
       setIsGlobalFilterLoading(true);
-      const filteredData = await fetch(`/api/users?search=${globalFilter}`);
+      const filteredData = await fetch(
+        `/api/${props.path}?search=${globalFilter}`
+      );
       const result = await filteredData.json();
-      setData([...result]);
+      if (props.path === 'orders') {
+        const orderList = result.map((orderData) => {
+          const { user, created_at, pizzas } = orderData;
+
+          return {
+            name: user.name,
+            customer_number: user.phone_number,
+            created_at: format(new Date(created_at), 'dd/MM/yyyy'),
+            quantity: pizzas[0].quantity,
+          };
+        });
+        setFilteredOrders(orderList);
+      } else {
+        setFilteredOrders([...result]);
+      }
       setIsGlobalFilterLoading(false);
     };
     fetchData();
   }, [globalFilter]);
 
   const table = useMaterialReactTable({
-    data,
+    data: filteredOrders,
     columns: props.columns,
     renderTopToolbarCustomActions: () => props.topToolbarAction,
     muiTablePaperProps: { sx: { p: 4, borderRadius: '10px' } },

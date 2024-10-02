@@ -193,6 +193,7 @@ function OrderListPage() {
         data={roles}
         columns={columns}
         isLoading={isLoading}
+        path='roles'
         topToolbarAction={
           <Button
             variant='contained'

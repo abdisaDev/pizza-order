@@ -17,6 +17,7 @@ import {
   Typography,
 } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
+import { format } from 'date-fns';
 import _ from 'lodash';
 import { forwardRef, useEffect, useMemo, useState } from 'react';
 
@@ -51,25 +52,24 @@ function OrderListPage() {
       const data = await fetch('/api/orders');
       const ordersData = await data.json();
 
-      const orders = ordersData.map((orderData) => {
-        const { user, created_at } = orderData;
+      const orderList = ordersData.map((orderData) => {
+        const { user, created_at, pizzas } = orderData;
 
         return {
-          order_name: user.name,
+          name: user.name,
           customer_number: user.phone_number,
-          created_at,
+          created_at: format(new Date(created_at), 'dd/MM/yyyy'),
         };
       });
-      setOrders(orders);
+      setOrders(orderList);
       setIsLoading(false);
     })();
   }, []);
-
   console.log(orders);
   const columns = useMemo(
     () => [
       {
-        accessorKey: 'order_name',
+        accessorKey: 'name',
         header: 'Name',
         Cell: ({ renderedCellValue }) => <strong>{renderedCellValue}</strong>,
       },
@@ -193,6 +193,7 @@ function OrderListPage() {
           </Typography>
         }
         isLoading={isLoading}
+        path='orders'
       />
     </Box>
   );
