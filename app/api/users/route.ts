@@ -1,7 +1,6 @@
 import prisma from '@/app/util/prisma';
-import { NextApiRequest } from 'next';
 
-export async function GET(request: NextApiRequest) {
+export async function GET(request: Request) {
   const queryParams = request.url?.split('?')[1];
   const search = queryParams?.split('=')[1];
   console.log(search);
