@@ -4,14 +4,11 @@ import { Box } from '@mui/material';
 import SideBar from '../components/SideBar';
 import AppBar from '../components/AppBar';
 import { AppAbility, defaultAbility, defineAbilityFor } from '@/lib/ability';
-import { createContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { createContextualCan } from '@casl/react';
+
 import { AnyAbility } from '@casl/ability';
-
-const AbilityContext = createContext<AppAbility | AnyAbility>(defaultAbility);
-
-export const Can = createContextualCan(AbilityContext.Consumer);
+import { AbilityContext } from '@/lib/canContext';
 
 function DashBoardLayout({ children }: { children: React.ReactNode }) {
   const [ability, setAbility] = useState<AppAbility | AnyAbility>(
