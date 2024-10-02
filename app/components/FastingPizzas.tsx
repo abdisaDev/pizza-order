@@ -12,7 +12,11 @@ import _ from "lodash";
 
 const pizzaImages = [PizzaOne, PizzaTwo, PizzaThree];
 
-function FastingPizzas(props: { title: string; ml?: string }) {
+function FastingPizzas(props: {
+  title: string;
+  ml?: string;
+  removeFooter?: boolean;
+}) {
   const [pizzas, setPizzas] = useState([]);
   useEffect(() => {
     (async () => {
@@ -51,6 +55,7 @@ function FastingPizzas(props: { title: string; ml?: string }) {
                 price={pizzaData.price}
                 resturant={pizzaData.resturant}
                 action="button"
+                removeFooter={props.removeFooter}
               />
             </Box>
           ))}

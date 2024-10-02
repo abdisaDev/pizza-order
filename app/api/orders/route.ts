@@ -1,5 +1,5 @@
-import prisma from '@/app/util/prisma';
-import { NextRequest, NextResponse } from 'next/server';
+import prisma from "@/app/util/prisma";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
   const orders = await prisma.order.findMany({
@@ -17,5 +17,5 @@ export async function POST(request: NextRequest) {
     data: { status },
   });
 
-  return NextResponse.json('Order Status Successfuly Updated', { status: 200 });
+  return NextResponse.json("Order Status Successfuly Updated", { status: 200 });
 }

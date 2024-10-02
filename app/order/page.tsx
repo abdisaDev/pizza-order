@@ -231,7 +231,7 @@ function Order() {
         </Box>
       )}
       <Box>
-        <FastingPizzas title="Related" ml="50px" />
+        <FastingPizzas title="Related" ml="50px" removeFooter={true} />
       </Box>
       <Box>
         <Footer />

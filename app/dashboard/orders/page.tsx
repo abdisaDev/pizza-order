@@ -20,7 +20,7 @@ import {
 import { TransitionProps } from "@mui/material/transitions";
 import { format } from "date-fns";
 import _ from "lodash";
-import { useRouter } from "next/navigation";
+import { getSession } from "next-auth/react";
 import { forwardRef, useEffect, useMemo, useState } from "react";
 
 const Transition = forwardRef(function Transition(
@@ -49,14 +49,17 @@ function OrderListPage() {
   const [openDialog, setOpenDialog] = useState(false);
   const [orderDetail, setOrderDetail] = useState({});
 
-  const router = useRouter();
-
   useEffect(() => {
     (async () => {
-      const data = await fetch("/api/orders", { cache: "no-store" });
-      const ordersData = await data.json();
+      const session = await getSession();
+      const data = await fetch("/api/resturants");
+      const resturantData = await data.json();
 
-      const orderList = ordersData.map(
+      const resturants = resturantData.find((resturant: { id: string }) => {
+        return session?.user?.resturant.id === resturant.id;
+      });
+      console.log(resturants.orders);
+      const orderList = resturants.orders.map(
         (orderData: {
           user: any;
           created_at: any;
@@ -65,13 +68,13 @@ function OrderListPage() {
           status: any;
         }) => {
           const { user, created_at, pizzas, id, status } = orderData;
-          console.log(orderData);
+
           return {
             id,
             name: user.name,
             customer_number: user.phone_number,
             created_at: format(new Date(created_at), "dd/MM/yyyy"),
-            quantity: pizzas[0].quantity,
+            // quantity: pizzas[0].quantity,
             status,
           };
         }
@@ -90,7 +93,6 @@ function OrderListPage() {
         status,
       }),
     });
-    router.refresh();
   };
   const columns = useMemo(
     () => [

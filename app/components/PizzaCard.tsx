@@ -14,6 +14,7 @@ function PizzaCard(props: {
   resturant: { id: string; name: string };
   action: "button" | "status";
   actionValue?: string;
+  removeFooter?: boolean;
 }) {
   const router = useRouter();
   return (
@@ -40,76 +41,91 @@ function PizzaCard(props: {
           }}
         />
       </Box>
-      <Box sx={{ my: 2 }}>
-        <Typography variant="h4" fontWeight="bolder">
+      <Box
+        sx={{
+          my: props.removeFooter ? 4 : 1,
+          display: "flex",
+          flexDirection: "column",
+          rowGap: props.removeFooter ? 4 : 2,
+        }}
+      >
+        <Typography variant="h4" fontWeight="bolder" textAlign="center">
           {props.name}
         </Typography>
-        <Typography>{props.toppings}</Typography>
-        <Box sx={{ display: "flex", justifyContent: "space-around", my: 4 }}>
-          <Typography variant="h4" color="success" fontWeight="bolder">
-            {props.price} <sup>Birr</sup>
-          </Typography>
-          {props.action === "button" ? (
-            <Button
-              variant="contained"
-              color="warning"
-              disableElevation
-              sx={{
-                p: "15px 40px",
-                borderRadius: "10px",
-              }}
-              onClick={() => {
-                sessionStorage.setItem("order", JSON.stringify(props));
-                router.push("/order");
-                router.refresh();
-              }}
+        <Typography textAlign="center">{props.toppings}</Typography>
+        {!props.removeFooter && (
+          <>
+            <Box
+              sx={{ display: "flex", justifyContent: "space-around", my: 4 }}
             >
-              Order
-            </Button>
-          ) : (
-            <Typography
-              variant="h4"
-              color={
-                props.actionValue?.toLowerCase() === "recived"
-                  ? "success"
-                  : "warning"
-              }
-              fontWeight="bolder"
-            >
-              {props.actionValue}
-            </Typography>
-          )}
-        </Box>
-        <Box my={1}>
-          <Divider />
-        </Box>
-        <Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              m: 2,
-            }}
-          >
-            <Box>
-              <Image
-                src={ResturantLogo}
-                alt="charge"
-                priority={true}
-                style={{
-                  width: "50px",
-                  transform: `rotate(${Math.floor(Math.random() * 180)}deg)`,
-                }}
-              />
-            </Box>
-            <Box>
-              <Typography variant="h5" fontWeight="bolder">
-                {props.resturant.name}
+              <Typography variant="h4" color="success" fontWeight="bolder">
+                {props.price} <sup>Birr</sup>
               </Typography>
+              {props.action === "button" ? (
+                <Button
+                  variant="contained"
+                  color="warning"
+                  disableElevation
+                  sx={{
+                    p: "15px 40px",
+                    borderRadius: "10px",
+                  }}
+                  onClick={() => {
+                    sessionStorage.setItem("order", JSON.stringify(props));
+                    router.push("/order");
+                    router.refresh();
+                  }}
+                >
+                  Order
+                </Button>
+              ) : (
+                <Typography
+                  variant="h4"
+                  color={
+                    props.actionValue?.toLowerCase() === "recived"
+                      ? "success"
+                      : "warning"
+                  }
+                  fontWeight="bolder"
+                >
+                  {props.actionValue}
+                </Typography>
+              )}
             </Box>
-          </Box>
-        </Box>
+            <Box my={1}>
+              <Divider />
+            </Box>
+            <Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  m: 2,
+                }}
+              >
+                <Box>
+                  <Image
+                    src={ResturantLogo}
+                    alt="charge"
+                    priority={true}
+                    style={{
+                      width: "50px",
+                      transform: `rotate(${Math.floor(
+                        Math.random() * 180
+                      )}deg)`,
+                    }}
+                  />
+                </Box>
+                <Box>
+                  <Typography variant="h5" fontWeight="bolder">
+                    {props.resturant.name}
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+          </>
+        )}
       </Box>
     </Box>
   );
