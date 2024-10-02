@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Box, CircularProgress, Typography } from "@mui/material";
@@ -22,16 +23,25 @@ function Pizzas(props: {
       const pizzaData = await data.json();
       console.log(pizzaData);
 
-      const pizzas = pizzaData.map((pizza) => {
-        const toppings = pizza.toppings.map((topping) => topping.name);
-        return {
-          id: pizza.id,
-          name: pizza.name,
-          price: pizza.price,
-          toppings: toppings.join(", "),
-          resturant: { id: pizza.resturant_id, name: pizza.resturant.name },
-        };
-      });
+      const pizzas = pizzaData.map(
+        (pizza: {
+          toppings: any[];
+          id: any;
+          name: any;
+          price: any;
+          resturant_id: any;
+          resturant: { name: any };
+        }) => {
+          const toppings = pizza.toppings.map((topping) => topping.name);
+          return {
+            id: pizza.id,
+            name: pizza.name,
+            price: pizza.price,
+            toppings: toppings.join(", "),
+            resturant: { id: pizza.resturant_id, name: pizza.resturant.name },
+          };
+        }
+      );
       setPizzas(pizzas);
     })();
   }, []);
@@ -55,7 +65,7 @@ function Pizzas(props: {
               justifySelf: "",
             }}
           >
-            {pizzas.map((pizzaData, index) => (
+            {pizzas.map((pizzaData: any, index) => (
               <PizzaCard
                 key={index}
                 pizza_id={pizzaData.id}

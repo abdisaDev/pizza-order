@@ -12,18 +12,21 @@ function Resturants() {
     (async () => {
       const data = await fetch("/api/resturants");
       const resturantsData = await data.json();
-      const resturants = resturantsData.map((resturant) => {
-        return {
-          name: resturant.name,
-          amount: resturant.orders.length.toString(),
-          description:
-            "We serve fresh, handcrafted pizzas with classic and unique flavors for dine-in.",
-        };
-      });
+      const resturants = resturantsData.map(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (resturant: { name: any; orders: string | any[] }) => {
+          return {
+            name: resturant.name,
+            amount: resturant.orders.length.toString(),
+            description:
+              "We serve fresh, handcrafted pizzas with classic and unique flavors for dine-in.",
+          };
+        }
+      );
       setResturants(resturants);
     })();
   }, []);
-  console.log(resturats);
+
   return (
     <Box
       sx={{
