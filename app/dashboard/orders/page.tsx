@@ -1,10 +1,11 @@
-"use client";
+'use client';
 
-import DataTable from "@/app/components/DataTable";
-import { RemoveRedEye } from "@mui/icons-material";
+import DataTable from '@/app/components/DataTable';
+import { RemoveRedEye } from '@mui/icons-material';
 import {
   Box,
   Button,
+  Chip,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -14,10 +15,10 @@ import {
   Select,
   Slide,
   Typography,
-} from "@mui/material";
-import { TransitionProps } from "@mui/material/transitions";
-import _ from "lodash";
-import { forwardRef, useEffect, useMemo, useState } from "react";
+} from '@mui/material';
+import { TransitionProps } from '@mui/material/transitions';
+import _ from 'lodash';
+import { forwardRef, useEffect, useMemo, useState } from 'react';
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -26,17 +27,17 @@ const Transition = forwardRef(function Transition(
   },
   ref: React.Ref<unknown>
 ) {
-  return <Slide direction="up" ref={ref} {...props} />;
+  return <Slide direction='up' ref={ref} {...props} />;
 });
 
 const colors = [
-  "default",
-  "info",
-  "primary",
-  "secondary",
-  "success",
-  "warning",
-  "error",
+  'default',
+  'info',
+  'primary',
+  'secondary',
+  'success',
+  'warning',
+  'error',
 ];
 
 function OrderListPage() {
@@ -47,11 +48,11 @@ function OrderListPage() {
 
   useEffect(() => {
     (async () => {
-      const data = await fetch("/api/orders");
+      const data = await fetch('/api/orders');
       const ordersData = await data.json();
 
       const orders = ordersData.map((orderData) => {
-        const { user, Pizza, created_at, status } = orderData;
+        const { user, created_at } = orderData;
 
         return {
           order_name: user.name,
@@ -68,18 +69,18 @@ function OrderListPage() {
   const columns = useMemo(
     () => [
       {
-        accessorKey: "order_name",
-        header: "Name",
+        accessorKey: 'order_name',
+        header: 'Name',
         Cell: ({ renderedCellValue }) => <strong>{renderedCellValue}</strong>,
       },
       {
-        accessorKey: "topping",
-        header: "Topping",
+        accessorKey: 'topping',
+        header: 'Topping',
         Cell: ({ row }) => (
           <span>
             <Button
-              variant="text"
-              color="warning"
+              variant='text'
+              color='warning'
               onClick={() => {
                 setOpenDialog(true);
                 setOrderDetail(row.original);
@@ -92,42 +93,42 @@ function OrderListPage() {
         ),
       },
       {
-        accessorKey: "quantity",
-        header: "Quantity",
+        accessorKey: 'quantity',
+        header: 'Quantity',
         Cell: ({ renderedCellValue }) => <strong>{renderedCellValue}</strong>,
       },
       {
-        accessorKey: "customer_number",
-        header: "Customer No.",
+        accessorKey: 'customer_number',
+        header: 'Customer No.',
         Cell: ({ renderedCellValue }) => <strong>{renderedCellValue}</strong>,
       },
       {
-        accessorKey: "created_at",
-        header: "Created At.",
+        accessorKey: 'created_at',
+        header: 'Created At.',
         Cell: ({ renderedCellValue }) => <strong>{renderedCellValue}</strong>,
       },
       {
-        accessorKey: "status",
-        header: "Status",
+        accessorKey: 'status',
+        header: 'Status',
 
         Cell: () => (
           <FormControl fullWidth>
-            <InputLabel id="status">Status</InputLabel>
+            <InputLabel id='status'>Status</InputLabel>
             <Select
-              labelId="status"
-              id="status"
+              labelId='status'
+              id='status'
               value={10}
-              label="Status"
+              label='Status'
               //   onChange={handleChange}
-              size="small"
+              size='small'
             >
-              <MenuItem value={10} sx={{ color: "#FFA500" }}>
+              <MenuItem value={10} sx={{ color: '#FFA500' }}>
                 Preparing
               </MenuItem>
-              <MenuItem value={20} sx={{ color: "green" }}>
+              <MenuItem value={20} sx={{ color: 'green' }}>
                 Ready
               </MenuItem>
-              <MenuItem value={30} sx={{ color: "green" }}>
+              <MenuItem value={30} sx={{ color: 'green' }}>
                 Delivered
               </MenuItem>
             </Select>
@@ -148,34 +149,34 @@ function OrderListPage() {
           setOpenDialog(false);
         }}
         PaperProps={{
-          sx: { borderRadius: "20px" },
+          sx: { borderRadius: '20px' },
         }}
       >
         <DialogTitle
           sx={{
-            textAlign: "center",
-            fontSize: "30px",
-            fontWeight: "bolder",
+            textAlign: 'center',
+            fontSize: '30px',
+            fontWeight: 'bolder',
           }}
         >
           Order Details
         </DialogTitle>
         <DialogContent sx={{ px: 10 }}>
           <Box>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               <Box>
-                <Typography variant="h5">
+                <Typography variant='h5'>
                   Name: &emsp;{orderDetail.name}
                 </Typography>
               </Box>
-              <Box sx={{ display: "flex", flexWrap: "wrap", columnGap: 1 }}>
-                <Typography variant="h5">Toppings: </Typography>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', columnGap: 1 }}>
+                <Typography variant='h5'>Toppings: </Typography>
                 {orderDetail.topping?.map((topping, index) => (
                   <Chip label={topping} key={index} color={_.sample(colors)} />
                 ))}
               </Box>
               <Box>
-                <Typography variant="h5">
+                <Typography variant='h5'>
                   Quantity: &emsp;{orderDetail.quantity}
                 </Typography>
               </Box>
@@ -187,7 +188,7 @@ function OrderListPage() {
         data={orders}
         columns={columns}
         topToolbarAction={
-          <Typography variant="h6" sx={{ m: "10px" }}>
+          <Typography variant='h6' sx={{ m: '10px' }}>
             Packages
           </Typography>
         }

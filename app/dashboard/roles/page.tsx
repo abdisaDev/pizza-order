@@ -1,6 +1,6 @@
-"use client";
-import DataTable from "@/app/components/DataTable";
-import { Add, Delete, RemoveRedEye } from "@mui/icons-material";
+'use client';
+import DataTable from '@/app/components/DataTable';
+import { Add, Delete, RemoveRedEye } from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -17,10 +17,10 @@ import {
   TextField,
   Tooltip,
   Typography,
-} from "@mui/material";
-import { forwardRef, useEffect, useMemo, useState } from "react";
-import { format } from "date-fns";
-import { TransitionProps } from "@mui/material/transitions";
+} from '@mui/material';
+import { forwardRef, useEffect, useMemo, useState } from 'react';
+import { format } from 'date-fns';
+import { TransitionProps } from '@mui/material/transitions';
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -29,7 +29,7 @@ const Transition = forwardRef(function Transition(
   },
   ref: React.Ref<unknown>
 ) {
-  return <Slide direction="up" ref={ref} {...props} />;
+  return <Slide direction='up' ref={ref} {...props} />;
 });
 
 function OrderListPage() {
@@ -39,7 +39,7 @@ function OrderListPage() {
 
   useEffect(() => {
     (async () => {
-      const users = await fetch("/api/roles");
+      const users = await fetch('/api/roles');
       setRoles(await users.json());
       setIsLoading(false);
     })();
@@ -48,40 +48,40 @@ function OrderListPage() {
   const columns = useMemo(
     () => [
       {
-        accessorKey: "name",
-        header: "Role Name",
+        accessorKey: 'name',
+        header: 'Role Name',
         Cell: ({ renderedCellValue }) => <span>{renderedCellValue}</span>,
       },
       {
-        accessorKey: "created_at",
-        header: "Created at",
+        accessorKey: 'created_at',
+        header: 'Created at',
         Cell: ({ renderedCellValue }) => (
-          <span>{format(renderedCellValue, "dd/MM/yyyy").toString()}</span>
+          <span>{format(renderedCellValue, 'dd/MM/yyyy').toString()}</span>
         ),
       },
       {
-        accessorKey: "actions",
-        header: "Actions",
-        Cell: ({ renderedCellValue }) => (
-          <Box sx={{ display: "flex", gap: 1 }}>
+        accessorKey: 'actions',
+        header: 'Actions',
+        Cell: () => (
+          <Box sx={{ display: 'flex', gap: 1 }}>
             <Box
               sx={{
-                display: "flex",
-                alignItems: "center",
+                display: 'flex',
+                alignItems: 'center',
                 columnGap: 2,
-                background: "#E6F3E7",
-                width: "fit-content",
-                p: "7px 40px",
-                borderRadius: "20px",
+                background: '#E6F3E7',
+                width: 'fit-content',
+                p: '7px 40px',
+                borderRadius: '20px',
               }}
             >
-              <Typography color="success">Active</Typography>
-              <Switch color="success" size="small" />
+              <Typography color='success'>Active</Typography>
+              <Switch color='success' size='small' />
             </Box>
             <IconButton>
               <RemoveRedEye />
             </IconButton>
-            <IconButton color="error">
+            <IconButton color='error'>
               <Delete />
             </IconButton>
           </Box>
@@ -101,14 +101,14 @@ function OrderListPage() {
           setOpenDialog(false);
         }}
         PaperProps={{
-          sx: { borderRadius: "20px" },
+          sx: { borderRadius: '20px' },
         }}
       >
         <DialogTitle
           sx={{
-            textAlign: "center",
-            fontSize: "30px",
-            fontWeight: "bolder",
+            textAlign: 'center',
+            fontSize: '30px',
+            fontWeight: 'bolder',
           }}
         >
           Role
@@ -116,16 +116,16 @@ function OrderListPage() {
         <DialogContent sx={{ px: 10 }}>
           <Box mt={2}>
             <TextField
-              name="role_name"
-              placeholder="Name"
-              label="Name"
+              name='role_name'
+              placeholder='Name'
+              label='Name'
               fullWidth
               slotProps={{
                 input: {
                   endAdornment: (
-                    <InputAdornment position="end">
-                      <Tooltip title="Add new role">
-                        <IconButton size="large" color="success" edge="end">
+                    <InputAdornment position='end'>
+                      <Tooltip title='Add new role'>
+                        <IconButton size='large' color='success' edge='end'>
                           <Add />
                         </IconButton>
                       </Tooltip>
@@ -136,53 +136,53 @@ function OrderListPage() {
             />
           </Box>
           <Box>
-            <Typography variant="h5" sx={{ fontWeight: "bolder", my: 2 }}>
+            <Typography variant='h5' sx={{ fontWeight: 'bolder', my: 2 }}>
               Permission
             </Typography>
-            <Box sx={{ display: "flex", flexWrap: "wrap", columnGap: 1 }}>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', columnGap: 1 }}>
               <FormControlLabel
-                id="aggrement"
-                name="aggrement"
-                control={<Checkbox color="warning" />}
-                label="Update Order Status"
+                id='aggrement'
+                name='aggrement'
+                control={<Checkbox color='warning' />}
+                label='Update Order Status'
               />
               <FormControlLabel
-                id="aggrement"
-                name="aggrement"
-                control={<Checkbox color="warning" />}
-                label="See orders"
+                id='aggrement'
+                name='aggrement'
+                control={<Checkbox color='warning' />}
+                label='See orders'
               />
               <FormControlLabel
-                id="aggrement"
-                name="aggrement"
-                control={<Checkbox color="warning" />}
-                label="Add users"
+                id='aggrement'
+                name='aggrement'
+                control={<Checkbox color='warning' />}
+                label='Add users'
               />
               <FormControlLabel
-                id="aggrement"
-                name="aggrement"
-                control={<Checkbox color="warning" />}
-                label="See Customers"
+                id='aggrement'
+                name='aggrement'
+                control={<Checkbox color='warning' />}
+                label='See Customers'
               />
               <FormControlLabel
-                id="aggrement"
-                name="aggrement"
-                control={<Checkbox color="warning" />}
-                label="Create Roles"
+                id='aggrement'
+                name='aggrement'
+                control={<Checkbox color='warning' />}
+                label='Create Roles'
               />
             </Box>
           </Box>
         </DialogContent>
         <DialogActions
-          sx={{ display: "flex", justifyContent: "center", px: 10, mb: 4 }}
+          sx={{ display: 'flex', justifyContent: 'center', px: 10, mb: 4 }}
         >
           <Button
             onClick={() => {
               setOpenDialog(false);
             }}
-            variant="contained"
+            variant='contained'
             disableElevation
-            color="warning"
+            color='warning'
             fullWidth
           >
             Update
@@ -195,10 +195,10 @@ function OrderListPage() {
         isLoading={isLoading}
         topToolbarAction={
           <Button
-            variant="contained"
-            color="warning"
+            variant='contained'
+            color='warning'
             disableElevation
-            sx={{ p: "10px 50px" }}
+            sx={{ p: '10px 50px' }}
             onClick={() => {
               setOpenDialog(true);
             }}

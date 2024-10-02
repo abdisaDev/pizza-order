@@ -1,21 +1,15 @@
-"use client";
+'use client';
 
-import AddMenu from "@/app/components/AddMenu";
-import { defineAbilityFor } from "@/lib/ability";
-import { Box } from "@mui/material";
-import { useSession } from "next-auth/react";
+import AddMenu from '@/app/components/AddMenu';
+import { Box } from '@mui/material';
 
 function AddMenuPage() {
-  const { data: session } = useSession();
-
-  const ability = defineAbilityFor(session?.user);
-
   return (
     <Box
       sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
       <AddMenu />

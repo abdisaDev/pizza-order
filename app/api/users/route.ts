@@ -1,16 +1,16 @@
-import prisma from "@/app/util/prisma";
-import { NextApiRequest, NextApiResponse } from "next";
+import prisma from '@/app/util/prisma';
+import { NextApiRequest } from 'next';
 
-export async function GET(request: NextApiRequest, response: NextApiResponse) {
-  const queryParams = request.url?.split("?")[1];
-  const search = queryParams?.split("=")[1];
+export async function GET(request: NextApiRequest) {
+  const queryParams = request.url?.split('?')[1];
+  const search = queryParams?.split('=')[1];
   console.log(search);
   const users = await prisma.user.findMany({
     where: {
       OR: [
-        { name: { contains: search as string, mode: "insensitive" } },
-        { email: { contains: search as string, mode: "insensitive" } },
-        { phone_number: { contains: search as string, mode: "insensitive" } },
+        { name: { contains: search as string, mode: 'insensitive' } },
+        { email: { contains: search as string, mode: 'insensitive' } },
+        { phone_number: { contains: search as string, mode: 'insensitive' } },
       ],
     },
     include: {
@@ -23,6 +23,7 @@ export async function GET(request: NextApiRequest, response: NextApiResponse) {
   });
 
   const filtredUsers = users.map((user) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...filteredUser } = user;
     return filteredUser;
   });

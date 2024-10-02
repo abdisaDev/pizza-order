@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { Box } from "@mui/material";
-import SideBar from "../components/SideBar";
-import AppBar from "../components/AppBar";
-import { AppAbility, defaultAbility, defineAbilityFor } from "@/lib/ability";
-import { createContext, useContext, useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
-import { createContextualCan } from "@casl/react";
-import { AnyAbility } from "@casl/ability";
+import { Box } from '@mui/material';
+import SideBar from '../components/SideBar';
+import AppBar from '../components/AppBar';
+import { AppAbility, defaultAbility, defineAbilityFor } from '@/lib/ability';
+import { createContext, useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
+import { createContextualCan } from '@casl/react';
+import { AnyAbility } from '@casl/ability';
 
 const AbilityContext = createContext<AppAbility | AnyAbility>(defaultAbility);
 
@@ -31,15 +31,15 @@ function DashBoardLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <AbilityContext.Provider value={ability}>
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{ display: 'flex' }}>
         <Box>
           <SideBar />
         </Box>
         <Box
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            width: "-webkit-fill-available",
+            display: 'flex',
+            flexDirection: 'column',
+            width: '-webkit-fill-available',
           }}
         >
           <AppBar />

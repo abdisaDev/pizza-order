@@ -1,20 +1,23 @@
-"use client";
+'use client';
 
-import { Box } from "@mui/material";
+import { Box } from '@mui/material';
 import {
   MaterialReactTable,
   useMaterialReactTable,
-} from "material-react-table";
-import React, { useEffect, useState } from "react";
+} from 'material-react-table';
+import React, { useEffect, useState } from 'react';
 
 function DataTable(props: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   columns: any[];
   isLoading: boolean;
   topToolbarAction: React.ReactNode;
 }) {
   const [isGlobalFilterLoading, setIsGlobalFilterLoading] = useState(false);
-  const [globalFilter, setGlobalFilter] = useState("");
+  const [globalFilter, setGlobalFilter] = useState('');
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [data, setData] = useState<any[]>([]);
 
   useEffect(() => {
@@ -32,12 +35,12 @@ function DataTable(props: {
     data,
     columns: props.columns,
     renderTopToolbarCustomActions: () => props.topToolbarAction,
-    muiTablePaperProps: { sx: { p: 4, borderRadius: "10px" } },
+    muiTablePaperProps: { sx: { p: 4, borderRadius: '10px' } },
     muiSkeletonProps: {
-      animation: "wave",
+      animation: 'wave',
     },
     enableRowNumbers: true,
-    rowNumberDisplayMode: "original",
+    rowNumberDisplayMode: 'original',
     manualFiltering: true,
     onGlobalFilterChange: setGlobalFilter,
     state: {
