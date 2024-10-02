@@ -5,7 +5,6 @@ import { RemoveRedEye } from "@mui/icons-material";
 import {
   Box,
   Button,
-  Chip,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -18,18 +17,7 @@ import {
 } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
 import _ from "lodash";
-import { forwardRef, useMemo, useState } from "react";
-
-const data = [
-  {
-    name: "Pizza",
-    topping: ["Toppings", "Toppings", "Toppings", "Toppings"],
-    quantity: 4,
-    customer_number: "+251988242371",
-    created_at: new Date().toLocaleDateString(),
-    status: "pending",
-  },
-];
+import { forwardRef, useEffect, useMemo, useState } from "react";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -52,13 +40,35 @@ const colors = [
 ];
 
 function OrderListPage() {
+  const [orders, setOrders] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [orderDetail, setOrderDetail] = useState({});
 
+  useEffect(() => {
+    (async () => {
+      const data = await fetch("/api/orders");
+      const ordersData = await data.json();
+
+      const orders = ordersData.map((orderData) => {
+        const { user, Pizza, created_at, status } = orderData;
+
+        return {
+          order_name: user.name,
+          customer_number: user.phone_number,
+          created_at,
+        };
+      });
+      setOrders(orders);
+      setIsLoading(false);
+    })();
+  }, []);
+
+  console.log(orders);
   const columns = useMemo(
     () => [
       {
-        accessorKey: "name",
+        accessorKey: "order_name",
         header: "Name",
         Cell: ({ renderedCellValue }) => <strong>{renderedCellValue}</strong>,
       },
@@ -174,13 +184,14 @@ function OrderListPage() {
         </DialogContent>
       </Dialog>
       <DataTable
-        data={data}
+        data={orders}
         columns={columns}
         topToolbarAction={
           <Typography variant="h6" sx={{ m: "10px" }}>
             Packages
           </Typography>
         }
+        isLoading={isLoading}
       />
     </Box>
   );
