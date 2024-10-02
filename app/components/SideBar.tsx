@@ -22,12 +22,20 @@ import {
 import Image from "next/image";
 import CompanyLogo from "@/app/assets/logo.svg";
 import { usePathname, useRouter } from "next/navigation";
-import { signOut } from "next-auth/react";
+import { getSession, signOut } from "next-auth/react";
+import { useEffect, useState } from "react";
 
 function SideBar() {
   const pathname = usePathname().split("/")[2];
   const router = useRouter();
+  const [resturantName, setResturantName] = useState("");
 
+  useEffect(() => {
+    (async () => {
+      const session = await getSession();
+      setResturantName(session?.user?.resturant.name);
+    })();
+  }, []);
   return (
     <Box
       sx={{
@@ -44,8 +52,8 @@ function SideBar() {
             p: "10px 30px",
           }}
         >
-          <Typography variant="h6" fontWeight="bolder">
-            Company Name
+          <Typography variant="h5" fontWeight="bolder">
+            {resturantName}
           </Typography>
           <IconButton size="large">
             <MenuOpenIcon fontSize="large" />

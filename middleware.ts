@@ -1,11 +1,10 @@
-import { auth } from "@/auth";
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function middleware(req: NextRequest) {
   const token = await getToken({ req, secret: process.env.AUTH_SECRET });
   const { pathname } = req.nextUrl;
-  console.log();
+
   if (
     (pathname.startsWith("/dashboard") && !token) ||
     token?.user?.type === "CUSTOMER"

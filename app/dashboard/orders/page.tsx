@@ -1,7 +1,8 @@
-'use client';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
 
-import DataTable from '@/app/components/DataTable';
-import { RemoveRedEye } from '@mui/icons-material';
+import DataTable from "@/app/components/DataTable";
+import { RemoveRedEye } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -15,12 +16,12 @@ import {
   Select,
   Slide,
   Typography,
-} from '@mui/material';
-import { TransitionProps } from '@mui/material/transitions';
-import { format } from 'date-fns';
-import _ from 'lodash';
-import { useRouter } from 'next/navigation';
-import { forwardRef, useEffect, useMemo, useState } from 'react';
+} from "@mui/material";
+import { TransitionProps } from "@mui/material/transitions";
+import { format } from "date-fns";
+import _ from "lodash";
+import { useRouter } from "next/navigation";
+import { forwardRef, useEffect, useMemo, useState } from "react";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -29,17 +30,17 @@ const Transition = forwardRef(function Transition(
   },
   ref: React.Ref<unknown>
 ) {
-  return <Slide direction='up' ref={ref} {...props} />;
+  return <Slide direction="up" ref={ref} {...props} />;
 });
 
 const colors = [
-  'default',
-  'info',
-  'primary',
-  'secondary',
-  'success',
-  'warning',
-  'error',
+  "default",
+  "info",
+  "primary",
+  "secondary",
+  "success",
+  "warning",
+  "error",
 ];
 
 function OrderListPage() {
@@ -47,37 +48,43 @@ function OrderListPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [orderDetail, setOrderDetail] = useState({});
-  const [orderStatus, setOrderStatus] = useState('ordered');
-  const [selectedOrderID, setSelectedOrderID] = useState('');
 
   const router = useRouter();
 
   useEffect(() => {
     (async () => {
-      const data = await fetch('/api/orders', { cache: 'no-store' });
+      const data = await fetch("/api/orders", { cache: "no-store" });
       const ordersData = await data.json();
 
-      const orderList = ordersData.map((orderData) => {
-        const { user, created_at, pizzas, id, status } = orderData;
-        console.log(orderData);
-        return {
-          id,
-          name: user.name,
-          customer_number: user.phone_number,
-          created_at: format(new Date(created_at), 'dd/MM/yyyy'),
-          quantity: pizzas[0].quantity,
-          status,
-        };
-      });
+      const orderList = ordersData.map(
+        (orderData: {
+          user: any;
+          created_at: any;
+          pizzas: any;
+          id: any;
+          status: any;
+        }) => {
+          const { user, created_at, pizzas, id, status } = orderData;
+          console.log(orderData);
+          return {
+            id,
+            name: user.name,
+            customer_number: user.phone_number,
+            created_at: format(new Date(created_at), "dd/MM/yyyy"),
+            quantity: pizzas[0].quantity,
+            status,
+          };
+        }
+      );
       setOrders(orderList);
       setIsLoading(false);
     })();
   }, []);
 
-  const handleOrderStausChange = async (status, id) => {
-    await fetch('/api/orders', {
-      method: 'POST',
-      cache: 'no-store',
+  const handleOrderStausChange = async (status: string, id: string) => {
+    await fetch("/api/orders", {
+      method: "POST",
+      cache: "no-store",
       body: JSON.stringify({
         id,
         status,
@@ -88,18 +95,18 @@ function OrderListPage() {
   const columns = useMemo(
     () => [
       {
-        accessorKey: 'name',
-        header: 'Name',
+        accessorKey: "name",
+        header: "Name",
         Cell: ({ renderedCellValue }) => <strong>{renderedCellValue}</strong>,
       },
       {
-        accessorKey: 'topping',
-        header: 'Topping',
+        accessorKey: "topping",
+        header: "Topping",
         Cell: ({ row }) => (
           <span>
             <Button
-              variant='text'
-              color='warning'
+              variant="text"
+              color="warning"
               onClick={() => {
                 setOpenDialog(true);
                 setOrderDetail(row.original);
@@ -112,56 +119,56 @@ function OrderListPage() {
         ),
       },
       {
-        accessorKey: 'quantity',
-        header: 'Quantity',
+        accessorKey: "quantity",
+        header: "Quantity",
         Cell: ({ renderedCellValue }) => <strong>{renderedCellValue}</strong>,
       },
       {
-        accessorKey: 'customer_number',
-        header: 'Customer No.',
+        accessorKey: "customer_number",
+        header: "Customer No.",
         Cell: ({ renderedCellValue }) => <strong>{renderedCellValue}</strong>,
       },
       {
-        accessorKey: 'created_at',
-        header: 'Created At.',
+        accessorKey: "created_at",
+        header: "Created At.",
         Cell: ({ renderedCellValue }) => <strong>{renderedCellValue}</strong>,
       },
       {
-        accessorKey: 'status',
-        header: 'Status',
+        accessorKey: "status",
+        header: "Status",
 
         Cell: ({ row, renderedCellValue }) => (
           // row.original.status.toLowerCase() === 'delivered' ? (
           <FormControl fullWidth>
-            <InputLabel id='status'>Status</InputLabel>
+            <InputLabel id="status">Status</InputLabel>
             <Select
-              labelId='status'
-              id='status'
-              name='status'
+              labelId="status"
+              id="status"
+              name="status"
               value={renderedCellValue}
-              label='Status'
+              label="Status"
               // onChange={(event) => {
               //   console.log(row.original.status.toLowerCase());
               //   setSelectedOrderID(row.original.id);
               // }}
-              size='small'
+              size="small"
             >
               <MenuItem
-                value='ordered'
-                sx={{ color: '#FFA500' }}
+                value="ordered"
+                sx={{ color: "#FFA500" }}
                 onClick={(event) => {
                   handleOrderStausChange(event.target.value, row.original.id);
                 }}
               >
                 Ordered
               </MenuItem>
-              <MenuItem value='preparing' sx={{ color: '#FFA500' }}>
+              <MenuItem value="preparing" sx={{ color: "#FFA500" }}>
                 Preparing
               </MenuItem>
-              <MenuItem value='ready' sx={{ color: 'green' }}>
+              <MenuItem value="ready" sx={{ color: "green" }}>
                 Ready
               </MenuItem>
-              <MenuItem value='delivered' sx={{ color: 'green' }}>
+              <MenuItem value="delivered" sx={{ color: "green" }}>
                 Delivered
               </MenuItem>
             </Select>
@@ -187,34 +194,34 @@ function OrderListPage() {
           setOpenDialog(false);
         }}
         PaperProps={{
-          sx: { borderRadius: '20px' },
+          sx: { borderRadius: "20px" },
         }}
       >
         <DialogTitle
           sx={{
-            textAlign: 'center',
-            fontSize: '30px',
-            fontWeight: 'bolder',
+            textAlign: "center",
+            fontSize: "30px",
+            fontWeight: "bolder",
           }}
         >
           Order Details
         </DialogTitle>
         <DialogContent sx={{ px: 10 }}>
           <Box>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
               <Box>
-                <Typography variant='h5'>
+                <Typography variant="h5">
                   Name: &emsp;{orderDetail.name}
                 </Typography>
               </Box>
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', columnGap: 1 }}>
-                <Typography variant='h5'>Toppings: </Typography>
+              <Box sx={{ display: "flex", flexWrap: "wrap", columnGap: 1 }}>
+                <Typography variant="h5">Toppings: </Typography>
                 {orderDetail.topping?.map((topping, index) => (
                   <Chip label={topping} key={index} color={_.sample(colors)} />
                 ))}
               </Box>
               <Box>
-                <Typography variant='h5'>
+                <Typography variant="h5">
                   Quantity: &emsp;{orderDetail.quantity}
                 </Typography>
               </Box>
@@ -226,12 +233,12 @@ function OrderListPage() {
         data={orders}
         columns={columns}
         topToolbarAction={
-          <Typography variant='h6' sx={{ m: '10px' }}>
+          <Typography variant="h6" sx={{ m: "10px" }}>
             Packages
           </Typography>
         }
         isLoading={isLoading}
-        path='orders'
+        path="orders"
       />
     </Box>
   );
