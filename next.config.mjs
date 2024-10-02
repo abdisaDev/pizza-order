@@ -1,10 +1,11 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
+  output: 'export',
   async redirects() {
     return [
-      { source: "/auth", destination: "/auth/login", permanent: true },
-      { source: "/home", destination: "/", permanent: true },
+      { source: '/auth', destination: '/auth/login', permanent: true },
+      { source: '/home', destination: '/', permanent: true },
     ];
   },
 };
