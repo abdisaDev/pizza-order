@@ -30,13 +30,15 @@ function DataTable(props: {
       const result = await filteredData.json();
       if (props.path === 'orders') {
         const orderList = result.map((orderData) => {
-          const { user, created_at, pizzas } = orderData;
+          const { user, created_at, pizzas, id, status } = orderData;
 
           return {
+            id,
             name: user.name,
             customer_number: user.phone_number,
             created_at: format(new Date(created_at), 'dd/MM/yyyy'),
             quantity: pizzas[0].quantity,
+            status,
           };
         });
         setFilteredOrders(orderList);

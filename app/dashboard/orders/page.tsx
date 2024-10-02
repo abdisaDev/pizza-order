@@ -19,6 +19,7 @@ import {
 import { TransitionProps } from '@mui/material/transitions';
 import { format } from 'date-fns';
 import _ from 'lodash';
+import { useRouter } from 'next/navigation';
 import { forwardRef, useEffect, useMemo, useState } from 'react';
 
 const Transition = forwardRef(function Transition(
@@ -46,26 +47,44 @@ function OrderListPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [orderDetail, setOrderDetail] = useState({});
+  const [orderStatus, setOrderStatus] = useState('ordered');
+  const [selectedOrderID, setSelectedOrderID] = useState('');
+
+  const router = useRouter();
 
   useEffect(() => {
     (async () => {
-      const data = await fetch('/api/orders');
+      const data = await fetch('/api/orders', { cache: 'no-store' });
       const ordersData = await data.json();
 
       const orderList = ordersData.map((orderData) => {
-        const { user, created_at, pizzas } = orderData;
-
+        const { user, created_at, pizzas, id, status } = orderData;
+        console.log(orderData);
         return {
+          id,
           name: user.name,
           customer_number: user.phone_number,
           created_at: format(new Date(created_at), 'dd/MM/yyyy'),
+          quantity: pizzas[0].quantity,
+          status,
         };
       });
       setOrders(orderList);
       setIsLoading(false);
     })();
   }, []);
-  console.log(orders);
+
+  const handleOrderStausChange = async (status, id) => {
+    await fetch('/api/orders', {
+      method: 'POST',
+      cache: 'no-store',
+      body: JSON.stringify({
+        id,
+        status,
+      }),
+    });
+    router.refresh();
+  };
   const columns = useMemo(
     () => [
       {
@@ -111,29 +130,48 @@ function OrderListPage() {
         accessorKey: 'status',
         header: 'Status',
 
-        Cell: () => (
+        Cell: ({ row, renderedCellValue }) => (
+          // row.original.status.toLowerCase() === 'delivered' ? (
           <FormControl fullWidth>
             <InputLabel id='status'>Status</InputLabel>
             <Select
               labelId='status'
               id='status'
-              value={10}
+              name='status'
+              value={renderedCellValue}
               label='Status'
-              //   onChange={handleChange}
+              // onChange={(event) => {
+              //   console.log(row.original.status.toLowerCase());
+              //   setSelectedOrderID(row.original.id);
+              // }}
               size='small'
             >
-              <MenuItem value={10} sx={{ color: '#FFA500' }}>
+              <MenuItem
+                value='ordered'
+                sx={{ color: '#FFA500' }}
+                onClick={(event) => {
+                  handleOrderStausChange(event.target.value, row.original.id);
+                }}
+              >
+                Ordered
+              </MenuItem>
+              <MenuItem value='preparing' sx={{ color: '#FFA500' }}>
                 Preparing
               </MenuItem>
-              <MenuItem value={20} sx={{ color: 'green' }}>
+              <MenuItem value='ready' sx={{ color: 'green' }}>
                 Ready
               </MenuItem>
-              <MenuItem value={30} sx={{ color: 'green' }}>
+              <MenuItem value='delivered' sx={{ color: 'green' }}>
                 Delivered
               </MenuItem>
             </Select>
           </FormControl>
         ),
+        // ) : (
+        //   <Box>
+        //     <Typography>Delivered</Typography>
+        //   </Box>
+        // ),
       },
     ],
     []
