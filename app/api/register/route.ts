@@ -1,5 +1,5 @@
-import prisma from "@/app/util/prisma";
-import bcrypt from "bcryptjs";
+import prisma from '@/app/util/prisma';
+import bcrypt from 'bcryptjs';
 
 const SALT_ROUND = 7;
 
@@ -14,7 +14,7 @@ export async function POST(request: Request) {
         data: {
           ...payload,
           password: hashedPassword,
-          type: "RESTURANT",
+          type: 'RESTURANT',
           resturant: {
             create: {
               name: resturant_name,
@@ -24,9 +24,9 @@ export async function POST(request: Request) {
           },
           role: {
             create: {
-              name: "superadmin",
+              name: 'superadmin',
               permissions: {
-                create: [{ name: "read" }, { name: "write" }],
+                create: [{ name: 'read' }, { name: 'write' }],
               },
             },
           },
@@ -37,8 +37,9 @@ export async function POST(request: Request) {
         data: { ...payload, password: hashedPassword },
       });
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
-    throw new Error(error.message);
+    throw new Error('Error while registering user');
   }
-  return new Response("User Succesfuly Created", { status: 201 });
+  return new Response('User Succesfuly Created', { status: 201 });
 }
