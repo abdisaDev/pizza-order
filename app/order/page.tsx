@@ -175,20 +175,26 @@ function Order() {
 
                   const finalOrder = {
                     pizzas: [
-                      { id: pizza_id, name, quantity: orderQuantity, toppings },
+                      {
+                        id: pizza_id,
+                        name,
+                        quantity: orderQuantity,
+                        toppings,
+                        price,
+                      },
                     ],
                     status: "Ordered",
                     user_id: data?.user?.id,
                     resturant_id: resturant.id,
-                    total_price: orderDetail.price * orderQuantity,
+                    total_price: String(orderDetail.price * orderQuantity),
                   };
 
-                  const a = await fetch("/api/order", {
+                  const order = await fetch("/api/order", {
                     method: "POST",
                     body: JSON.stringify(finalOrder),
                   });
 
-                  console.log(await a.json());
+                  const result = await order.json();
                 }}
               >
                 Order <CallMadeIcon />

@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { Formik, Form } from "formik";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { z } from "zod";
 import { toFormikValidate, toFormikValidationSchema } from "zod-formik-adapter";
@@ -37,11 +38,8 @@ const registrationFormSchema = z
     message: "Passwords do not match",
   });
 
-const registerUser = async (user) => {
-  await fetch("/auth/register", { method: "POST", body: JSON.stringify(user) });
-};
-
 function AuthRegister() {
+  const router = useRouter();
   return (
     <Box width="70%">
       <Formik
@@ -64,8 +62,7 @@ function AuthRegister() {
             method: "POST",
             body: JSON.stringify(user),
           });
-
-          console.log(res);
+          router.push("/dashboard/orders");
         }}
         validate={toFormikValidate(registrationFormSchema)}
         validationSchema={toFormikValidationSchema(registrationFormSchema)}
