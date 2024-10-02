@@ -21,6 +21,7 @@ import { useSession } from "next-auth/react";
 
 function Order() {
   const [orderQuantity, setOrderQuantity] = useState(1);
+  const [isorderSending, setIsorderSending] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [isChecked, setIsChecked] = useState<any[]>([]);
   const [orderDetail, setOrderDetail] = useState({
@@ -182,6 +183,7 @@ function Order() {
                   justifyContent: "space-between",
                 }}
                 onClick={async () => {
+                  setIsorderSending(true);
                   const { name, price, resturant, pizza_id } = orderDetail;
                   const toppings = isChecked.map((topping) => {
                     return { name: topping };
@@ -203,15 +205,20 @@ function Order() {
                     total_price: String(orderDetail.price * orderQuantity),
                   };
 
-                  const order = await fetch("/api/order", {
+                  const orderData = await fetch("/api/order", {
                     method: "POST",
                     body: JSON.stringify(finalOrder),
                   });
-
-                  await order.json();
+                  // console.log(await orderData.json());
+                  const order = await orderData.json();
+                  if (order) {
+                    setIsorderSending(false);
+                  }
                 }}
+                disabled={isorderSending}
               >
-                Order <CallMadeIcon />
+                {isorderSending ? "Ordering Your Pizza . . ." : "Order"}
+                <CallMadeIcon />
               </Button>
             </Box>
           </Box>
