@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Box,
@@ -10,7 +10,7 @@ import {
   MenuList,
   Paper,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 import {
   MenuOpen as MenuOpenIcon,
   ShoppingCart as ShoppingCartIcon,
@@ -18,68 +18,69 @@ import {
   Person as PersonIcon,
   AccountCircleOutlined as AccountCircleOutlinedIcon,
   Logout as LogoutIcon,
-} from '@mui/icons-material';
-import Image from 'next/image';
-import CompanyLogo from '@/app/assets/logo.svg';
-import { usePathname, useRouter } from 'next/navigation';
+} from "@mui/icons-material";
+import Image from "next/image";
+import CompanyLogo from "@/app/assets/logo.svg";
+import { usePathname, useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
 
 function SideBar() {
-  const pathname = usePathname().split('/')[2];
+  const pathname = usePathname().split("/")[2];
   const router = useRouter();
 
   return (
     <Box
       sx={{
-        width: '20vw',
-        height: '100vh',
+        width: "20vw",
+        height: "100vh",
       }}
     >
-      <Paper sx={{ height: '100%' }}>
+      <Paper sx={{ height: "100%" }}>
         <Box
           sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            p: '10px 30px',
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            p: "10px 30px",
           }}
         >
-          <Typography variant='h6' fontWeight='bolder'>
+          <Typography variant="h6" fontWeight="bolder">
             Company Name
           </Typography>
-          <IconButton size='large'>
-            <MenuOpenIcon fontSize='large' />
+          <IconButton size="large">
+            <MenuOpenIcon fontSize="large" />
           </IconButton>
         </Box>
         <Divider />
         <Box
           sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            background: '#FFF9F2',
-            py: '60px',
+            display: "flex",
+            justifyContent: "center",
+            background: "#FFF9F2",
+            py: "60px",
           }}
         >
-          <Image src={CompanyLogo} alt='company-logo' />
+          <Image src={CompanyLogo} alt="company-logo" />
         </Box>
         <Divider />
         <Box>
           <MenuList>
             <MenuItem
               sx={{
-                p: '12px 80px',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                color: pathname === 'orders' ? '#FF8100' : null,
-                background: pathname === 'orders' ? '#FCCC99' : null,
-                borderRadius: '5px ',
+                p: "12px 80px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                color: pathname === "orders" ? "#FF8100" : null,
+                background: pathname === "orders" ? "#FCCC99" : null,
+                borderRadius: "5px ",
                 m: 1,
-                ':hover': {
-                  background: '#F5D7B8',
+                ":hover": {
+                  background: "#F5D7B8",
                 },
               }}
               onClick={() => {
-                router.replace('/dashboard/orders');
+                router.replace("/dashboard/orders");
               }}
             >
               <ListItemText>
@@ -89,20 +90,20 @@ function SideBar() {
             </MenuItem>
             <MenuItem
               sx={{
-                p: '12px 80px',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                color: pathname === 'add-menu' ? '#FF8100' : null,
-                background: pathname === 'add-menu' ? '#FCCC99' : null,
-                borderRadius: '5px ',
+                p: "12px 80px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                color: pathname === "add-menu" ? "#FF8100" : null,
+                background: pathname === "add-menu" ? "#FCCC99" : null,
+                borderRadius: "5px ",
                 m: 1,
-                ':hover': {
-                  background: '#F5D7B8',
+                ":hover": {
+                  background: "#F5D7B8",
                 },
               }}
               onClick={() => {
-                router.replace('/dashboard/add-menu');
+                router.replace("/dashboard/add-menu");
               }}
             >
               <ListItemText>
@@ -112,20 +113,20 @@ function SideBar() {
             </MenuItem>
             <MenuItem
               sx={{
-                p: '12px 80px',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                color: pathname === 'roles' ? '#FF8100' : null,
-                background: pathname === 'roles' ? '#FCCC99' : null,
-                borderRadius: '5px ',
+                p: "12px 80px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                color: pathname === "roles" ? "#FF8100" : null,
+                background: pathname === "roles" ? "#FCCC99" : null,
+                borderRadius: "5px ",
                 m: 1,
-                ':hover': {
-                  background: '#F5D7B8',
+                ":hover": {
+                  background: "#F5D7B8",
                 },
               }}
               onClick={() => {
-                router.replace('/dashboard/roles');
+                router.replace("/dashboard/roles");
               }}
             >
               <ListItemText>
@@ -135,20 +136,20 @@ function SideBar() {
             </MenuItem>
             <MenuItem
               sx={{
-                p: '12px 80px',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                color: pathname === 'users' ? '#FF8100' : null,
-                background: pathname === 'users' ? '#FCCC99' : null,
-                borderRadius: '5px ',
+                p: "12px 80px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                color: pathname === "users" ? "#FF8100" : null,
+                background: pathname === "users" ? "#FCCC99" : null,
+                borderRadius: "5px ",
                 m: 1,
-                ':hover': {
-                  background: '#F5D7B8',
+                ":hover": {
+                  background: "#F5D7B8",
                 },
               }}
               onClick={() => {
-                router.replace('/dashboard/users');
+                router.replace("/dashboard/users");
               }}
             >
               <ListItemText>
@@ -161,10 +162,13 @@ function SideBar() {
         <Divider />
         <Box>
           <Button
-            variant='text'
-            color='error'
+            variant="text"
+            color="error"
             fullWidth
-            sx={{ fontSize: 'large', py: 2, my: 2 }}
+            sx={{ fontSize: "large", py: 2, my: 2 }}
+            onClick={() => {
+              signOut({ redirectTo: "/" });
+            }}
           >
             <LogoutIcon /> &ensp; Log Out
           </Button>

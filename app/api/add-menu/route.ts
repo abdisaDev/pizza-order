@@ -11,7 +11,6 @@ export async function POST(request: Request) {
       );
     }
 
-    console.log(payload);
     const pizza = await prisma.pizza.create({
       data: {
         name: payload.name,

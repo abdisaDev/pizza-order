@@ -22,10 +22,11 @@ function FastingPizzas(props: { title: string; ml?: string }) {
       const pizzas = pizzaData.map((pizza) => {
         const toppings = pizza.toppings.map((topping) => topping.name);
         return {
+          id: pizza.id,
           name: pizza.name,
           price: pizza.price,
           toppings: toppings.join(", "),
-          resturant: pizza.resturant.name,
+          resturant: { id: pizza.resturant_id, name: pizza.resturant.name },
         };
       });
       setPizzas(pizzas);
@@ -43,6 +44,7 @@ function FastingPizzas(props: { title: string; ml?: string }) {
           {pizzas.map((pizzaData, index) => (
             <Box key={index} sx={{ mx: "20px" }}>
               <PizzaCard
+                pizza_id={pizzaData.id}
                 name={pizzaData.name}
                 image={_.sample(pizzaImages)}
                 toppings={pizzaData.toppings}

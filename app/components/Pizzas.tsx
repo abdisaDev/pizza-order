@@ -25,10 +25,11 @@ function Pizzas(props: {
       const pizzas = pizzaData.map((pizza) => {
         const toppings = pizza.toppings.map((topping) => topping.name);
         return {
+          id: pizza.id,
           name: pizza.name,
           price: pizza.price,
           toppings: toppings.join(", "),
-          resturant: pizza.resturant.name,
+          resturant: { id: pizza.resturant_id, name: pizza.resturant.name },
         };
       });
       setPizzas(pizzas);
@@ -57,6 +58,7 @@ function Pizzas(props: {
             {pizzas.map((pizzaData, index) => (
               <PizzaCard
                 key={index}
+                pizza_id={pizzaData.id}
                 name={pizzaData.name}
                 image={_.sample(pizzaImages)}
                 toppings={pizzaData.toppings}

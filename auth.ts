@@ -4,7 +4,7 @@ import prisma from "./app/util/prisma";
 import bcrypt from "bcryptjs";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  pages: { signIn: "/" },
+  pages: { signIn: "/", signOut: "/" },
   session: { strategy: "jwt", maxAge: 10 * 60 },
   providers: [
     Credentials({

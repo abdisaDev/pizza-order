@@ -33,7 +33,7 @@ export async function POST(request: Request) {
         },
       });
     } else {
-      await prisma.user.create({ data: payload });
+      await prisma.user.create({ data: { ...payload, password } });
     }
   } catch (error) {
     throw new Error(error.message);

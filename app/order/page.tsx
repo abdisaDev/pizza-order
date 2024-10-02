@@ -7,7 +7,6 @@ import {
   FormControlLabel,
   Button,
 } from "@mui/material";
-import PizzaOne from "@/app/assets/pizza-one.svg";
 import Image from "next/image";
 import {
   Add as AddIcon,
@@ -18,17 +17,21 @@ import NavigationBar from "../components/NavigationBar";
 import FastingPizzas from "../components/FastingPizzas";
 import Footer from "../components/Footer";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 function Order() {
-  const orderDetail = JSON.parse(sessionStorage.getItem("order") || null);
+  const sessionStorageData = sessionStorage.getItem("order") || "";
+
+  const orderDetail = JSON.parse(sessionStorageData);
   const displayOrderFailed = orderDetail ? "" : "There Is No Order To Display.";
   const [orderQuantity, setOrderQuantity] = useState(1);
   const [isChecked, setIsChecked] = useState([]);
-  console.log(isChecked);
+  const { data } = useSession();
   useEffect(() => {
     setIsChecked([]);
     setOrderQuantity(1);
   }, []);
+
   return (
     <Box width="99vw">
       <NavigationBar />
@@ -163,6 +166,29 @@ function Order() {
                   py: 3,
                   display: "flex",
                   justifyContent: "space-between",
+                }}
+                onClick={async () => {
+                  const { name, price, resturant, pizza_id } = orderDetail;
+                  const toppings = isChecked.map((topping) => {
+                    return { name: topping };
+                  });
+
+                  const finalOrder = {
+                    pizzas: [
+                      { id: pizza_id, name, quantity: orderQuantity, toppings },
+                    ],
+                    status: "Ordered",
+                    user_id: data?.user?.id,
+                    resturant_id: resturant.id,
+                    total_price: orderDetail.price * orderQuantity,
+                  };
+
+                  const a = await fetch("/api/order", {
+                    method: "POST",
+                    body: JSON.stringify(finalOrder),
+                  });
+
+                  console.log(await a.json());
                 }}
               >
                 Order <CallMadeIcon />

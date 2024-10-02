@@ -6,11 +6,12 @@ import ResturantLogo from "@/app/assets/pizza.svg";
 import { useRouter } from "next/navigation";
 
 function PizzaCard(props: {
+  pizza_id: string;
   name: string;
   toppings: string[];
   image: string;
   price: string;
-  resturant: string;
+  resturant: { id: string; name: string };
   action: "button" | "status";
   actionValue?: string;
 }) {
@@ -98,14 +99,13 @@ function PizzaCard(props: {
                 priority={true}
                 style={{
                   width: "50px",
-                  // borderRadius: "50%",
                   transform: `rotate(${Math.floor(Math.random() * 180)}deg)`,
                 }}
               />
             </Box>
             <Box>
               <Typography variant="h5" fontWeight="bolder">
-                {props.resturant}
+                {props.resturant.name}
               </Typography>
             </Box>
           </Box>
