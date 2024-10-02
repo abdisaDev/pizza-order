@@ -21,6 +21,7 @@ function DataTable(props: {
   const [data, setData] = useState<any[]>([]);
 
   useEffect(() => {
+    setData(props.data);
     const fetchData = async () => {
       setIsGlobalFilterLoading(true);
       const filteredData = await fetch(`/api/users?search=${globalFilter}`);

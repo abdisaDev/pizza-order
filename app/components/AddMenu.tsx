@@ -10,6 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useSession } from 'next-auth/react';
+import React from 'react';
 import { useEffect, useState } from 'react';
 
 function AddMenu() {
@@ -105,7 +106,7 @@ function AddMenu() {
                           label='Topping Name'
                           placeholder='Topping Name'
                           onBlur={(event) => {
-                            setNewTopping((prev: typeof newTopping) => {
+                            setNewTopping((prev) => {
                               return {
                                 ...prev,
                                 show: false,
@@ -160,16 +161,13 @@ function AddMenu() {
           color='warning'
           sx={{ py: 2 }}
           onClick={async () => {
-            console.log(menuDetail.toppings);
-            const response = await fetch('/api/add-menu', {
+            await fetch('/api/add-menu', {
               method: 'POST',
               body: JSON.stringify({
                 ...menuDetail,
-                resturant_id: session.data?.user.resturant.id,
+                resturant_id: session.data?.user?.resturant.id,
               }),
             });
-
-            console.log(response);
           }}
         >
           Submit

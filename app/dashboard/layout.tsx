@@ -6,7 +6,6 @@ import AppBar from '../components/AppBar';
 import { AppAbility, defaultAbility, defineAbilityFor } from '@/lib/ability';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-
 import { AnyAbility } from '@casl/ability';
 import { AbilityContext } from '@/lib/canContext';
 
@@ -19,7 +18,7 @@ function DashBoardLayout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     (async () => {
       const userSession = session.data?.user;
-      const user = { ...userSession, role: userSession?.role?.name };
+      const user = { ...userSession, role: userSession?.role.name };
 
       const ability = defineAbilityFor(user);
       setAbility(ability);
