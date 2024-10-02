@@ -33,7 +33,9 @@ export async function POST(request: Request) {
         },
       });
     } else {
-      await prisma.user.create({ data: { ...payload, password } });
+      await prisma.user.create({
+        data: { ...payload, password: hashedPassword },
+      });
     }
   } catch (error) {
     throw new Error(error.message);
