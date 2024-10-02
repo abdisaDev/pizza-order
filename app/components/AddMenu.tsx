@@ -105,7 +105,7 @@ function AddMenu() {
                           label='Topping Name'
                           placeholder='Topping Name'
                           onBlur={(event) => {
-                            setNewTopping((prev) => {
+                            setNewTopping((prev: typeof newTopping) => {
                               return {
                                 ...prev,
                                 show: false,
