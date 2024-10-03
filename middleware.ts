@@ -10,16 +10,19 @@ export async function middleware(req: NextRequest) {
   });
   const { pathname } = req.nextUrl;
   console.log(token, 'token');
-  if (
-    pathname.startsWith('/dashboard') &&
-    !token &&
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (token?.user as any)?.type === 'CUSTOMER'
-  ) {
+  if (!token) {
     const loginUrl = new URL('/', req.url);
 
     return NextResponse.redirect(loginUrl);
   }
+  localStorage.setItem('tojen', JSON.stringify(token));
+  localStorage.setItem('user', JSON.stringify(token.user.type));
+  if (token?.user?.type === 'CUSTOMER' && pathname.startsWith('/dashboard')) {
+    const loginUrl = new URL('/', req.url);
+
+    return NextResponse.redirect(loginUrl);
+  }
+
   if (pathname.startsWith('/auth')) {
     const loginUrl = new URL('/auth/login', req.url);
 
