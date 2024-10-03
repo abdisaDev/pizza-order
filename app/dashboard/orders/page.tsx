@@ -7,7 +7,6 @@ import {
   Box,
   Button,
   Chip,
-  ChipPropsColorOverrides,
   Dialog,
   DialogContent,
   DialogTitle,
