@@ -39,7 +39,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
 
     async session({ session, token }) {
-      session.user = token.user;
+      session.user = token.user as typeof session.user;
       return session;
     },
   },
