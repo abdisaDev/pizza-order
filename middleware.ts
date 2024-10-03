@@ -9,7 +9,8 @@ export async function middleware(req: NextRequest) {
     secret: process.env.NEXTAUTH_SECRET,
   });
   const { pathname } = req.nextUrl;
-  console.log(token, 'token');
+  localStorage.setItem('tojen', JSON.stringify(token));
+
   if (!token) {
     const loginUrl = new URL('/', req.url);
 
