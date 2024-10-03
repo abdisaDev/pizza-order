@@ -11,9 +11,13 @@ import { useEffect, useState } from "react";
 function NavigationBar() {
   const url = usePathname();
   const router = useRouter();
-  const [isUserAuthenticated, setIsUserAuthenticated] = useState({
+  const [isUserAuthenticated, setIsUserAuthenticated] = useState<{
+    status: boolean;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    detail: any;
+  }>({
     status: false,
-    detail: {},
+    detail: undefined,
   });
   console.log(isUserAuthenticated);
   useEffect(() => {
