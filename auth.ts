@@ -1,17 +1,17 @@
-import NextAuth from "next-auth";
-import Credentials from "next-auth/providers/credentials";
-import prisma from "./app/util/prisma";
-import bcrypt from "bcryptjs";
+import NextAuth from 'next-auth';
+import Credentials from 'next-auth/providers/credentials';
+import prisma from './app/util/prisma';
+import bcrypt from 'bcryptjs';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  pages: { signIn: "/dashboard/orders", signOut: "/" },
-  session: { strategy: "jwt", maxAge: 10 * 60 },
+  pages: { signIn: '/dashboard/orders', signOut: '/' },
+  session: { strategy: 'jwt', maxAge: 10 * 60 },
   providers: [
     Credentials({
       credentials: { email: {}, password: {} },
       authorize: async (credentials) => {
         const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
+          where: { email: String(credentials.email) },
           include: { resturant: true, role: true },
         });
 
