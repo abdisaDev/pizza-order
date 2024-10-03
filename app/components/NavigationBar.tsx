@@ -93,7 +93,7 @@ function NavigationBar() {
             color='warning'
             disableElevation
             onClick={() => {
-              router.replace('/dashboard/orders');
+              router.push('/dashboard/orders');
             }}
           >
             Dashboard

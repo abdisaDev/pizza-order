@@ -5,6 +5,7 @@ import bcrypt from 'bcryptjs';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: { signIn: '/dashboard/orders', signOut: '/' },
+  secret: process.env.NEXT_PUBLIC_SECRET,
   session: { strategy: 'jwt', maxAge: 10 * 60 },
   providers: [
     Credentials({
