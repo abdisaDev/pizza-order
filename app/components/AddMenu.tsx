@@ -168,7 +168,8 @@ function AddMenu() {
               method: "POST",
               body: JSON.stringify({
                 ...menuDetail,
-                resturant_id: session.data?.user?.resturant.id,
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                resturant_id: (session.data?.user as any)?.resturant.id,
               }),
             });
             setAddMenuStatus(false);
