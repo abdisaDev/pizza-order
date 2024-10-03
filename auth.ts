@@ -15,6 +15,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           include: { resturant: true, role: true },
         });
 
+        console.log(user, 'user');
+
         if (!user) {
           return null;
         }

@@ -6,6 +6,7 @@ export async function middleware(req: NextRequest) {
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
   const { pathname } = req.nextUrl;
   console.log(token, 'token');
+  console.log(req, 'token');
   if (pathname.startsWith('/dashboard') && !token) {
     const loginUrl = new URL('/', req.url);
 
@@ -13,7 +14,7 @@ export async function middleware(req: NextRequest) {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  if ((token?.user as any)?.type === 'CUSTOMER') {
+  if (token && (token?.user as any)?.type === 'CUSTOMER') {
     const loginUrl = new URL('/', req.url);
 
     return NextResponse.redirect(loginUrl);
