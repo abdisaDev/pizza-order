@@ -106,7 +106,8 @@ function AddMenu() {
                           label="Topping Name"
                           placeholder="Topping Name"
                           onBlur={(event) => {
-                            setNewTopping((prev) => {
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                            setNewTopping((prev: any) => {
                               return {
                                 ...prev,
                                 show: false,
