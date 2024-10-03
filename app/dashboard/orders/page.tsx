@@ -42,10 +42,10 @@ function OrderListPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [orderDetail, setOrderDetail] = useState<{
-    quantity: "";
+    quantity: string;
     topping: string[];
     name: string;
-  }>({});
+  }>();
 
   useEffect(() => {
     (async () => {
@@ -54,7 +54,7 @@ function OrderListPage() {
       const resturantData = await data.json();
 
       const resturants = resturantData.find((resturant: { id: string }) => {
-        return session?.user?.resturant.id === resturant.id;
+        return (session?.user as any)?.resturant.id === resturant.id;
       });
       console.log(resturants.orders);
       const orderList = resturants.orders.map(
@@ -158,7 +158,10 @@ function OrderListPage() {
                 value="ordered"
                 sx={{ color: "#FFA500" }}
                 onClick={(event) => {
-                  handleOrderStausChange(event.target.value, row.original.id);
+                  handleOrderStausChange(
+                    (event.target as any).value,
+                    row.original.id
+                  );
                 }}
               >
                 Ordered
@@ -212,18 +215,18 @@ function OrderListPage() {
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
               <Box>
                 <Typography variant="h5">
-                  Name: &emsp;{orderDetail.name}
+                  Name: &emsp;{orderDetail?.name}
                 </Typography>
               </Box>
               <Box sx={{ display: "flex", flexWrap: "wrap", columnGap: 1 }}>
                 <Typography variant="h5">Toppings: </Typography>
-                {orderDetail.topping?.map((topping, index) => (
+                {orderDetail?.topping?.map((topping, index) => (
                   <Chip label={topping} key={index} color={_.sample(colors)} />
                 ))}
               </Box>
               <Box>
                 <Typography variant="h5">
-                  Quantity: &emsp;{orderDetail.quantity}
+                  Quantity: &emsp;{orderDetail?.quantity}
                 </Typography>
               </Box>
             </Box>
