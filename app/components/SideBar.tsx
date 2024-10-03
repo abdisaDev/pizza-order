@@ -33,7 +33,8 @@ function SideBar() {
   useEffect(() => {
     (async () => {
       const session = await getSession();
-      setResturantName(session?.user?.resturant.name);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      setResturantName((session?.user as any)?.resturant.name);
     })();
   }, []);
   return (
