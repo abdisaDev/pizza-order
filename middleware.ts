@@ -5,7 +5,7 @@ import { auth } from './auth';
 export async function middleware(req: NextRequest) {
   const token = await getToken({ req });
   const { pathname } = req.nextUrl;
-
+  console.log(token, 'token');
   if (
     (pathname.startsWith('/dashboard') && !token) ||
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
