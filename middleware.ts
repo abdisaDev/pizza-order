@@ -3,11 +3,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from './auth';
 
 export async function middleware(req: NextRequest) {
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const token: any = await getToken({
+    req,
+    secret: process.env.NEXTAUTH_SECRET,
+  });
   const { pathname } = req.nextUrl;
   console.log(token, 'token');
   if (
-    (pathname.startsWith('/dashboard') && !token) ||
+    pathname.startsWith('/dashboard') &&
+    !token &&
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (token?.user as any)?.type === 'CUSTOMER'
   ) {
