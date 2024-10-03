@@ -25,6 +25,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           String(credentials.password),
           user.password
         );
+        console.log(isPasswordValid, 'pass validity');
 
         if (isPasswordValid) {
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
