@@ -7,6 +7,7 @@ import {
   Box,
   Button,
   Chip,
+  ChipPropsColorOverrides,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -33,21 +34,19 @@ const Transition = forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const colors = [
-  "default",
-  "info",
-  "primary",
-  "secondary",
-  "success",
-  "warning",
-  "error",
-];
+const colors: Array<
+  "default" | "primary" | "secondary" | "success" | "error" | "info" | "warning"
+> = ["default", "info", "primary", "secondary", "success", "warning", "error"];
 
 function OrderListPage() {
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
-  const [orderDetail, setOrderDetail] = useState({});
+  const [orderDetail, setOrderDetail] = useState<{
+    quantity: "";
+    topping: string[];
+    name: string;
+  }>({});
 
   useEffect(() => {
     (async () => {
@@ -67,6 +66,7 @@ function OrderListPage() {
           id: any;
           status: any;
         }) => {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const { user, created_at, pizzas, id, status } = orderData;
 
           return {
