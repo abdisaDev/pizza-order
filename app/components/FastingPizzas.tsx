@@ -23,16 +23,31 @@ function FastingPizzas(props: {
       const data = await fetch("/api/pizzas");
       const pizzaData = await data.json();
 
-      const pizzas = pizzaData.map((pizza) => {
-        const toppings = pizza.toppings.map((topping) => topping.name);
-        return {
-          id: pizza.id,
-          name: pizza.name,
-          price: pizza.price,
-          toppings: toppings.join(", "),
-          resturant: { id: pizza.resturant_id, name: pizza.resturant.name },
-        };
-      });
+      const pizzas = pizzaData.map(
+        (pizza: {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          toppings: any[];
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          id: any;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          name: any;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          price: any;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          resturant_id: any;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          resturant: { name: any };
+        }) => {
+          const toppings = pizza.toppings.map((topping) => topping.name);
+          return {
+            id: pizza.id,
+            name: pizza.name,
+            price: pizza.price,
+            toppings: toppings.join(", "),
+            resturant: { id: pizza.resturant_id, name: pizza.resturant.name },
+          };
+        }
+      );
       setPizzas(pizzas);
     })();
   }, []);
@@ -45,20 +60,23 @@ function FastingPizzas(props: {
       </Box>
       {pizzas.length ? (
         <Slider variableWidth={true} arrows={false}>
-          {pizzas.map((pizzaData, index) => (
-            <Box key={index} sx={{ mx: "20px" }}>
-              <PizzaCard
-                pizza_id={pizzaData.id}
-                name={pizzaData.name}
-                image={_.sample(pizzaImages)}
-                toppings={pizzaData.toppings}
-                price={pizzaData.price}
-                resturant={pizzaData.resturant}
-                action="button"
-                removeFooter={props.removeFooter}
-              />
-            </Box>
-          ))}
+          {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            pizzas.map((pizzaData: any, index) => (
+              <Box key={index} sx={{ mx: "20px" }}>
+                <PizzaCard
+                  pizza_id={pizzaData.id}
+                  name={pizzaData.name}
+                  image={_.sample(pizzaImages)}
+                  toppings={pizzaData.toppings}
+                  price={pizzaData.price}
+                  resturant={pizzaData.resturant}
+                  action="button"
+                  removeFooter={props.removeFooter}
+                />
+              </Box>
+            ))
+          }
         </Slider>
       ) : (
         <Box sx={{ textAlign: "center" }}>

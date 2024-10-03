@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { Box } from '@mui/material';
-import { format } from 'date-fns';
+import { Box } from "@mui/material";
+import { format } from "date-fns";
 import {
   MaterialReactTable,
   useMaterialReactTable,
-} from 'material-react-table';
-import React, { useEffect, useState } from 'react';
+} from "material-react-table";
+import React, { useEffect, useState } from "react";
 
 function DataTable(props: {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -18,7 +18,7 @@ function DataTable(props: {
   topToolbarAction: React.ReactNode;
 }) {
   const [isGlobalFilterLoading, setIsGlobalFilterLoading] = useState(false);
-  const [globalFilter, setGlobalFilter] = useState('');
+  const [globalFilter, setGlobalFilter] = useState("");
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [filteredOrders, setFilteredOrders] = useState<any[]>(props.data);
   useEffect(() => {
@@ -28,19 +28,32 @@ function DataTable(props: {
         `/api/${props.path}?search=${globalFilter}`
       );
       const result = await filteredData.json();
-      if (props.path === 'orders') {
-        const orderList = result.map((orderData) => {
-          const { user, created_at, pizzas, id, status } = orderData;
+      if (props.path === "orders") {
+        const orderList = result.map(
+          (orderData: {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            user: any;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            created_at: any;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            pizzas: any;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            id: any;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            status: any;
+          }) => {
+            const { user, created_at, pizzas, id, status } = orderData;
 
-          return {
-            id,
-            name: user.name,
-            customer_number: user.phone_number,
-            created_at: format(new Date(created_at), 'dd/MM/yyyy'),
-            quantity: pizzas[0].quantity,
-            status,
-          };
-        });
+            return {
+              id,
+              name: user.name,
+              customer_number: user.phone_number,
+              created_at: format(new Date(created_at), "dd/MM/yyyy"),
+              quantity: pizzas[0].quantity,
+              status,
+            };
+          }
+        );
         setFilteredOrders(orderList);
       } else {
         setFilteredOrders([...result]);
@@ -54,12 +67,12 @@ function DataTable(props: {
     data: filteredOrders,
     columns: props.columns,
     renderTopToolbarCustomActions: () => props.topToolbarAction,
-    muiTablePaperProps: { sx: { p: 4, borderRadius: '10px' } },
+    muiTablePaperProps: { sx: { p: 4, borderRadius: "10px" } },
     muiSkeletonProps: {
-      animation: 'wave',
+      animation: "wave",
     },
     enableRowNumbers: true,
-    rowNumberDisplayMode: 'original',
+    rowNumberDisplayMode: "original",
     manualFiltering: true,
     onGlobalFilterChange: setGlobalFilter,
     state: {

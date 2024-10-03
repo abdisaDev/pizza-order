@@ -13,7 +13,7 @@ function NavigationBar() {
   const router = useRouter();
   const [isUserAuthenticated, setIsUserAuthenticated] = useState({
     status: false,
-    detail: undefined,
+    detail: {},
   });
   console.log(isUserAuthenticated);
   useEffect(() => {
@@ -82,7 +82,8 @@ function NavigationBar() {
           >
             Register
           </Button>
-        ) : isUserAuthenticated.detail?.type === "RESTURANT" ? (
+        ) : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (isUserAuthenticated.detail as any)?.type === "RESTURANT" ? (
           <Button
             variant="contained"
             color="warning"
