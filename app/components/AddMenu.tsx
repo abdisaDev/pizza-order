@@ -10,22 +10,24 @@ import {
   Typography,
 } from "@mui/material";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useEffect, useState } from "react";
-
+const initalMenuDetailValue = {
+  name: "",
+  price: "",
+  toppings: [],
+};
 function AddMenu() {
   const [newTopping, setNewTopping] = useState({
     show: false,
     element: <></>,
     names: [],
   });
-  const [menuDetail, setMenuDetail] = useState({
-    name: "",
-    price: "",
-    toppings: newTopping.names,
-  });
+  const [menuDetail, setMenuDetail] = useState(initalMenuDetailValue);
   const [addMenuStatus, setAddMenuStatus] = useState(false);
   const session = useSession();
+  const router = useRouter();
 
   useEffect(() => {
     setMenuDetail((prev) => {
@@ -173,6 +175,7 @@ function AddMenu() {
               }),
             });
             setAddMenuStatus(false);
+            router.refresh();
           }}
           disabled={addMenuStatus}
         >
