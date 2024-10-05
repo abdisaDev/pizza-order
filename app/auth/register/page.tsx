@@ -58,11 +58,14 @@ function AuthRegister() {
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const { confirm_password, ...user } = values;
 
-          await fetch("/api/register", {
+          const registerUser = await fetch("/api/register", {
             method: "POST",
             body: JSON.stringify(user),
           });
-          router.push("/auth/login");
+
+          if (registerUser) {
+            router.push("/auth/login");
+          }
         }}
         validate={toFormikValidate(registrationFormSchema)}
         validationSchema={toFormikValidationSchema(registrationFormSchema)}

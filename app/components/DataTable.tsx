@@ -8,6 +8,10 @@ import {
 } from "material-react-table";
 import React, { useEffect, useState } from "react";
 
+export const fetchOrders = async (path, filter) => {
+  return await fetch(`/api/${path}?search=${filter}`);
+};
+
 function DataTable(props: {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any[];
@@ -24,10 +28,9 @@ function DataTable(props: {
   useEffect(() => {
     const fetchData = async () => {
       setIsGlobalFilterLoading(true);
-      const filteredData = await fetch(
-        `/api/${props.path}?search=${globalFilter}`
-      );
+      const filteredData = await fetchOrders(props.path, globalFilter);
       const result = await filteredData.json();
+
       if (props.path === "orders") {
         const orderList = result.map(
           (orderData: {
@@ -41,15 +44,17 @@ function DataTable(props: {
             id: any;
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             status: any;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            quantity: any;
           }) => {
-            const { user, created_at, pizzas, id, status } = orderData;
+            const { user, created_at, id, status, quantity } = orderData;
 
             return {
               id,
               name: user.name,
               customer_number: user.phone_number,
-              created_at: format(new Date(created_at), "dd/MM/yyyy"),
-              quantity: pizzas[0].quantity,
+              created_at: format(new Date(created_at), "dd/MM/yyyy - HH:mm"),
+              quantity,
               status,
             };
           }

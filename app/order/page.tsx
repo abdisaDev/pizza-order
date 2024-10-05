@@ -6,6 +6,9 @@ import {
   Typography,
   FormControlLabel,
   Button,
+  DialogContent,
+  Dialog,
+  Slide,
 } from "@mui/material";
 import Image from "next/image";
 import {
@@ -16,8 +19,20 @@ import {
 import NavigationBar from "../components/NavigationBar";
 import FastingPizzas from "../components/FastingPizzas";
 import Footer from "../components/Footer";
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import { TransitionProps } from "@mui/material/transitions";
+import SuccessCheckMark from "@/app/assets/sucess-checkmark.svg";
+
+const Transition = forwardRef(function Transition(
+  props: TransitionProps & {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    children: React.ReactElement<any, any>;
+  },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 function Order() {
   const [orderQuantity, setOrderQuantity] = useState(1);
@@ -32,6 +47,7 @@ function Order() {
     pizza_id: "",
     resturant: { id: "" },
   });
+  const [openDialog, setOpenDialog] = useState(false);
   const displayOrderFailed = orderDetail ? "" : "There Is No Order To Display.";
   const { data } = useSession();
 
@@ -47,6 +63,38 @@ function Order() {
 
   return (
     <Box width="99vw">
+      <Dialog
+        open={openDialog}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={() => {
+          setOpenDialog(false);
+        }}
+        PaperProps={{
+          sx: { borderRadius: "20px", width: "fit-content" },
+        }}
+      >
+        <DialogContent sx={{ px: 10, my: 5 }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              rowGap: 2,
+            }}
+          >
+            <Image src={SuccessCheckMark} alt="order-succeed" width={150} />
+            <Typography
+              variant="h4"
+              color="success"
+              sx={{ fontWeight: "bolder", my: 2, textAlign: "center" }}
+            >
+              Your Order has been Successfully completed!
+            </Typography>
+          </Box>
+        </DialogContent>
+      </Dialog>
       <NavigationBar />
       {orderDetail ? (
         <Box
@@ -184,7 +232,7 @@ function Order() {
                 }}
                 onClick={async () => {
                   setIsorderSending(true);
-                  const { name, price, resturant, pizza_id } = orderDetail;
+                  const { resturant, pizza_id } = orderDetail;
                   const toppings = isChecked.map((topping) => {
                     return { name: topping };
                   });
@@ -193,13 +241,11 @@ function Order() {
                     pizzas: [
                       {
                         id: pizza_id,
-                        name,
-                        quantity: orderQuantity,
-                        toppings,
-                        price,
                       },
                     ],
-                    status: "Ordered",
+                    toppings,
+                    quantity: orderQuantity,
+                    status: "Preparing",
                     user_id: data?.user?.id,
                     resturant_id: resturant.id,
                     total_price: String(orderDetail.price * orderQuantity),
@@ -209,10 +255,11 @@ function Order() {
                     method: "POST",
                     body: JSON.stringify(finalOrder),
                   });
-                  // console.log(await orderData.json());
+
                   const order = await orderData.json();
                   if (order) {
                     setIsorderSending(false);
+                    setOpenDialog(true);
                   }
                 }}
                 disabled={isorderSending}

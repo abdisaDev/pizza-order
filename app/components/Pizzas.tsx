@@ -21,7 +21,6 @@ function Pizzas(props: {
     (async () => {
       const data = await fetch("/api/pizzas");
       const pizzaData = await data.json();
-      console.log(pizzaData);
 
       const pizzas = pizzaData.map(
         (pizza: {

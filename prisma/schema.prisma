@@ -10,6 +10,7 @@ enum UserType {
   CUSTOMER
   RESTURANT
 }
+
 model User {
   id String @id @default(uuid())
   name String
@@ -43,13 +44,11 @@ model Resturant {
 model Pizza {
   id String @id @default(uuid())
   name String
-  quantity Int?
   price String
   resturant_id String
   resturant Resturant @relation(fields: [resturant_id], references: [id])
   toppings Topping[] @relation("PizzaToppings")
-  order_id String?
-  order Order? @relation(fields: [order_id], references: [id])
+  orders OrderOnPizza[]
 
   @@map("pizzas")
 }
@@ -68,10 +67,11 @@ model Order {
   created_at DateTime @default(now())
   total_price String
   user_id String
+  quantity Int
   user User @relation(fields: [user_id], references: [id])
   resturant_id String
   resturant Resturant @relation(fields: [resturant_id], references: [id])
-  pizzas Pizza[]
+  pizzas OrderOnPizza[]
 
   @@map("orders")
 }
@@ -92,4 +92,17 @@ model Permission {
   roles Role[] @relation("RolePermissions")
 
   @@map("permission")
+}
+
+model OrderOnPizza {
+  order_id String
+  order Order @relation(fields: [order_id], references: [id], onDelete: Cascade)
+
+  pizza_id String
+  pizza Pizza @relation(fields: [pizza_id], references: [id], onDelete: Cascade)
+
+  quantity Int
+  
+
+  @@id([order_id, pizza_id])
 }

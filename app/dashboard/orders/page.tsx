@@ -2,7 +2,8 @@
 "use client";
 
 import DataTable from "@/app/components/DataTable";
-import { RemoveRedEye } from "@mui/icons-material";
+import OrderStatusMenu from "@/app/components/OrderStatusMenu";
+import { Check, RemoveRedEye } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -10,10 +11,6 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
   Slide,
   Typography,
 } from "@mui/material";
@@ -43,7 +40,7 @@ function OrderListPage() {
   const [openDialog, setOpenDialog] = useState(false);
   const [orderDetail, setOrderDetail] = useState<{
     quantity: string;
-    topping: string[];
+    toppings: { id: string; name: string }[];
     name: string;
   }>();
 
@@ -56,7 +53,7 @@ function OrderListPage() {
       const resturants = resturantData.find((resturant: { id: string }) => {
         return (session?.user as any)?.resturant.id === resturant.id;
       });
-      console.log(resturants.orders);
+
       const orderList = resturants.orders.map(
         (orderData: {
           user: any;
@@ -64,16 +61,18 @@ function OrderListPage() {
           pizzas: any;
           id: any;
           status: any;
+          quantity: any;
         }) => {
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { user, created_at, pizzas, id, status } = orderData;
-          console.log(orderData);
+          const { user, created_at, pizzas, id, status, quantity } = orderData;
+          console.log(pizzas[0].pizza.toppings);
           return {
             id,
             name: user.name,
             customer_number: user.phone_number,
-            created_at: format(new Date(created_at), "dd/MM/yyyy"),
-            // quantity: pizzas[0].quantity,
+            created_at: format(new Date(created_at), "dd/MM/yyyy - HH:mm"),
+            quantity,
+            toppings: pizzas[0].pizza.toppings,
             status,
           };
         }
@@ -83,16 +82,6 @@ function OrderListPage() {
     })();
   }, []);
 
-  const handleOrderStausChange = async (status: string, id: string) => {
-    await fetch("/api/orders", {
-      method: "POST",
-      cache: "no-store",
-      body: JSON.stringify({
-        id,
-        status,
-      }),
-    });
-  };
   const columns = useMemo(
     () => [
       {
@@ -101,7 +90,7 @@ function OrderListPage() {
         Cell: ({ renderedCellValue }) => <strong>{renderedCellValue}</strong>,
       },
       {
-        accessorKey: "topping",
+        accessorKey: "toppings",
         header: "Topping",
         Cell: ({ row }) => (
           <span>
@@ -109,9 +98,10 @@ function OrderListPage() {
               variant="text"
               color="warning"
               onClick={() => {
+                console.log(orderDetail);
+
                 setOpenDialog(true);
                 setOrderDetail(row.original);
-                // console.log(row.original);
               }}
             >
               <RemoveRedEye /> &ensp; Topping
@@ -138,54 +128,20 @@ function OrderListPage() {
         accessorKey: "status",
         header: "Status",
 
-        Cell: ({ row, renderedCellValue }) => (
-          // row.original.status.toLowerCase() === 'delivered' ? (
-          <FormControl fullWidth>
-            <InputLabel id="status">Status</InputLabel>
-            <Select
-              labelId="status"
-              id="status"
-              name="status"
-              value={renderedCellValue}
-              label="Status"
-              // onChange={(event) => {
-              //   console.log(row.original.status.toLowerCase());
-              //   setSelectedOrderID(row.original.id);
-              // }}
-              size="small"
-            >
-              <MenuItem
-                value="ordered"
-                sx={{ color: "#FFA500" }}
-                onClick={(event) => {
-                  handleOrderStausChange(
-                    (event.target as any).value,
-                    row.original.id
-                  );
-                }}
-              >
-                Ordered
-              </MenuItem>
-              <MenuItem value="preparing" sx={{ color: "#FFA500" }}>
-                Preparing
-              </MenuItem>
-              <MenuItem value="ready" sx={{ color: "green" }}>
-                Ready
-              </MenuItem>
-              <MenuItem value="delivered" sx={{ color: "green" }}>
-                Delivered
-              </MenuItem>
-            </Select>
-          </FormControl>
-        ),
-        // ) : (
-        //   <Box>
-        //     <Typography>Delivered</Typography>
-        //   </Box>
-        // ),
+        Cell: ({ row, renderedCellValue }) => {
+          console.log(renderedCellValue);
+          return renderedCellValue.toString().toLowerCase() === "delivered" ? (
+            <Box sx={{ display: "flex", columnGap: 1 }}>
+              <Check color="success" />
+              <Typography color="success">Delivered</Typography>
+            </Box>
+          ) : (
+            <OrderStatusMenu order={row.original} status={renderedCellValue} />
+          );
+        },
       },
     ],
-    []
+    [orderDetail]
   );
 
   return (
@@ -220,8 +176,12 @@ function OrderListPage() {
               </Box>
               <Box sx={{ display: "flex", flexWrap: "wrap", columnGap: 1 }}>
                 <Typography variant="h5">Toppings: </Typography>
-                {orderDetail?.topping?.map((topping, index) => (
-                  <Chip label={topping} key={index} color={_.sample(colors)} />
+                {orderDetail?.toppings?.map((topping, index) => (
+                  <Chip
+                    label={topping.name}
+                    key={index}
+                    color={_.sample(colors)}
+                  />
                 ))}
               </Box>
               <Box>

@@ -4,7 +4,12 @@ export async function GET() {
   const resturants = await prisma.resturant.findMany({
     include: {
       pizzas: true,
-      orders: { include: { user: true, pizzas: true } },
+      orders: {
+        include: {
+          user: true,
+          pizzas: { include: { pizza: { include: { toppings: true } } } },
+        },
+      },
     },
   });
 

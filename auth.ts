@@ -1,11 +1,11 @@
-import NextAuth from 'next-auth';
-import Credentials from 'next-auth/providers/credentials';
-import prisma from './app/util/prisma';
-import bcrypt from 'bcryptjs';
+import NextAuth from "next-auth";
+import Credentials from "next-auth/providers/credentials";
+import prisma from "./app/util/prisma";
+import bcrypt from "bcryptjs";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  pages: { signIn: '/dashboard/orders', signOut: '/' },
-  session: { strategy: 'jwt', maxAge: 30 * 60 },
+  pages: { signIn: "/dashboard/orders", signOut: "/" },
+  session: { strategy: "jwt", maxAge: 30 * 60 },
   providers: [
     Credentials({
       credentials: { email: {}, password: {} },
@@ -15,8 +15,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           include: { resturant: true, role: true },
         });
 
-        console.log(user, 'user');
-
         if (!user) {
           return null;
         }
@@ -25,7 +23,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           String(credentials.password),
           user.password
         );
-        console.log(isPasswordValid, 'pass validity');
 
         if (isPasswordValid) {
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
