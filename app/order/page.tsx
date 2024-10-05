@@ -15,6 +15,7 @@ import {
   Add as AddIcon,
   Remove as RemoveIcon,
   CallMade as CallMadeIcon,
+  OpenInNew,
 } from "@mui/icons-material";
 import NavigationBar from "../components/NavigationBar";
 import FastingPizzas from "../components/FastingPizzas";
@@ -23,6 +24,7 @@ import { forwardRef, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { TransitionProps } from "@mui/material/transitions";
 import SuccessCheckMark from "@/app/assets/sucess-checkmark.svg";
+import Link from "next/link";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -220,53 +222,71 @@ function Order() {
               </Typography>
             </Box>
             <Box>
-              <Button
-                variant="contained"
-                disableElevation
-                color="warning"
-                fullWidth
-                sx={{
-                  py: 3,
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}
-                onClick={async () => {
-                  setIsorderSending(true);
-                  const { resturant, pizza_id } = orderDetail;
-                  const toppings = isChecked.map((topping) => {
-                    return { name: topping };
-                  });
+              {Boolean(data?.user) ? (
+                <Button
+                  variant="contained"
+                  disableElevation
+                  color="warning"
+                  fullWidth
+                  sx={{
+                    py: 3,
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                  onClick={async () => {
+                    setIsorderSending(true);
+                    const { resturant, pizza_id } = orderDetail;
+                    const toppings = isChecked.map((topping) => {
+                      return { name: topping };
+                    });
 
-                  const finalOrder = {
-                    pizzas: [
-                      {
-                        id: pizza_id,
-                      },
-                    ],
-                    toppings,
-                    quantity: orderQuantity,
-                    status: "Preparing",
-                    user_id: data?.user?.id,
-                    resturant_id: resturant.id,
-                    total_price: String(orderDetail.price * orderQuantity),
-                  };
+                    const finalOrder = {
+                      pizzas: [
+                        {
+                          id: pizza_id,
+                        },
+                      ],
+                      toppings,
+                      quantity: orderQuantity,
+                      status: "Preparing",
+                      user_id: data?.user?.id,
+                      resturant_id: resturant.id,
+                      total_price: String(orderDetail.price * orderQuantity),
+                    };
 
-                  const orderData = await fetch("/api/order", {
-                    method: "POST",
-                    body: JSON.stringify(finalOrder),
-                  });
+                    const orderData = await fetch("/api/order", {
+                      method: "POST",
+                      body: JSON.stringify(finalOrder),
+                    });
 
-                  const order = await orderData.json();
-                  if (order) {
-                    setIsorderSending(false);
-                    setOpenDialog(true);
-                  }
-                }}
-                disabled={isorderSending}
-              >
-                {isorderSending ? "Ordering Your Pizza . . ." : "Order"}
-                <CallMadeIcon />
-              </Button>
+                    const order = await orderData.json();
+                    if (order) {
+                      setIsorderSending(false);
+                      setOpenDialog(true);
+                    }
+                  }}
+                  disabled={isorderSending}
+                >
+                  {isorderSending ? "Ordering Your Pizza . . ." : "Order"}
+                  <CallMadeIcon />
+                </Button>
+              ) : (
+                <Typography variant="h5" color="warning">
+                  You must have to
+                  <Link
+                    href="/aut/login"
+                    style={{
+                      color: "#1976D2",
+                      fontWeight: "bolder",
+                    }}
+                  >
+                    &ensp;Login&nbsp;
+                    <OpenInNew fontSize="small" />
+                    &ensp;
+                  </Link>
+                  to order pizza.
+                </Typography>
+              )}
             </Box>
           </Box>
         </Box>
