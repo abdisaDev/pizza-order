@@ -1,6 +1,6 @@
 "use client";
 
-import DataTable, { fetchFilteredData } from "@/app/components/DataTable";
+import DataTable from "@/app/components/DataTable";
 import { Can } from "@/lib/canContext";
 import { Delete } from "@mui/icons-material";
 import {
@@ -96,7 +96,7 @@ function OrderListPage() {
                     size="small"
                     checked={renderedCellValue}
                     onChange={async (event, value) => {
-                      const response = await fetch("/api/users", {
+                      await fetch("/api/users", {
                         method: "POST",
                         body: JSON.stringify({
                           email: row.original.email,

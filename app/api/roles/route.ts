@@ -12,4 +12,4 @@ export async function GET(request: Request) {
   return Response.json(roles, { status: 200 });
 }
 
-export async function POST(request: Request) {}
+export async function POST() {}

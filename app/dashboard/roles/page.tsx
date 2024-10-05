@@ -1,6 +1,6 @@
 "use client";
 import DataTable from "@/app/components/DataTable";
-import { Add, Delete, RemoveRedEye } from "@mui/icons-material";
+import { Delete, RemoveRedEye } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -11,11 +11,9 @@ import {
   DialogTitle,
   FormControlLabel,
   IconButton,
-  InputAdornment,
   Slide,
   Switch,
   TextField,
-  Tooltip,
   Typography,
 } from "@mui/material";
 import { forwardRef, useEffect, useMemo, useRef, useState } from "react";
@@ -32,21 +30,11 @@ const Transition = forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const initialRoleValue = {
-  show: false,
-  names: [],
-};
 function OrderListPage() {
   const [roles, setRoles] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [openDialog, setOpenDialog] = useState(false);
-  const [newPermission, setNewPermission] = useState<{
-    show: boolean;
-    names: any[];
-  }>(initialRoleValue);
-  const roleInput = useRef(null);
 
-  console.log(newPermission);
   useEffect(() => {
     (async () => {
       const users = await fetch("/api/roles");
@@ -54,7 +42,7 @@ function OrderListPage() {
       setIsLoading(false);
     })();
   }, []);
-  console.log((roleInput.current as any)?.children[0].value);
+
   const columns = useMemo(
     () => [
       {

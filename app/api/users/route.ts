@@ -34,13 +34,14 @@ export async function POST(request: Request) {
   const { email, status } = await request.json();
   console.log(status, email);
   try {
-    const updatedStatus = await prisma.user.update({
+    await prisma.user.update({
       where: { email },
       data: {
         status,
       },
     });
   } catch (error) {
+    // @typescript-eslint/no-explicit-any
     throw new Error((error as any)?.message);
   }
 
