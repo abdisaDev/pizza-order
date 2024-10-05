@@ -1,8 +1,15 @@
 import prisma from "@/app/util/prisma";
 
 export async function POST(request: Request) {
-  const { pizzas, user_id, resturant_id, status, total_price, quantity } =
-    await request.json();
+  const {
+    pizzas,
+    user_id,
+    resturant_id,
+    status,
+    total_price,
+    quantity,
+    toppings,
+  } = await request.json();
 
   if (!resturant_id) {
     throw new Error("Restaurant ID is required to create an order.");
@@ -21,6 +28,7 @@ export async function POST(request: Request) {
       user: { connect: { id: user_id } },
       pizzas: { create: orderedPizzas },
       quantity,
+      toppings: { create: toppings },
     },
   });
 

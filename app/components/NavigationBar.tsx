@@ -73,6 +73,17 @@ function NavigationBar() {
           </Typography>
         </Link>
         <Link href="#">Who are we</Link>
+        {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (isUserAuthenticated.detail as any)?.type === "CUSTOMER" && (
+            <Link
+              href="/order-history"
+              color={url === "/order-history" ? "warning" : ""}
+            >
+              My Orders
+            </Link>
+          )
+        }
       </Box>
       <Box sx={{ width: "30%", display: "flex", justifyContent: "right" }}>
         {!isUserAuthenticated.status ? (

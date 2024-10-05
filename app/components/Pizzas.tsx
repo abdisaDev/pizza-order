@@ -8,6 +8,7 @@ import PizzaThree from "@/app/assets/pizza-three.svg";
 import PizzaCard from "./PizzaCard";
 import React, { useEffect, useState } from "react";
 import _ from "lodash";
+import { usePathname } from "next/navigation";
 
 const pizzaImages = [PizzaOne, PizzaTwo, PizzaThree];
 
@@ -17,6 +18,9 @@ function Pizzas(props: {
   actionValue?: string;
 }) {
   const [pizzas, setPizzas] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const path = usePathname();
+
   useEffect(() => {
     (async () => {
       const data = await fetch("/api/pizzas");
@@ -44,6 +48,37 @@ function Pizzas(props: {
       setPizzas(pizzas);
     })();
   }, []);
+
+  useEffect(() => {
+    (async () => {
+      const data = await fetch("/api/orders");
+      const orderData = await data.json();
+
+      const orders = orderData.map(
+        (order: {
+          toppings: any[];
+          status: any;
+          total_price: any;
+          resturant: { name: any };
+          pizzas: any;
+        }) => {
+          const toppings = order.toppings.map((topping) => topping.name);
+          return {
+            name: order.pizzas[0].pizza.name,
+            price: order.total_price,
+            toppings: toppings.join(", "),
+            resturant: { name: order.resturant.name },
+            status:
+              order.status.toLowerCase() === "delivered"
+                ? "Recived"
+                : "Ordered",
+          };
+        }
+      );
+      setOrders(orders);
+    })();
+  }, []);
+
   return (
     <>
       <Box sx={{ m: "70px 150px" }}>
@@ -51,7 +86,40 @@ function Pizzas(props: {
           {props.title}
         </Typography>
       </Box>
-      {pizzas.length ? (
+      {path !== "/order-history" ? (
+        pizzas.length ? (
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Box
+              sx={{
+                display: "grid",
+                justifyContent: "center",
+                rowGap: "40px",
+                gridTemplateColumns: "repeat(3, 1fr)",
+                gridTemplateRows: "repeat(2, 1fr)",
+                width: "80%",
+              }}
+            >
+              {pizzas.map((pizzaData: any, index) => (
+                <PizzaCard
+                  key={index}
+                  pizza_id={pizzaData.id}
+                  name={pizzaData.name}
+                  image={_.sample(pizzaImages)}
+                  toppings={pizzaData.toppings}
+                  price={pizzaData.price}
+                  resturant={pizzaData.resturant}
+                  action={props.action}
+                  actionValue={props.actionValue}
+                />
+              ))}
+            </Box>
+          </Box>
+        ) : (
+          <Box sx={{ textAlign: "center" }}>
+            <CircularProgress color="warning" />
+          </Box>
+        )
+      ) : orders.length ? (
         <Box sx={{ display: "flex", justifyContent: "center" }}>
           <Box
             sx={{
@@ -64,17 +132,17 @@ function Pizzas(props: {
               justifySelf: "",
             }}
           >
-            {pizzas.map((pizzaData: any, index) => (
+            {orders.map((orderData: any, index) => (
               <PizzaCard
                 key={index}
-                pizza_id={pizzaData.id}
-                name={pizzaData.name}
+                pizza_id={orderData.id}
+                name={orderData.name}
                 image={_.sample(pizzaImages)}
-                toppings={pizzaData.toppings}
-                price={pizzaData.price}
-                resturant={pizzaData.resturant}
+                toppings={orderData.toppings}
+                price={orderData.price}
+                resturant={orderData.resturant}
                 action={props.action}
-                actionValue={props.actionValue}
+                actionValue={orderData.status}
               />
             ))}
           </Box>

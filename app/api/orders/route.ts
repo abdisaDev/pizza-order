@@ -6,6 +6,8 @@ export async function GET() {
     include: {
       user: true,
       pizzas: { include: { pizza: { include: { toppings: true } } } },
+      resturant: true,
+      toppings: true,
     },
   });
 

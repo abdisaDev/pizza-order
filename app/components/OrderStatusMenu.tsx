@@ -1,7 +1,6 @@
 import { ArrowDropDown, ArrowDropUp } from "@mui/icons-material";
 import { Box, Button, Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
-import { fetchOrders } from "./DataTable";
 
 enum StatusValue {
   PREPARING = "PREPARING",
@@ -26,7 +25,6 @@ function OrderStatusMenu(props: {
         status,
       }),
     });
-    await fetchOrders("orders", "");
     setAnchorEl(null);
   };
   const handleStatusButton = (event: React.MouseEvent<HTMLButtonElement>) => {
