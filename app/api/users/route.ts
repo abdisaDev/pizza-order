@@ -41,7 +41,7 @@ export async function POST(request: Request) {
       },
     });
   } catch (error) {
-    // @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     throw new Error((error as any)?.message);
   }
 
