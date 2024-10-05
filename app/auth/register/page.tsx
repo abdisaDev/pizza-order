@@ -60,7 +60,10 @@ function AuthRegister() {
 
           const registerUser = await fetch("/api/register", {
             method: "POST",
-            body: JSON.stringify(user),
+            body: JSON.stringify({
+              ...user,
+              status: values.is_resturant ? true : false,
+            }),
           });
 
           if (registerUser) {

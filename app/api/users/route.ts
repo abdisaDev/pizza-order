@@ -1,15 +1,15 @@
-import prisma from '@/app/util/prisma';
+import prisma from "@/app/util/prisma";
 
 export async function GET(request: Request) {
-  const queryParams = request.url?.split('?')[1];
-  const search = queryParams?.split('=')[1];
+  const queryParams = request.url?.split("?")[1];
+  const search = queryParams?.split("=")[1];
 
   const users = await prisma.user.findMany({
     where: {
       OR: [
-        { name: { contains: search as string, mode: 'insensitive' } },
-        { email: { contains: search as string, mode: 'insensitive' } },
-        { phone_number: { contains: search as string, mode: 'insensitive' } },
+        { name: { contains: search as string, mode: "insensitive" } },
+        { email: { contains: search as string, mode: "insensitive" } },
+        { phone_number: { contains: search as string, mode: "insensitive" } },
       ],
     },
     include: {
@@ -28,4 +28,21 @@ export async function GET(request: Request) {
   });
 
   return Response.json(filtredUsers, { status: 200 });
+}
+
+export async function POST(request: Request) {
+  const { email, status } = await request.json();
+  console.log(status, email);
+  try {
+    const updatedStatus = await prisma.user.update({
+      where: { email },
+      data: {
+        status,
+      },
+    });
+  } catch (error) {
+    throw new Error((error as any)?.message);
+  }
+
+  return Response.json("Status Updated", { status: 201 });
 }

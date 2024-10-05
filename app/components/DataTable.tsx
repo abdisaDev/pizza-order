@@ -8,6 +8,10 @@ import {
 } from "material-react-table";
 import React, { useEffect, useState } from "react";
 
+export const fetchFilteredData = async (path, filter) => {
+  return await fetch(`/api/${path}?search=${filter}`);
+};
+
 function DataTable(props: {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any[];
@@ -24,9 +28,7 @@ function DataTable(props: {
   useEffect(() => {
     const fetchData = async () => {
       setIsGlobalFilterLoading(true);
-      const filteredData = await fetch(
-        `/api/${props.path}?search=${globalFilter}`
-      );
+      const filteredData = await fetchFilteredData(props.path, globalFilter);
       const result = await filteredData.json();
 
       if (props.path === "orders") {

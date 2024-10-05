@@ -9,7 +9,7 @@ export async function POST(request: Request) {
       await request.json();
 
     const hashedPassword = await bcrypt.hash(password, SALT_ROUND);
-    console.log(payload);
+
     if (is_resturant) {
       await prisma.user.create({
         data: {
