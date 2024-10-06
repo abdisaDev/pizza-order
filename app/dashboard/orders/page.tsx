@@ -67,11 +67,11 @@ function OrderListPage() {
 
           return {
             id,
-            name: pizzas[0].pizza.name,
+            name: pizzas[0]?.pizza.name,
             customer_number: user.phone_number,
             created_at: format(new Date(created_at), " HH:mm a - dd/MM/yyyy"),
             quantity,
-            toppings: pizzas[0].pizza.toppings,
+            toppings: pizzas[0]?.pizza.toppings,
             status,
           };
         }

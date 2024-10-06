@@ -51,7 +51,7 @@ function Pizzas(props: {
 
   useEffect(() => {
     (async () => {
-      const data = await fetch("/api/orders");
+      const data = await fetch("/api/orders?filter=&search=");
       const orderData = await data.json();
 
       const orders = orderData.map(
@@ -64,7 +64,7 @@ function Pizzas(props: {
         }) => {
           const toppings = order.toppings.map((topping) => topping.name);
           return {
-            name: order.pizzas[0].pizza.name,
+            name: order.pizzas[0]?.pizza.name,
             price: order.total_price,
             toppings: toppings.join(", "),
             resturant: { name: order.resturant.name },
