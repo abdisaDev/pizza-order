@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
 import { Form, Formik } from "formik";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { forwardRef, useEffect, useMemo, useState } from "react";
 
@@ -39,10 +40,13 @@ function OrderListPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [openDialog, setOpenDialog] = useState(false);
   const router = useRouter();
+  const session = useSession();
 
   useEffect(() => {
     (async () => {
-      const data = await fetch("/api/users");
+      const data = await fetch(
+        `/api/users?filter=${(session.data?.user as any)?.resturant.id}&search=`
+      );
 
       if (users) {
         const users = await data.json();
@@ -258,6 +262,7 @@ function OrderListPage() {
         columns={columns}
         isLoading={isLoading}
         path="users"
+        filter={(session.data?.user as any)?.resturant.id}
         topToolbarAction={
           <Box>
             <Can I="create" a="User">

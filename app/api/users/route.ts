@@ -1,8 +1,9 @@
 import prisma from "@/app/util/prisma";
 
 export async function GET(request: Request) {
-  const queryParams = request.url?.split("?")[1];
-  const search = queryParams?.split("=")[1];
+  const queryParams = request.url?.split("&");
+  const filter = queryParams[0].split("?")[1].split("=")[1];
+  const search = queryParams[1].split("?")[0].split("=")[1];
 
   const users = await prisma.user.findMany({
     where: {
@@ -11,6 +12,7 @@ export async function GET(request: Request) {
         { email: { contains: search as string, mode: "insensitive" } },
         { phone_number: { contains: search as string, mode: "insensitive" } },
       ],
+      resturant: { id: filter },
     },
     include: {
       resturant: true,
