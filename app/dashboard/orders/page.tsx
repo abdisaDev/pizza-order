@@ -17,7 +17,7 @@ import {
 import { TransitionProps } from "@mui/material/transitions";
 import { format } from "date-fns";
 import _ from "lodash";
-import { getSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import { forwardRef, useEffect, useMemo, useState } from "react";
 
 const Transition = forwardRef(function Transition(
@@ -43,18 +43,17 @@ function OrderListPage() {
     toppings: { id: string; name: string }[];
     name: string;
   }>();
+  const session = useSession();
 
   useEffect(() => {
     (async () => {
       const session = await getSession();
-      const data = await fetch("/api/resturants");
-      const resturantData = await data.json();
+      const data = await fetch(
+        `/api/orders?filter=${(session?.user as any)?.resturant.id}&search=`
+      );
+      const resturants = await data.json();
 
-      const resturants = resturantData.find((resturant: { id: string }) => {
-        return (session?.user as any)?.resturant.id === resturant.id;
-      });
-
-      const orderList = resturants.orders.map(
+      const orderList = resturants.map(
         (orderData: {
           user: any;
           created_at: any;
@@ -70,7 +69,7 @@ function OrderListPage() {
             id,
             name: pizzas[0].pizza.name,
             customer_number: user.phone_number,
-            created_at: format(new Date(created_at), "dd/MM/yyyy - HH:mm"),
+            created_at: format(new Date(created_at), " HH:mm a - dd/MM/yyyy"),
             quantity,
             toppings: pizzas[0].pizza.toppings,
             status,
@@ -81,6 +80,7 @@ function OrderListPage() {
       setIsLoading(false);
     })();
   }, []);
+  console.log(orders);
 
   const columns = useMemo(
     () => [
@@ -191,13 +191,14 @@ function OrderListPage() {
       <DataTable
         data={orders}
         columns={columns}
+        path="orders"
+        filter={(session.data?.user as any)?.resturant.id}
         topToolbarAction={
           <Typography variant="h6" sx={{ m: "10px" }}>
             Packages
           </Typography>
         }
         isLoading={isLoading}
-        path="orders"
       />
     </Box>
   );

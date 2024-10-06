@@ -25,7 +25,8 @@ function DataTable(props: {
   const [isGlobalFilterLoading, setIsGlobalFilterLoading] = useState(false);
   const [globalFilter, setGlobalFilter] = useState("");
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [filteredOrders, setFilteredOrders] = useState<any[]>(props.data);
+  const [filteredData, setFilteredData] = useState<any[]>(props.data);
+
   useEffect(() => {
     const fetchData = async () => {
       setIsGlobalFilterLoading(true);
@@ -35,46 +36,37 @@ function DataTable(props: {
         globalFilter
       );
       const result = await filteredData.json();
+      const orderList = result.map(
+        (orderData: {
+          user: any;
+          created_at: any;
+          pizzas: any;
+          id: any;
+          status: any;
+          quantity: any;
+        }) => {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { user, created_at, pizzas, id, status, quantity } = orderData;
 
-      if (props.path === "orders") {
-        const orderList = result.map(
-          (orderData: {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            user: any;
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            created_at: any;
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            pizzas: any;
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            id: any;
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            status: any;
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            quantity: any;
-          }) => {
-            const { user, created_at, id, status, quantity } = orderData;
-
-            return {
-              id,
-              name: user.name,
-              customer_number: user.phone_number,
-              created_at: format(new Date(created_at), "HH:mm:a - dd/MM/yyyy"),
-              quantity,
-              status,
-            };
-          }
-        );
-        setFilteredOrders(props.data);
-      } else {
-        setFilteredOrders([...result]);
-      }
+          return {
+            id,
+            name: pizzas[0].pizza.name,
+            customer_number: user.phone_number,
+            created_at: format(new Date(created_at), " HH:mm a - dd/MM/yyyy"),
+            quantity,
+            toppings: pizzas[0].pizza.toppings,
+            status,
+          };
+        }
+      );
+      setFilteredData(orderList);
       setIsGlobalFilterLoading(false);
     };
     fetchData();
   }, [globalFilter]);
 
   const table = useMaterialReactTable({
-    data: filteredOrders,
+    data: filteredData,
     columns: props.columns,
     renderTopToolbarCustomActions: () => props.topToolbarAction,
     muiTablePaperProps: { sx: { p: 4, borderRadius: "10px" } },
