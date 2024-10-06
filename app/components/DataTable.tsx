@@ -59,7 +59,7 @@ function DataTable(props: {
             };
           }
         );
-        setFilteredOrders(orderList);
+        setFilteredOrders(props.data);
       } else {
         setFilteredOrders([...result]);
       }

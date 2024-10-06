@@ -174,7 +174,7 @@ function SideBar() {
             variant="text"
             color="error"
             fullWidth
-            sx={{ fontSize: "large", py: 2, my: 2 }}
+            sx={{ fontSize: "medium", py: 2, my: 2, fontWeight: "bolder" }}
             onClick={() => {
               signOut({ redirectTo: "/" });
             }}

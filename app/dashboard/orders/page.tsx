@@ -65,10 +65,10 @@ function OrderListPage() {
         }) => {
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const { user, created_at, pizzas, id, status, quantity } = orderData;
-          console.log(pizzas[0].pizza.toppings);
+
           return {
             id,
-            name: user.name,
+            name: pizzas[0].pizza.name,
             customer_number: user.phone_number,
             created_at: format(new Date(created_at), "dd/MM/yyyy - HH:mm"),
             quantity,
@@ -87,7 +87,6 @@ function OrderListPage() {
       {
         accessorKey: "name",
         header: "Name",
-        Cell: ({ renderedCellValue }) => <strong>{renderedCellValue}</strong>,
       },
       {
         accessorKey: "toppings",
@@ -112,24 +111,20 @@ function OrderListPage() {
       {
         accessorKey: "quantity",
         header: "Quantity",
-        Cell: ({ renderedCellValue }) => <strong>{renderedCellValue}</strong>,
       },
       {
         accessorKey: "customer_number",
         header: "Customer No.",
-        Cell: ({ renderedCellValue }) => <strong>{renderedCellValue}</strong>,
       },
       {
         accessorKey: "created_at",
         header: "Created At.",
-        Cell: ({ renderedCellValue }) => <strong>{renderedCellValue}</strong>,
       },
       {
         accessorKey: "status",
         header: "Status",
 
         Cell: ({ row, renderedCellValue }) => {
-          console.log(renderedCellValue);
           return renderedCellValue.toString().toLowerCase() === "delivered" ? (
             <Box sx={{ display: "flex", columnGap: 1 }}>
               <Check color="success" />
