@@ -63,11 +63,11 @@ function NavigationBar() {
             Home
           </Typography>
         </Link>
-        <Link href="/order">
+        <Link href="/order-history">
           <Typography
             variant="h5"
             fontWeight="bolder"
-            color={url === "/order" ? "warning" : ""}
+            color={url === "/order-history" ? "warning" : ""}
           >
             Order
           </Typography>
