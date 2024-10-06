@@ -8,8 +8,8 @@ import {
 } from "material-react-table";
 import React, { useEffect, useState } from "react";
 
-export const fetchFilteredData = async (path, filter) => {
-  return await fetch(`/api/${path}?search=${filter}`);
+export const fetchFilteredData = async (path, filter, search) => {
+  return await fetch(`/api/${path}?filter=${filter}&search=${search}`);
 };
 
 function DataTable(props: {
@@ -20,6 +20,7 @@ function DataTable(props: {
   path: string;
   isLoading: boolean;
   topToolbarAction: React.ReactNode;
+  filter: string;
 }) {
   const [isGlobalFilterLoading, setIsGlobalFilterLoading] = useState(false);
   const [globalFilter, setGlobalFilter] = useState("");
@@ -28,7 +29,11 @@ function DataTable(props: {
   useEffect(() => {
     const fetchData = async () => {
       setIsGlobalFilterLoading(true);
-      const filteredData = await fetchFilteredData(props.path, globalFilter);
+      const filteredData = await fetchFilteredData(
+        props.path,
+        props.filter,
+        globalFilter
+      );
       const result = await filteredData.json();
 
       if (props.path === "orders") {
@@ -53,7 +58,7 @@ function DataTable(props: {
               id,
               name: user.name,
               customer_number: user.phone_number,
-              created_at: format(new Date(created_at), "dd/MM/yyyy - HH:mm"),
+              created_at: format(new Date(created_at), "HH:mm:a - dd/MM/yyyy"),
               quantity,
               status,
             };

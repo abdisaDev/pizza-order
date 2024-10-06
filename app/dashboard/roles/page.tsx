@@ -19,6 +19,7 @@ import {
 import { forwardRef, useEffect, useMemo, useState } from "react";
 import { format } from "date-fns";
 import { TransitionProps } from "@mui/material/transitions";
+import { useSession } from "next-auth/react";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -34,10 +35,13 @@ function OrderListPage() {
   const [roles, setRoles] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [openDialog, setOpenDialog] = useState(false);
+  const session = useSession();
 
   useEffect(() => {
     (async () => {
-      const users = await fetch("/api/roles");
+      const users = await fetch(
+        `/api/roles?filter=${(session.data?.user as any)?.resturant.id}&search=`
+      );
       setRoles(await users.json());
       setIsLoading(false);
     })();
@@ -180,6 +184,7 @@ function OrderListPage() {
         columns={columns}
         isLoading={isLoading}
         path="roles"
+        filter={(session.data?.user as any)?.resturant.id}
         topToolbarAction={
           <Button
             variant="contained"
