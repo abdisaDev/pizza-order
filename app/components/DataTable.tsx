@@ -1,12 +1,13 @@
-"use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+'use client';
 
-import { Box } from "@mui/material";
-import { format } from "date-fns";
+import { Box } from '@mui/material';
+import { format } from 'date-fns';
 import {
   MaterialReactTable,
   useMaterialReactTable,
-} from "material-react-table";
-import React, { useEffect, useState } from "react";
+} from 'material-react-table';
+import React, { useEffect, useState } from 'react';
 
 export const fetchFilteredData = async (path, filter, search) => {
   return await fetch(`/api/${path}?filter=${filter}&search=${search}`);
@@ -23,7 +24,7 @@ function DataTable(props: {
   filter: string;
 }) {
   const [isGlobalFilterLoading, setIsGlobalFilterLoading] = useState(false);
-  const [globalFilter, setGlobalFilter] = useState("");
+  const [globalFilter, setGlobalFilter] = useState('');
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [filteredData, setFilteredData] = useState<any[]>(props.data);
 
@@ -37,7 +38,7 @@ function DataTable(props: {
       );
       const result = await filteredData.json();
 
-      if (props.path === "orders" && result.length) {
+      if (props.path === 'orders' && result.length) {
         const orderList = result.map(
           (orderData: {
             user: any;
@@ -53,19 +54,21 @@ function DataTable(props: {
 
             return {
               id,
-              name: pizzas[0].pizza.name,
-              customer_number: user.phone_number,
-              created_at: format(new Date(created_at), " HH:mm a - dd/MM/yyyy"),
+              name: pizzas ? pizzas[0]?.pizza.name : null,
+              customer_number: user?.phone_number,
+              created_at: created_at
+                ? format(new Date(created_at), ' HH:mm a - dd/MM/yyyy')
+                : null,
               quantity,
-              toppings: pizzas[0].pizza.toppings,
-              status,
+              toppings: pizzas ? pizzas[0]?.pizza.toppings : null,
+              status: status ? status : null,
             };
           }
         );
-        setFilteredData(props.data);
+        setFilteredData(orderList);
       } else {
+        setFilteredData(result);
       }
-      setFilteredData(result);
       setIsGlobalFilterLoading(false);
     };
     fetchData();
@@ -75,12 +78,12 @@ function DataTable(props: {
     data: filteredData,
     columns: props.columns,
     renderTopToolbarCustomActions: () => props.topToolbarAction,
-    muiTablePaperProps: { sx: { p: 4, borderRadius: "10px" } },
+    muiTablePaperProps: { sx: { p: 4, borderRadius: '10px' } },
     muiSkeletonProps: {
-      animation: "wave",
+      animation: 'wave',
     },
     enableRowNumbers: true,
-    rowNumberDisplayMode: "original",
+    rowNumberDisplayMode: 'original',
     manualFiltering: true,
     onGlobalFilterChange: setGlobalFilter,
     state: {
