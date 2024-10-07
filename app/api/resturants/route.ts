@@ -1,4 +1,4 @@
-import prisma from "@/app/util/prisma";
+import prisma from '@/app/util/prisma';
 
 export async function GET() {
   const resturants = await prisma.resturant.findMany({
