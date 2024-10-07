@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import Logo from "@/app/assets/logo.svg";
-import { Box, Button, Typography } from "@mui/material";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { getSession, signOut } from "next-auth/react";
-import { useEffect, useState } from "react";
+import Image from 'next/image';
+import Logo from '@/app/assets/logo.svg';
+import { Box, Button, Typography } from '@mui/material';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import { getSession, signOut } from 'next-auth/react';
+import { useEffect, useState } from 'react';
 
 function NavigationBar() {
   const url = usePathname();
@@ -32,90 +32,90 @@ function NavigationBar() {
   return (
     <Box
       sx={{
-        display: "flex",
-        alignItems: "center",
-        m: "20px",
-        mb: "60px",
+        display: 'flex',
+        alignItems: 'center',
+        m: '20px',
+        mb: '60px',
       }}
     >
-      <Box sx={{ width: "25%" }}>
-        <Link href="/">
-          <Image src={Logo} alt="pizza-logo" priority={true} />
+      <Box sx={{ width: '25%' }}>
+        <Link href='/'>
+          <Image src={Logo} alt='pizza-logo' priority={true} />
         </Link>
       </Box>
       <Box
         sx={{
-          display: "flex",
-          justifyContent: "space-around",
-          width: "60%",
-          "& > *": {
-            fontSize: "20px",
-            fontWeight: "bold",
+          display: 'flex',
+          justifyContent: 'space-around',
+          width: '60%',
+          '& > *': {
+            fontSize: '20px',
+            fontWeight: 'bold',
           },
         }}
       >
-        <Link href="/">
+        <Link href='/'>
           <Typography
-            variant="h5"
-            fontWeight="bolder"
-            color={url === "/" ? "warning" : ""}
+            variant='h5'
+            fontWeight='bolder'
+            color={url === '/' ? 'warning' : ''}
           >
             Home
           </Typography>
         </Link>
-        <Link href="/order-history">
+        <Link href='/orders'>
           <Typography
-            variant="h5"
-            fontWeight="bolder"
-            color={url === "/order-history" ? "warning" : ""}
+            variant='h5'
+            fontWeight='bolder'
+            color={url === '/orders' ? 'warning' : ''}
           >
             Order
           </Typography>
         </Link>
-        <Link href="#">Who are we</Link>
+        <Link href='#'>Who are we</Link>
         {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (isUserAuthenticated.detail as any)?.type === "CUSTOMER" && (
+          (isUserAuthenticated.detail as any)?.type === 'CUSTOMER' && (
             <Link
-              href="/order-history"
-              color={url === "/order-history" ? "warning" : ""}
+              href='/order-history'
+              color={url === '/order-history' ? 'warning' : ''}
             >
               My Orders
             </Link>
           )
         }
       </Box>
-      <Box sx={{ width: "30%", display: "flex", justifyContent: "right" }}>
+      <Box sx={{ width: '30%', display: 'flex', justifyContent: 'right' }}>
         {!isUserAuthenticated.status ? (
           <Button
-            variant="contained"
-            color="warning"
+            variant='contained'
+            color='warning'
             disableElevation
             onClick={() => {
-              router.push("/auth/register");
+              router.push('/auth/register');
             }}
           >
             Register
           </Button>
         ) : // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (isUserAuthenticated.detail as any)?.type === "RESTURANT" ? (
+        (isUserAuthenticated.detail as any)?.type === 'RESTURANT' ? (
           <Button
-            variant="contained"
-            color="warning"
+            variant='contained'
+            color='warning'
             disableElevation
             onClick={() => {
-              router.push("/dashboard/orders");
+              router.push('/dashboard/orders');
             }}
           >
             Dashboard
           </Button>
         ) : (
           <Button
-            variant="contained"
-            color="warning"
+            variant='contained'
+            color='warning'
             disableElevation
             onClick={() => {
-              signOut({ redirectTo: "/" });
+              signOut({ redirectTo: '/' });
             }}
           >
             Logout
