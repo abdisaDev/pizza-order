@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import DataTable from '@/app/components/DataTable';
-import { Can } from '@/lib/canContext';
-import { Delete } from '@mui/icons-material';
+import DataTable from "@/app/components/DataTable";
+import { Can } from "@/lib/canContext";
+import { Delete } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -18,12 +18,11 @@ import {
   Switch,
   TextField,
   Typography,
-} from '@mui/material';
-import { TransitionProps } from '@mui/material/transitions';
-import { Form, Formik } from 'formik';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { forwardRef, useEffect, useMemo, useState } from 'react';
+} from "@mui/material";
+import { TransitionProps } from "@mui/material/transitions";
+import { Form, Formik } from "formik";
+import { useSession } from "next-auth/react";
+import { forwardRef, useEffect, useMemo, useState } from "react";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -32,14 +31,14 @@ const Transition = forwardRef(function Transition(
   },
   ref: React.Ref<unknown>
 ) {
-  return <Slide direction='up' ref={ref} {...props} />;
+  return <Slide direction="up" ref={ref} {...props} />;
 });
 
 function OrderListPage() {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [openDialog, setOpenDialog] = useState(false);
-  const router = useRouter();
+
   const session = useSession();
 
   useEffect(() => {
@@ -60,78 +59,77 @@ function OrderListPage() {
   const columns = useMemo(
     () => [
       {
-        accessorKey: 'name',
-        header: 'Name',
+        accessorKey: "name",
+        header: "Name",
         Cell: ({ renderedCellValue }) => <span>{renderedCellValue}</span>,
       },
       {
-        accessorKey: 'phone_number',
-        header: 'Phone No.',
+        accessorKey: "phone_number",
+        header: "Phone No.",
         Cell: ({ renderedCellValue }) => <span>{renderedCellValue}</span>,
       },
       {
-        accessorKey: 'email',
-        header: 'Email',
+        accessorKey: "email",
+        header: "Email",
         Cell: ({ renderedCellValue }) => <span>{renderedCellValue}</span>,
       },
       {
-        accessorKey: 'status',
-        header: 'Actions',
+        accessorKey: "status",
+        header: "Actions",
 
         Cell: ({ row, renderedCellValue }) => {
           return (
-            <Box sx={{ display: 'flex', columnGap: 2 }}>
-              <Can I='update' a='User'>
+            <Box sx={{ display: "flex", columnGap: 2 }}>
+              <Can I="update" a="User">
                 <Box
                   sx={{
-                    display: 'flex',
-                    alignItems: 'center',
+                    display: "flex",
+                    alignItems: "center",
                     columnGap: 2,
-                    background: `${renderedCellValue ? '#E6F3E7' : '#FFE6E6'}`,
-                    width: 'fit-content',
-                    p: '0 40px',
-                    borderRadius: '20px',
+                    background: `${renderedCellValue ? "#E6F3E7" : "#FFE6E6"}`,
+                    width: "fit-content",
+                    p: "0 40px",
+                    borderRadius: "20px",
                   }}
                 >
-                  <Typography color={renderedCellValue ? 'success' : 'error'}>
-                    {renderedCellValue ? 'Active' : 'Inactive'}
+                  <Typography color={renderedCellValue ? "success" : "error"}>
+                    {renderedCellValue ? "Active" : "Inactive"}
                   </Typography>
                   <Switch
-                    color={renderedCellValue ? 'success' : 'error'}
-                    size='small'
+                    color={renderedCellValue ? "success" : "error"}
+                    size="small"
                     checked={renderedCellValue}
                     onChange={async (event, value) => {
-                      await fetch('/api/users', {
-                        method: 'POST',
+                      await fetch("/api/users", {
+                        method: "POST",
                         body: JSON.stringify({
                           email: row.original.email,
                           status: value,
                         }),
                       });
-                      router.refresh();
                     }}
                   />
                 </Box>
               </Can>
-              <Can not I='update' a='User'>
+              <Can not I="update" a="User">
                 <Box
                   sx={{
-                    display: 'flex',
-                    alignItems: 'center',
+                    display: "flex",
+                    alignItems: "center",
                     columnGap: 2,
-                    background: '#E6F3E7',
-                    width: 'fit-content',
-                    p: '7px 40px',
-                    borderRadius: '20px',
+                    background: "#E6F3E7",
+                    width: "fit-content",
+                    p: "7px 40px",
+                    borderRadius: "20px",
                   }}
                 >
-                  <Typography color='success'>Active</Typography>
-                  <Switch color='success' size='small' disabled />
+                  <Typography color="success">Active</Typography>
+                  <Switch color="success" size="small" disabled />
                 </Box>
               </Can>
-              <Can I='delete' a='User'>
+              <Can I="delete" a="User">
                 <Box>
-                  <IconButton color='error' size='large'>
+                  <IconButton color="error" size="large">
                     <Delete />
                   </IconButton>
                 </Box>
@@ -154,55 +152,55 @@ function OrderListPage() {
           setOpenDialog(false);
         }}
         PaperProps={{
-          sx: { borderRadius: '20px' },
+          sx: { borderRadius: "20px" },
         }}
       >
         <DialogTitle
           sx={{
-            textAlign: 'center',
-            fontSize: '30px',
-            fontWeight: 'bolder',
+            textAlign: "center",
+            fontSize: "30px",
+            fontWeight: "bolder",
           }}
         >
           Add new user
         </DialogTitle>
-        <DialogContent sx={{ width: '30vw' }}>
+        <DialogContent sx={{ width: "30vw" }}>
           <Box>
             <Formik initialValues={{}} onSubmit={() => {}}>
               {({ handleBlur, handleChange, handleSubmit }) => (
                 <Form onSubmit={handleSubmit}>
                   <Box
                     sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
                       rowGap: 2,
                     }}
                   >
                     <TextField
-                      name='name'
-                      label='Name'
+                      name="name"
+                      label="Name"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       fullWidth
                     />
                     <TextField
-                      name='email'
-                      label='Email Address'
+                      name="email"
+                      label="Email Address"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       fullWidth
                     />
                     <TextField
-                      name='location'
-                      label='Location'
+                      name="location"
+                      label="Location"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       fullWidth
                     />
                     <TextField
-                      name='phone_number'
-                      label='Phone Number'
+                      name="phone_number"
+                      label="Phone Number"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       fullWidth
@@ -210,42 +208,42 @@ function OrderListPage() {
                   </Box>
                   <Box
                     sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
                       my: 2,
                       gap: 4,
                     }}
                   >
-                    <Box width='50%'>
+                    <Box width="50%">
                       <FormControl fullWidth>
-                        <InputLabel id='role-sss'>Select Role</InputLabel>
+                        <InputLabel id="role-sss">Select Role</InputLabel>
                         <Select
-                          labelId='role-sss'
-                          id='role'
+                          labelId="role-sss"
+                          id="role"
                           value={10}
-                          label='Select Role'
+                          label="Select Role"
                           //   onChange={handleChange}
                         >
-                          <MenuItem value={10} sx={{ color: '#FFA500' }}>
+                          <MenuItem value={10} sx={{ color: "#FFA500" }}>
                             Preparing
                           </MenuItem>
-                          <MenuItem value={20} sx={{ color: 'green' }}>
+                          <MenuItem value={20} sx={{ color: "green" }}>
                             Ready
                           </MenuItem>
-                          <MenuItem value={30} sx={{ color: 'green' }}>
+                          <MenuItem value={30} sx={{ color: "green" }}>
                             Delivered
                           </MenuItem>
                         </Select>
                       </FormControl>
                     </Box>
-                    <Box width='50%'>
+                    <Box width="50%">
                       <Button
-                        variant='contained'
+                        variant="contained"
                         disableElevation
-                        color='warning'
+                        color="warning"
                         fullWidth
-                        size='large'
+                        size="large"
                         sx={{ py: 2 }}
                       >
                         Add
@@ -262,17 +260,17 @@ function OrderListPage() {
         data={users}
         columns={columns}
         isLoading={isLoading}
-        path='users'
+        path="users"
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         filter={(session.data?.user as any)?.resturant.id}
         topToolbarAction={
           <Box>
-            <Can I='create' a='User'>
+            <Can I="create" a="User">
               <Button
-                variant='contained'
-                color='warning'
+                variant="contained"
+                color="warning"
                 disableElevation
-                sx={{ p: '10px 50px' }}
+                sx={{ p: "10px 50px" }}
                 onClick={() => {
                   setOpenDialog(true);
                 }}
@@ -280,12 +278,12 @@ function OrderListPage() {
                 Add User
               </Button>
             </Can>
-            <Can not I='create' a='User'>
+            <Can not I="create" a="User">
               <Button
-                variant='contained'
-                color='warning'
+                variant="contained"
+                color="warning"
                 disableElevation
-                sx={{ p: '10px 50px' }}
+                sx={{ p: "10px 50px" }}
                 onClick={() => {
                   setOpenDialog(true);
                 }}
