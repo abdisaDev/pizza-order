@@ -37,6 +37,7 @@ model Resturant {
   admin User @relation(fields: [admin_id], references: [id])
   pizzas Pizza[]
   orders Order[]
+  roles Role[]
 
   @@map("resturants")
 }
@@ -82,6 +83,8 @@ model Role {
   id String @id @default(uuid())
   name String
   created_at DateTime @default(now())
+  resturant_id String?
+  resturant Resturant? @relation(fields: [resturant_id], references: [id])
   users User[]
   permissions Permission[]   @relation("RolePermissions")
 
