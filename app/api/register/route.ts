@@ -27,7 +27,7 @@ export async function POST(request: Request) {
             create: {
               name: "superadmin",
               permissions: {
-                create: [{ name: "read" }, { name: "write" }],
+                create: [{ name: "all" }],
               },
             },
           },
