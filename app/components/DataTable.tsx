@@ -36,30 +36,36 @@ function DataTable(props: {
         globalFilter
       );
       const result = await filteredData.json();
-      const orderList = result.map(
-        (orderData: {
-          user: any;
-          created_at: any;
-          pizzas: any;
-          id: any;
-          status: any;
-          quantity: any;
-        }) => {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { user, created_at, pizzas, id, status, quantity } = orderData;
 
-          return {
-            id,
-            name: pizzas[0]?.pizza.name,
-            customer_number: user.phone_number,
-            created_at: format(new Date(created_at), " HH:mm a - dd/MM/yyyy"),
-            quantity,
-            toppings: pizzas[0]?.pizza.toppings,
-            status,
-          };
-        }
-      );
-      setFilteredData(orderList);
+      if (props.path === "orders" && result.length) {
+        const orderList = result.map(
+          (orderData: {
+            user: any;
+            created_at: any;
+            pizzas: any;
+            id: any;
+            status: any;
+            quantity: any;
+          }) => {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { user, created_at, pizzas, id, status, quantity } =
+              orderData;
+
+            return {
+              id,
+              name: pizzas[0].pizza.name,
+              customer_number: user.phone_number,
+              created_at: format(new Date(created_at), " HH:mm a - dd/MM/yyyy"),
+              quantity,
+              toppings: pizzas[0].pizza.toppings,
+              status,
+            };
+          }
+        );
+        setFilteredData(props.data);
+      } else {
+      }
+      setFilteredData(result);
       setIsGlobalFilterLoading(false);
     };
     fetchData();

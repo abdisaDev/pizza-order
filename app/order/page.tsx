@@ -274,7 +274,7 @@ function Order() {
                 <Typography variant="h5" color="warning">
                   You must have to
                   <Link
-                    href="/aut/login"
+                    href="/auth/login"
                     style={{
                       color: "#1976D2",
                       fontWeight: "bolder",

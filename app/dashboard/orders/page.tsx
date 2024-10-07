@@ -49,7 +49,9 @@ function OrderListPage() {
     (async () => {
       const session = await getSession();
       const data = await fetch(
-        `/api/orders?filter=${(session?.user as any)?.resturant.id}&search=`
+        (session?.user as any)?.type !== "CUSTOMER"
+          ? `/api/orders?filter=${(session?.user as any)?.resturant.id}&search=`
+          : "/api/orders?filter=&search="
       );
       const resturants = await data.json();
 
@@ -67,12 +69,14 @@ function OrderListPage() {
 
           return {
             id,
-            name: pizzas[0]?.pizza.name,
-            customer_number: user.phone_number,
-            created_at: format(new Date(created_at), " HH:mm a - dd/MM/yyyy"),
+            name: pizzas ? pizzas[0]?.pizza.name : null,
+            customer_number: user?.phone_number,
+            created_at: created_at
+              ? format(new Date(created_at), " HH:mm a - dd/MM/yyyy")
+              : null,
             quantity,
-            toppings: pizzas[0]?.pizza.toppings,
-            status,
+            toppings: pizzas ? pizzas[0]?.pizza.toppings : null,
+            status: status ? status : null,
           };
         }
       );
