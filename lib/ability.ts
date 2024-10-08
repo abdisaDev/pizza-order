@@ -1,5 +1,5 @@
 import { PureAbility, AbilityBuilder, InferSubjects } from "@casl/ability";
-import { getServerSession } from "next-auth";
+// import { getServerSession } from "next-auth";
 
 export type Actions = "manage" | "create" | "read" | "update" | "delete";
 export type Subjects = InferSubjects<
