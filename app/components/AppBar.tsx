@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, IconButton, Paper, Popover, Typography } from "@mui/material";
 import {
   Notifications as NotificationsIcon,
@@ -34,12 +35,16 @@ function AppBar() {
         sx={{
           textAlign: "center",
         }}
+        slotProps={{ paper: { sx: { p: "10px 20px" } } }}
       >
         <Typography sx={{ p: "5px 20px", fontWeight: "bolder" }}>
-          {session.data?.user?.name}
+          Name: {session.data?.user?.name}
         </Typography>
         <Typography sx={{ p: "5px 20px", fontWeight: "bolder" }}>
-          {session.data?.user?.email}
+          Role: {(session.data?.user as any)?.role?.name}
+        </Typography>
+        <Typography sx={{ p: "5px 20px", fontWeight: "bolder" }}>
+          Email: {session.data?.user?.email}
         </Typography>
       </Popover>
       <Paper

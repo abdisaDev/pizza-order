@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-'use client';
+"use client";
 
-import DataTable from '@/app/components/DataTable';
-import OrderStatusMenu from '@/app/components/OrderStatusMenu';
-import { Check, RemoveRedEye } from '@mui/icons-material';
+import DataTable from "@/app/components/DataTable";
+import OrderStatusMenu from "@/app/components/OrderStatusMenu";
+import { Check, RemoveRedEye } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -13,12 +13,12 @@ import {
   DialogTitle,
   Slide,
   Typography,
-} from '@mui/material';
-import { TransitionProps } from '@mui/material/transitions';
-import { format } from 'date-fns';
-import _ from 'lodash';
-import { getSession, useSession } from 'next-auth/react';
-import { forwardRef, useEffect, useMemo, useState } from 'react';
+} from "@mui/material";
+import { TransitionProps } from "@mui/material/transitions";
+import { format } from "date-fns";
+import _ from "lodash";
+import { getSession, useSession } from "next-auth/react";
+import { forwardRef, useEffect, useMemo, useState } from "react";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -27,12 +27,12 @@ const Transition = forwardRef(function Transition(
   },
   ref: React.Ref<unknown>
 ) {
-  return <Slide direction='up' ref={ref} {...props} />;
+  return <Slide direction="up" ref={ref} {...props} />;
 });
 
 const colors: Array<
-  'default' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning'
-> = ['default', 'info', 'primary', 'secondary', 'success', 'warning', 'error'];
+  "default" | "primary" | "secondary" | "success" | "error" | "info" | "warning"
+> = ["default", "info", "primary", "secondary", "success", "warning", "error"];
 
 function OrderListPage() {
   const [orders, setOrders] = useState([]);
@@ -49,9 +49,11 @@ function OrderListPage() {
     (async () => {
       const session = await getSession();
       const data = await fetch(
-        (session?.user as any)?.type !== 'CUSTOMER'
-          ? `/api/orders?filter=${(session?.user as any)?.resturant.id}&search=`
-          : '/api/orders?filter=&search='
+        (session?.user as any)?.type !== "CUSTOMER"
+          ? `/api/orders?filter=${
+              (session?.user as any)?.resturant.id
+            }&search=&by=resturant`
+          : "?filter=&search=&by=resturant"
       );
       const resturants = await data.json();
 
@@ -72,7 +74,7 @@ function OrderListPage() {
             name: pizzas ? pizzas[0]?.pizza.name : null,
             customer_number: user?.phone_number,
             created_at: created_at
-              ? format(new Date(created_at), ' HH:mm a - dd/MM/yyyy')
+              ? format(new Date(created_at), " HH:mm a - dd/MM/yyyy")
               : null,
             quantity,
             toppings: pizzas ? pizzas[0]?.pizza.toppings : null,
@@ -88,17 +90,17 @@ function OrderListPage() {
   const columns = useMemo(
     () => [
       {
-        accessorKey: 'name',
-        header: 'Name',
+        accessorKey: "name",
+        header: "Name",
       },
       {
-        accessorKey: 'toppings',
-        header: 'Topping',
+        accessorKey: "toppings",
+        header: "Topping",
         Cell: ({ row }) => (
           <span>
             <Button
-              variant='text'
-              color='warning'
+              variant="text"
+              color="warning"
               onClick={() => {
                 console.log(orderDetail);
 
@@ -112,26 +114,26 @@ function OrderListPage() {
         ),
       },
       {
-        accessorKey: 'quantity',
-        header: 'Quantity',
+        accessorKey: "quantity",
+        header: "Quantity",
       },
       {
-        accessorKey: 'customer_number',
-        header: 'Customer No.',
+        accessorKey: "customer_number",
+        header: "Customer No.",
       },
       {
-        accessorKey: 'created_at',
-        header: 'Created At.',
+        accessorKey: "created_at",
+        header: "Created At.",
       },
       {
-        accessorKey: 'status',
-        header: 'Status',
+        accessorKey: "status",
+        header: "Status",
 
         Cell: ({ row, renderedCellValue }) => {
-          return renderedCellValue.toString().toLowerCase() === 'delivered' ? (
-            <Box sx={{ display: 'flex', columnGap: 1 }}>
-              <Check color='success' />
-              <Typography color='success'>Delivered</Typography>
+          return renderedCellValue.toString().toLowerCase() === "delivered" ? (
+            <Box sx={{ display: "flex", columnGap: 1 }}>
+              <Check color="success" />
+              <Typography color="success">Delivered</Typography>
             </Box>
           ) : (
             <OrderStatusMenu order={row.original} status={renderedCellValue} />
@@ -152,28 +154,28 @@ function OrderListPage() {
           setOpenDialog(false);
         }}
         PaperProps={{
-          sx: { borderRadius: '20px' },
+          sx: { borderRadius: "20px" },
         }}
       >
         <DialogTitle
           sx={{
-            textAlign: 'center',
-            fontSize: '30px',
-            fontWeight: 'bolder',
+            textAlign: "center",
+            fontSize: "30px",
+            fontWeight: "bolder",
           }}
         >
           Order Details
         </DialogTitle>
         <DialogContent sx={{ px: 10 }}>
           <Box>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
               <Box>
-                <Typography variant='h5'>
+                <Typography variant="h5">
                   Name: &emsp;{orderDetail?.name}
                 </Typography>
               </Box>
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', columnGap: 1 }}>
-                <Typography variant='h5'>Toppings: </Typography>
+              <Box sx={{ display: "flex", flexWrap: "wrap", columnGap: 1 }}>
+                <Typography variant="h5">Toppings: </Typography>
                 {orderDetail?.toppings?.map((topping, index) => (
                   <Chip
                     label={topping.name}
@@ -183,7 +185,7 @@ function OrderListPage() {
                 ))}
               </Box>
               <Box>
-                <Typography variant='h5'>
+                <Typography variant="h5">
                   Quantity: &emsp;{orderDetail?.quantity}
                 </Typography>
               </Box>
@@ -194,10 +196,10 @@ function OrderListPage() {
       <DataTable
         data={orders}
         columns={columns}
-        path='orders'
+        path="orders"
         filter={(session.data?.user as any)?.resturant.id}
         topToolbarAction={
-          <Typography variant='h6' sx={{ m: '10px' }}>
+          <Typography variant="h6" sx={{ m: "10px" }}>
             Packages
           </Typography>
         }

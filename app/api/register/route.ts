@@ -23,6 +23,7 @@ export async function POST(request: Request) {
               pizzas: { create: [] },
             },
           },
+          status: true,
           role: {
             create: {
               name: "superadmin",

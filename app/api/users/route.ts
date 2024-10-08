@@ -4,6 +4,7 @@ export async function GET(request: Request) {
   const queryParams = request.url?.split("&");
   const filter = queryParams[0].split("?")[1].split("=")[1];
   const search = queryParams[1].split("=")[1];
+  console.log(search);
 
   const users = await prisma.user.findMany({
     where: {

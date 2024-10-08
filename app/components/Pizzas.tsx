@@ -10,7 +10,6 @@ import React, { useEffect, useState } from "react";
 import _ from "lodash";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
-import Link from "next/link";
 
 const pizzaImages = [PizzaOne, PizzaTwo, PizzaThree];
 
@@ -56,8 +55,10 @@ function Pizzas(props: {
     (async () => {
       const data = await fetch(
         session.data?.user
-          ? `/api/orders?filter=${(session.data?.user as any).id}&search=`
-          : `/api/orders?filter=&search=`
+          ? `/api/orders?filter=${
+              (session.data?.user as any).id
+            }&search=&by=user`
+          : `/api/orders?filter=&search=&by=user`
       );
       const orderData = await data.json();
 
@@ -156,24 +157,7 @@ function Pizzas(props: {
         </Box>
       ) : (
         <Box sx={{ textAlign: "center" }}>
-          {orders.length === 0 ? (
-            <Typography variant="h5" fontWeight="bolder">
-              No orders yet. Order your meal{" "}
-              <Link
-                href="/order"
-                style={{
-                  color: "purple",
-                  textDecoration: "underline",
-                  fontWeight: "normal",
-                }}
-              >
-                here
-              </Link>
-              .
-            </Typography>
-          ) : (
-            <CircularProgress color="warning" />
-          )}
+          <CircularProgress color="warning" />
         </Box>
       )}
     </>

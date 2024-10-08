@@ -22,7 +22,8 @@ model User {
   type UserType @default(CUSTOMER)
   role_id String?
   role Role? @relation(fields: [role_id], references: [id])
-  resturant Resturant?
+  resturant_id String?
+  resturant Resturant? @relation(fields: [resturant_id], references: [id])
   orders Order[]
   aggrement Boolean
 
@@ -33,8 +34,7 @@ model Resturant {
   id String @id @default(uuid())
   name String
   total_orders Int
-  admin_id String @unique
-  admin User @relation(fields: [admin_id], references: [id])
+  admin User[]
   pizzas Pizza[]
   orders Order[]
   roles Role[]

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import DataTable from "@/app/components/DataTable";
@@ -36,6 +37,7 @@ const Transition = forwardRef(function Transition(
 
 function OrderListPage() {
   const [users, setUsers] = useState([]);
+  const [roles, setRoles] = useState<{ name: string; id: string }[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -43,15 +45,28 @@ function OrderListPage() {
 
   useEffect(() => {
     (async () => {
-      const data = await fetch(
+      const userData = await fetch(
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         `/api/users?filter=${(session.data?.user as any)?.resturant.id}&search=`
       );
+      const roleData = await fetch(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        `/api/roles?filter=${(session.data?.user as any)?.resturant.id}&search=`
+      );
 
+      const roles = await roleData.json();
+
+      if (roles) {
+        const stracturedRoles = roles.map((role) => {
+          return { id: role.id, name: role.name };
+        });
+        setRoles(stracturedRoles);
+      }
       if (users) {
-        const users = await data.json();
+        const users = await userData.json();
         setUsers(users);
       }
+
       setIsLoading(false);
     })();
   }, []);
@@ -66,12 +81,10 @@ function OrderListPage() {
       {
         accessorKey: "phone_number",
         header: "Phone No.",
-        Cell: ({ renderedCellValue }) => <span>{renderedCellValue}</span>,
       },
       {
         accessorKey: "email",
         header: "Email",
-        Cell: ({ renderedCellValue }) => <span>{renderedCellValue}</span>,
       },
       {
         accessorKey: "status",
@@ -166,7 +179,33 @@ function OrderListPage() {
         </DialogTitle>
         <DialogContent sx={{ width: "30vw" }}>
           <Box>
-            <Formik initialValues={{}} onSubmit={() => {}}>
+            <Formik
+              initialValues={{
+                name: "",
+                email: "",
+                location: "",
+                phone_number: "",
+                role: "",
+              }}
+              onSubmit={async (values) => {
+                const payload = {
+                  ...values,
+                  role: { connect: { id: values.role } },
+                  password: "12345678",
+                  resturant: {
+                    connect: { id: (session.data?.user as any)?.resturant.id },
+                  },
+                  type: "RESTURANT",
+                  aggrement: true,
+                };
+
+                console.log(payload);
+                await fetch("/api/register", {
+                  method: "POST",
+                  body: JSON.stringify(payload),
+                });
+              }}
+            >
               {({ handleBlur, handleChange, handleSubmit }) => (
                 <Form onSubmit={handleSubmit}>
                   <Box
@@ -217,23 +256,19 @@ function OrderListPage() {
                   >
                     <Box width="50%">
                       <FormControl fullWidth>
-                        <InputLabel id="role-sss">Select Role</InputLabel>
+                        <InputLabel id="user-role">Select Role</InputLabel>
                         <Select
-                          labelId="role-sss"
-                          id="role"
-                          value={10}
+                          labelId="ruser-role"
+                          name="role"
                           label="Select Role"
-                          //   onChange={handleChange}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
                         >
-                          <MenuItem value={10} sx={{ color: "#FFA500" }}>
-                            Preparing
-                          </MenuItem>
-                          <MenuItem value={20} sx={{ color: "green" }}>
-                            Ready
-                          </MenuItem>
-                          <MenuItem value={30} sx={{ color: "green" }}>
-                            Delivered
-                          </MenuItem>
+                          {roles.map((role, index) => (
+                            <MenuItem key={index} value={role.id}>
+                              {role.name}
+                            </MenuItem>
+                          ))}
                         </Select>
                       </FormControl>
                     </Box>
@@ -245,6 +280,7 @@ function OrderListPage() {
                         fullWidth
                         size="large"
                         sx={{ py: 2 }}
+                        type="submit"
                       >
                         Add
                       </Button>

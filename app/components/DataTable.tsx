@@ -7,11 +7,14 @@ import {
   MaterialReactTable,
   useMaterialReactTable,
 } from "material-react-table";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 export const fetchFilteredData = async (path, filter, search) => {
-  return await fetch(`/api/${path}?filter=${filter}&search=${search}`);
+  return await fetch(
+    path !== "orders"
+      ? `/api/${path}?filter=${filter}&search=${search}`
+      : `/api/${path}?filter=${filter}&search=${search}&by=resturant`
+  );
 };
 
 function DataTable(props: {
@@ -28,7 +31,6 @@ function DataTable(props: {
   const [globalFilter, setGlobalFilter] = useState("");
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [filteredData, setFilteredData] = useState<any[]>(props.data);
-  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,8 +74,6 @@ function DataTable(props: {
         setFilteredData(result);
       }
       setIsGlobalFilterLoading(false);
-
-      router.refresh();
     };
     fetchData();
   }, [globalFilter]);
