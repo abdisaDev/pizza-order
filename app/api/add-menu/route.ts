@@ -25,8 +25,8 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json(pizza, { status: 201 });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
-    console.error("Error adding pizza:", error);
     return NextResponse.json(
       { error: "Failed to add pizza." },
       { status: 500 }
