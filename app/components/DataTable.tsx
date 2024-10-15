@@ -37,14 +37,9 @@ function DataTable(props: {
     const fetchData = async () => {
       setIsGlobalFilterLoading(true);
       const filteredData = props.userId
-        ? await fetchFilteredData(
-            props.path,
-            props.filter,
-            globalFilter,
-            props.userId
-          )
+        ? await fetchFilteredData(props.path, props.filter, globalFilter)
         : await fetchFilteredData(props.path, props.filter, globalFilter);
-      console.log('filterred dataaaaaaaa', await filteredData.json());
+
       const result = await filteredData.json();
 
       if (props.path === 'orders' && result.length) {
