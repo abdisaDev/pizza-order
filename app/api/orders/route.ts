@@ -3,10 +3,11 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
   const queryParams = request.url?.split('&');
+  console.log(queryParams, 'first');
   const filter = queryParams[0].split('?')[1].split('=')[1];
-  const search = queryParams[1].split('?')[0].split('=')[1];
+  const search = queryParams[1].split('=')[1];
+  const userId = queryParams[2]?.split('=')[1];
 
-  console.log(filter);
   const orders = await prisma.order.findMany({
     where: {
       OR: [
@@ -29,7 +30,8 @@ export async function GET(request: Request) {
           },
         },
       ],
-      user: { id: filter },
+      resturant: { id: filter },
+      user: { id: userId },
     },
     include: {
       user: true,

@@ -54,7 +54,7 @@ function Pizzas(props: {
   useEffect(() => {
     (async () => {
       const data = await fetch(
-        `/api/orders?filter=${(session.data?.user as any).id}&search=`
+        `/api/orders?filter=${(session.data?.user as any).id}&search=&user_id=`
       );
       const orderData = await data.json();
 

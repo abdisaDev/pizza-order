@@ -9,8 +9,12 @@ import {
 } from 'material-react-table';
 import React, { useEffect, useState } from 'react';
 
-export const fetchFilteredData = async (path, filter, search) => {
-  return await fetch(`/api/${path}?filter=${filter}&search=${search}`);
+export const fetchFilteredData = async (path, filter, search, userId?) => {
+  return userId
+    ? await fetch(
+        `/api/${path}?filter=${filter}&search=${search}&user_id=${userId}`
+      )
+    : await fetch(`/api/${path}?filter=${filter}&search=${search}`);
 };
 
 function DataTable(props: {
@@ -22,6 +26,7 @@ function DataTable(props: {
   isLoading: boolean;
   topToolbarAction: React.ReactNode;
   filter: string;
+  userId?: string;
 }) {
   const [isGlobalFilterLoading, setIsGlobalFilterLoading] = useState(false);
   const [globalFilter, setGlobalFilter] = useState('');
@@ -31,11 +36,15 @@ function DataTable(props: {
   useEffect(() => {
     const fetchData = async () => {
       setIsGlobalFilterLoading(true);
-      const filteredData = await fetchFilteredData(
-        props.path,
-        props.filter,
-        globalFilter
-      );
+      const filteredData = props.userId
+        ? await fetchFilteredData(
+            props.path,
+            props.filter,
+            globalFilter,
+            props.userId
+          )
+        : await fetchFilteredData(props.path, props.filter, globalFilter);
+      console.log('filterred dataaaaaaaa', await filteredData.json());
       const result = await filteredData.json();
 
       if (props.path === 'orders' && result.length) {

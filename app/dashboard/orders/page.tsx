@@ -50,8 +50,10 @@ function OrderListPage() {
       const session = await getSession();
       const data = await fetch(
         (session?.user as any)?.type !== 'CUSTOMER'
-          ? `/api/orders?filter=${(session?.user as any)?.resturant.id}&search=`
-          : '/api/orders?filter=&search='
+          ? `/api/orders?filter=${
+              (session?.user as any)?.resturant.id
+            }&search=&user_id=`
+          : `/api/orders?filter=&search=&user_id=${(session?.user as any)?.id}`
       );
       const resturants = await data.json();
 
