@@ -9,12 +9,12 @@ import {
 } from 'material-react-table';
 import React, { useEffect, useState } from 'react';
 
-export const fetchFilteredData = async (path, filter, search, userId?) => {
-  return userId
-    ? await fetch(
-        `/api/${path}?filter=${filter}&search=${search}&user_id=${userId}`
-      )
-    : await fetch(`/api/${path}?filter=${filter}&search=${search}`);
+export const fetchFilteredData = async (path, filter, search) => {
+  return await fetch(
+    path !== 'orders'
+      ? `/api/${path}?filter=${filter}&search=${search}`
+      : `/api/${path}?filter=${filter}&search=${search}&by=resturant`
+  );
 };
 
 function DataTable(props: {

@@ -23,11 +23,12 @@ export async function POST(request: Request) {
               pizzas: { create: [] },
             },
           },
+          status: true,
           role: {
             create: {
               name: "superadmin",
               permissions: {
-                create: [{ name: "read" }, { name: "write" }],
+                create: [{ name: "all" }],
               },
             },
           },
@@ -39,8 +40,12 @@ export async function POST(request: Request) {
       });
     }
     // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    throw new Error(error?.message);
+    return new Response("User Succesfuly Registered", { status: 201 });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (error) {
+    return Response.json(
+      { error: "Failed to register new user." },
+      { status: 500 }
+    );
   }
-  return new Response("User Succesfuly Created", { status: 201 });
 }

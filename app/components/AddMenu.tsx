@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Add, FileUpload } from "@mui/icons-material";
@@ -22,16 +23,29 @@ function AddMenu() {
   const [newTopping, setNewTopping] = useState({
     show: false,
     element: <></>,
-    names: [],
+    names: [
+      { name: "Tomato", isChecked: false },
+      { name: "Mozzarella", isChecked: false },
+      { name: "Basil", isChecked: false },
+      { name: "Pepperoni", isChecked: false },
+      { name: "Bell Peppers", isChecked: false },
+      { name: "Onions", isChecked: false },
+      { name: "Olives", isChecked: false },
+    ],
   });
   const [menuDetail, setMenuDetail] = useState(initalMenuDetailValue);
   const [addMenuStatus, setAddMenuStatus] = useState(false);
   const session = useSession();
   const router = useRouter();
-
   useEffect(() => {
-    setMenuDetail((prev) => {
-      return { ...prev, toppings: newTopping.names };
+    setMenuDetail((prev: any) => {
+      const checkedToppings = newTopping.names.filter(
+        (topping) => topping.isChecked
+      );
+      return {
+        ...prev,
+        toppings: checkedToppings,
+      };
     });
   }, [newTopping]);
 
@@ -71,18 +85,40 @@ function AddMenu() {
         </Typography>
         <Box
           sx={{
-            width: "80%",
             display: "flex",
             alignItems: "center",
             flexWrap: "wrap",
             my: 2,
           }}
         >
-          {newTopping.names.map((topping: { name: string }, index) => (
-            <Box key={index}>
-              <FormControlLabel control={<Checkbox />} label={topping.name} />
-            </Box>
-          ))}
+          {newTopping.names.map(
+            (topping: { name: string; isChecked: boolean }, index) => (
+              <Box key={index}>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label={topping.name}
+                  checked={topping.isChecked}
+                  onChange={(event) => {
+                    setNewTopping((prev) => {
+                      const checkedToppings = prev.names.map(
+                        (data, innderIndex) => {
+                          return {
+                            ...data,
+                            isChecked:
+                              innderIndex === index
+                                ? (event.target as any).checked
+                                : data.isChecked,
+                          };
+                        }
+                      );
+
+                      return { ...prev, names: checkedToppings };
+                    });
+                  }}
+                />
+              </Box>
+            )
+          )}
           <Box>
             {newTopping.show && (
               <Box sx={{ display: "flex", alignItems: "center", px: 2 }}>
@@ -115,7 +151,10 @@ function AddMenu() {
                                 show: false,
                                 names: [
                                   ...prev.names,
-                                  { name: event.target.value },
+                                  {
+                                    name: event.target.value,
+                                    isChecked: false,
+                                  },
                                 ],
                               };
                             });

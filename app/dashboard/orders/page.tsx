@@ -52,8 +52,8 @@ function OrderListPage() {
         (session?.user as any)?.type !== 'CUSTOMER'
           ? `/api/orders?filter=${
               (session?.user as any)?.resturant.id
-            }&search=&user_id=`
-          : `/api/orders?filter=&search=&user_id=${(session?.user as any)?.id}`
+            }&search=&by=resturant`
+          : '?filter=&search=&by=resturant'
       );
       const resturants = await data.json();
 

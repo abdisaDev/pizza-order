@@ -1,14 +1,21 @@
 import prisma from "@/app/util/prisma";
-import { NextResponse } from "next/server";
 
 export async function GET() {
-  const pizzas = await prisma.pizza.findMany({
-    include: {
-      resturant: true,
-      toppings: true,
-      orders: { include: { order: true } },
-    },
-  });
+  try {
+    const pizzas = await prisma.pizza.findMany({
+      include: {
+        resturant: true,
+        toppings: true,
+        orders: { include: { order: true } },
+      },
+    });
 
-  return NextResponse.json(pizzas, { status: 201 });
+    return Response.json(pizzas, { status: 201 });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (error) {
+    return Response.json(
+      { error: "Network Error, Faild to fetch pizzas." },
+      { status: 500 }
+    );
+  }
 }
